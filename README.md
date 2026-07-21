@@ -69,7 +69,7 @@ Projekti pitää sisällään seuraavat kattavat työkalukategoriat:
 
 1. **Hae tai kloonaa repositorio:**
    ```bash
-   git clone <repositorion-url>
+   git clone https://github.com/Oldfarts/SwissKnife-DevTools
    cd <projektin-kansio>
 Asenna riippuvuudet (esim. Lucide-ikoneita varten):
 
