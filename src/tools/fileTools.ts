@@ -1,4 +1,4 @@
-import { SwissTool } from '../types';
+import { SwissTool } from './types';
 
 export const fileTools: SwissTool[] = [
   {

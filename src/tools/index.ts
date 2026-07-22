@@ -12,6 +12,10 @@ import { dnsTools } from './dnsTools';
 import { fileTools } from './fileTools';
 import { sslTools } from './sslTools';
 import { qrAnalyzerTool } from './qrAnalyzer';
+import { requestReplayTool } from './requestReplayTool';
+import { jwtPlaygroundTool } from './jwtPlaygroundTool';
+import { apiDiffTool } from './apiDiffTool';
+import { logAnalyzerTool } from './logAnalyzerTool';
 
 export * from './types';
 
@@ -61,19 +65,23 @@ export const REST_DNS_TOOL: SwissTool = {
 
 // Kootaan kaikki työkalut yhteen taulukkoon
 export const ALL_TOOLS: SwissTool[] = [
-  ...jsonTools,
-  ...xmlTools,
-  ...jwtTools,
-  ...hashTools,
-  ...encoderTools,
-  ...apiTools,
-  ...dnsTools,
-  ...fileTools,
-  ...sslTools,
-  qrAnalyzerTool,      // Yksittäiset oliot ilman pistetriplaa (...)
+  ...jsonTools, // kehitys & data
+  ...xmlTools, // kehitys & data
+  ...apiTools, // kehitys & data
+  apiDiffTool, // kehitys & data
+  requestReplayTool, // Verkko & API
+  ...jwtTools, // Tietoturva & Auth
+  jwtPlaygroundTool,
+  ...hashTools, // Tietoturva & Kryptografia
+  ...encoderTools, // Kehitys & data
+  ...fileTools, // kehitys & data
+  qrAnalyzerTool, // Tietoturva & Utilitetit
+  logAnalyzerTool, // Tietoturva & Utilitetit
   //jwtDecoderTool,
-  regexTesterTool,
-  colorConverterTool,
-  JSON_FORMATTER_TOOL,
-  REST_DNS_TOOL
+  regexTesterTool, // Teksti & koodi
+  colorConverterTool, // Muotoilu
+  JSON_FORMATTER_TOOL, // Muotoilijat
+  ...sslTools, // Verkko
+  REST_DNS_TOOL, // Verkko
+  ...dnsTools
 ];

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Play, CheckCircle, AlertCircle, Wrench, Globe, Code, Star, History, Trash2, Home, FileText, Upload, Palette } from 'lucide-react';
+import { Search, Play, CheckCircle, AlertCircle, Wrench, Globe, Code, Star, History, Trash2, Home, FileText, Upload, Palette, ChevronDown, ChevronRight } from 'lucide-react';
 import { ALL_TOOLS, SwissTool, Language, getText } from './tools';
 
 export interface HistoryItem {
@@ -78,6 +78,9 @@ export default function SwissKnifeUI() {
   const [selectedTool, setSelectedTool] = useState<SwissTool>(ALL_TOOLS[0]);
   const [searchQuery, setSearchQuery] = useState('');
   
+  // Tila kategorioiden avoimuudelle valikossa
+  const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({});
+  
   const [toolInputs, setToolInputs] = useState<Record<string, Record<string, any>>>({});
   const [toolResults, setToolResults] = useState<Record<string, any>>({});
   
@@ -120,7 +123,14 @@ export default function SwissKnifeUI() {
 
       const initialValues: Record<string, any> = {};
       selectedTool.inputs.forEach((input) => {
-        initialValues[input.key] = input.default !== undefined ? input.default : (input.options ? input.options[0] : '');
+        if (input.default !== undefined) {
+          initialValues[input.key] = input.default;
+        } else if (input.options && input.options.length > 0) {
+          const firstOpt = input.options[0];
+          initialValues[input.key] = typeof firstOpt === 'object' && firstOpt !== null ? (firstOpt as any).value : firstOpt;
+        } else {
+          initialValues[input.key] = '';
+        }
       });
 
       return {
@@ -198,18 +208,31 @@ export default function SwissKnifeUI() {
     }
   };
 
-  const filteredTools = tools
-    .filter((tool) => {
-      const name = getText(tool.name, lang).toLowerCase();
-      const cat = getText(tool.category, lang).toLowerCase();
-      const q = searchQuery.toLowerCase();
-      return name.includes(q) || cat.includes(q);
-    })
-    .sort((a, b) => {
-      const aFav = favorites.includes(a.id) ? -1 : 1;
-      const bFav = favorites.includes(b.id) ? -1 : 1;
-      return aFav - bFav;
-    });
+  // Suodatetaan työkalut haun perusteella
+  const filteredTools = tools.filter((tool) => {
+    const name = getText(tool.name, lang).toLowerCase();
+    const cat = getText(tool.category, lang).toLowerCase();
+    const q = searchQuery.toLowerCase();
+    return name.includes(q) || cat.includes(q);
+  });
+
+  // Ryhmitellään suodatetut työkalut kategorioittain
+  const groupedTools = filteredTools.reduce((acc, tool) => {
+    const categoryName = getText(tool.category, lang) || (lang === 'fi' ? 'Muut' : 'Other');
+    if (!acc[categoryName]) {
+      acc[categoryName] = [];
+    }
+    acc[categoryName].push(tool);
+    return acc;
+  }, {} as Record<string, SwissTool[]>);
+
+  // Vaihdetaan kategorian tila (auki/kiinni)
+  const toggleCategory = (catName: string) => {
+    setOpenCategories((prev) => ({
+      ...prev,
+      [catName]: prev[catName] === undefined ? false : !prev[catName]
+    }));
+  };
 
   return (
     <div className="flex h-screen bg-slate-900 text-slate-100 font-sans antialiased overflow-hidden">
@@ -288,46 +311,71 @@ export default function SwissKnifeUI() {
           )}
         </div>
 
-        <div className="flex-1 overflow-y-auto p-2 space-y-1">
+        <div className="flex-1 overflow-y-auto p-2 space-y-2">
           {activeTab === 'tools' ? (
-            filteredTools.map((tool) => {
-              const isSelected = tool.id === selectedTool.id;
-              const isFav = favorites.includes(tool.id);
-              return (
-                <button
-                  key={tool.id}
-                  onClick={() => setSelectedTool(tool)}
-                  className={`w-full text-left p-3 rounded-lg transition flex items-start justify-between cursor-pointer group ${
-                    isSelected
-                      ? 'bg-cyan-950/50 border border-cyan-800/50 text-cyan-200'
-                      : 'hover:bg-slate-900 text-slate-400 hover:text-slate-200'
-                  }`}
-                >
-                  <div className="flex items-start gap-3">
-                    {tool.type === 'rest-api' ? (
-                      <Globe className="w-4 h-4 mt-1 text-purple-400 shrink-0" />
-                    ) : (
-                      <Code className="w-4 h-4 mt-1 text-emerald-400 shrink-0" />
-                    )}
-                    <div>
-                      <div className="text-sm font-semibold leading-none mb-1">
-                        {getText(tool.name, lang)}
-                      </div>
-                      <div className="text-xs text-slate-500">
-                        {getText(tool.category, lang)}
-                      </div>
-                    </div>
-                  </div>
+            Object.keys(groupedTools).length > 0 ? (
+              Object.entries(groupedTools).map(([categoryName, categoryTools]) => {
+                // Jos hakukentässä on tekstiä, pidetään kategoria oletuksena auki
+                const isOpen = searchQuery ? true : (openCategories[categoryName] ?? false);
 
-                  <button
-                    onClick={(e) => toggleFavorite(tool.id, e)}
-                    className="p-1 text-slate-600 hover:text-amber-400 transition"
-                  >
-                    <Star className={`w-4 h-4 ${isFav ? 'fill-amber-400 text-amber-400' : ''}`} />
-                  </button>
-                </button>
-              );
-            })
+                return (
+                  <div key={categoryName} className="space-y-1">
+                    {/* Kategorian otsikko / päävalikko */}
+                    <button
+                      onClick={() => toggleCategory(categoryName)}
+                      className="w-full flex items-center justify-between p-2 rounded-lg bg-slate-900/80 hover:bg-slate-900 border border-slate-800 text-slate-300 text-xs font-bold uppercase tracking-wider transition cursor-pointer"
+                    >
+                      <span className="flex items-center gap-2">
+                        <Wrench className="w-3.5 h-3.5 text-cyan-400" />
+                        {categoryName} ({categoryTools.length})
+                      </span>
+                      {isOpen ? <ChevronDown className="w-4 h-4 text-slate-400" /> : <ChevronRight className="w-4 h-4 text-slate-400" />}
+                    </button>
+
+                    {/* Alivalikko / työkalu-listaus */}
+                    {isOpen && (
+                      <div className="pl-2 space-y-1 border-l border-slate-800 ml-2">
+                        {categoryTools.map((tool) => {
+                          const isSelected = tool.id === selectedTool.id;
+                          const isFav = favorites.includes(tool.id);
+                          return (
+                            <button
+                              key={tool.id}
+                              onClick={() => setSelectedTool(tool)}
+                              className={`w-full text-left p-2.5 rounded-lg transition flex items-center justify-between cursor-pointer group ${
+                                isSelected
+                                  ? 'bg-cyan-950/50 border border-cyan-800/50 text-cyan-200'
+                                  : 'hover:bg-slate-900 text-slate-400 hover:text-slate-200'
+                              }`}
+                            >
+                              <div className="flex items-center gap-2.5 overflow-hidden">
+                                {tool.type === 'rest-api' ? (
+                                  <Globe className="w-4 h-4 text-purple-400 shrink-0" />
+                                ) : (
+                                  <Code className="w-4 h-4 text-emerald-400 shrink-0" />
+                                )}
+                                <span className="text-sm font-medium truncate">
+                                  {getText(tool.name, lang)}
+                                </span>
+                              </div>
+
+                              <button
+                                onClick={(e) => toggleFavorite(tool.id, e)}
+                                className="p-1 text-slate-600 hover:text-amber-400 transition shrink-0"
+                              >
+                                <Star className={`w-3.5 h-3.5 ${isFav ? 'fill-amber-400 text-amber-400' : ''}`} />
+                              </button>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                );
+              })
+            ) : (
+              <div className="text-xs text-slate-500 text-center py-4">Ei löytynyt työkaluja.</div>
+            )
           ) : activeTab === 'history' ? (
             <div className="space-y-2">
               {history.length > 0 ? (
@@ -454,7 +502,6 @@ export default function SwissKnifeUI() {
                     {getText(input.label, lang)}
                   </label>
 
-                  {/* TIEDOSTON LATAUS (FILE) */}
                   {input.type === 'file' && (
                     <div className="flex items-center gap-3">
                       <label className="flex items-center gap-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 text-xs font-semibold py-2 px-4 rounded-lg cursor-pointer transition">
@@ -482,7 +529,6 @@ export default function SwissKnifeUI() {
                     </div>
                   )}
 
-                  {/* VÄRIVALITSIN (COLOR) SEKÄ POINT & CLICK -PALETIT */}
                   {input.type === 'color' && (
                     <div className="space-y-3">
                       <div className="flex items-center gap-3">
@@ -519,18 +565,29 @@ export default function SwissKnifeUI() {
                     </div>
                   )}
 
-                  {/* ALASVETOVALIKKO (SELECT) */}
                   {input.type === 'select' && (
                     <select
-                      value={currentInputs[input.key] ?? input.default ?? (input.options ? input.options[0] : '')}
+                      value={
+                        currentInputs[input.key] ?? 
+                        input.default ?? 
+                        (input.options && input.options.length > 0 
+                          ? (typeof input.options[0] === 'object' && input.options[0] !== null ? (input.options[0] as any).value : input.options[0]) 
+                          : '')
+                      }
                       onChange={(e) => handleInputChange(input.key, e.target.value)}
                       className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-sm focus:outline-none focus:border-cyan-500 font-mono text-slate-200 cursor-pointer"
                     >
-                      {input.options?.map((opt: string) => (
-                        <option key={opt} value={opt}>
-                          {opt}
-                        </option>
-                      ))}
+                      {input.options?.map((opt: any) => {
+                        const isObj = typeof opt === 'object' && opt !== null;
+                        const optValue = isObj ? opt.value : opt;
+                        const optLabel = isObj ? getText(opt.label, lang) : opt;
+
+                        return (
+                          <option key={optValue} value={optValue}>
+                            {optLabel}
+                          </option>
+                        );
+                      })}
                     </select>
                   )}
 
@@ -565,8 +622,6 @@ export default function SwissKnifeUI() {
                 <span>{loading ? t.running : t.runTool}</span>
               </button>
 
-              {/* TULOKSET */}
-{/* TULOKSET */}
               {currentResult && (
                 <div className="mt-6 border border-slate-800 rounded-xl overflow-hidden bg-slate-950 shadow-xl">
                   <div className={`p-3 border-b border-slate-800 flex items-center justify-between text-sm font-semibold ${
@@ -583,7 +638,6 @@ export default function SwissKnifeUI() {
                     )}
                   </div>
                   
-                  {/* Pysty- ja vaakavierityspalkit salliva alue */}
                   <div className="p-4 max-h-[500px] overflow-auto">
                     <pre className="text-xs font-mono text-slate-300 whitespace-pre leading-relaxed select-text">
                       {(() => {
@@ -591,20 +645,16 @@ export default function SwissKnifeUI() {
                         
                         let rawData = currentResult.data;
                         
-                        // Jos data on httpbin-tyylinen objekti tai merkkijono, jossa on "data"-kenttä
                         if (typeof rawData === 'string') {
                           try { rawData = JSON.parse(rawData); } catch (e) {}
                         }
 
-                        // Jos kyseessä on httpbin-vastaus, kaivetaan sen sisällä oleva todellinen XML/sisältö esiin
                         let finalContent = rawData;
                         if (rawData && typeof rawData === 'object' && 'data' in rawData) {
                           finalContent = rawData.data;
                         }
 
-                        // Jos sisältö on merkkijono (esim. XML), siivotaan JSON-escape-merkit pois näytöltä
                         if (typeof finalContent === 'string') {
-                          // Poistetaan ylimääräiset \n ja \ tuodaksemme XML:n nätisti luettavaksi
                           return finalContent
                             .replace(/\\n/g, '\n')
                             .replace(/\\"/g, '"');

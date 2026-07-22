@@ -1,7 +1,7 @@
 import jsQR from 'jsqr';
 
 // ----------------------------------------------------
-// TY Y P I T Y K S E T E T A U K A N C I N M Ä Ä R I T T E L Y T
+// TYYPIT JA MÄÄRITTELYT
 // ----------------------------------------------------
 
 export type Language = 'fi' | 'en';
@@ -16,7 +16,7 @@ export interface ToolInput {
   label: LocalizedString;
   type: 'text' | 'textarea' | 'select' | 'color' | 'file';
   placeholder?: LocalizedString;
-  options?: string[];
+  options?: string[] | { value: string; label: LocalizedString }[];
   default?: any;
 }
 
@@ -94,7 +94,6 @@ export const qrAnalyzerTool: SwissTool = {
       ctx.drawImage(img, 0, 0);
       const imageData = ctx.getImageData(0, 0, img.width, img.height);
 
-      // jsQR-kutsun suoritus yhteensopivasti ESM/CommonJS kanssa
       const parseQR = typeof jsQR === 'function' ? jsQR : (jsQR as any).default;
       const code = parseQR(imageData.data, imageData.width, imageData.height);
 
@@ -209,9 +208,71 @@ export const jsonFormatterTool: SwissTool = {
 };
 
 // ----------------------------------------------------
+// 3. HTTP REQUEST & REPLAY (Esimerkki lokalisoiduista optioista)
+// ----------------------------------------------------
+export const requestReplayTool: SwissTool = {
+  id: 'request-replay',
+  name: {
+    fi: 'HTTP Pyynnön toistaja',
+    en: 'HTTP Request & Replay'
+  },
+  category: {
+    fi: 'Kehittäjän työkalut',
+    en: 'Developer Tools'
+  },
+  description: {
+    fi: 'Suorittaa, muokkaa ja toistaa HTTP-pyyntöjä.',
+    en: 'Executes, edits, and replays HTTP requests.'
+  },
+  type: 'local',
+  inputs: [
+    {
+      key: 'action',
+      label: {
+        fi: 'Toiminto',
+        en: 'Action'
+      },
+      type: 'select',
+      options: [
+        { 
+          value: 'execute', 
+          label: { fi: 'Suorita pyyntö', en: 'Execute Request' } 
+        },
+        { 
+          value: 'edit_replay', 
+          label: { fi: 'Muokkaa ja toista', en: 'Edit & Replay' } 
+        },
+        { 
+          value: 'compare', 
+          label: { fi: 'Vertaile vastauksia', en: 'Compare Responses' } 
+        }
+      ],
+      default: 'execute'
+    },
+    {
+      key: 'url',
+      label: { fi: 'Kohde-URL', en: 'Target URL' },
+      type: 'text',
+      placeholder: { fi: 'https://api.example.com/data', en: 'https://api.example.com/data' }
+    }
+  ],
+  execute: async (inputs, lang = 'fi') => {
+    return {
+      success: true,
+      data: {
+        action: inputs.action,
+        url: inputs.url,
+        message: lang === 'fi' ? 'Pyyntö simuloitu onnistuneesti.' : 'Request simulated successfully.'
+      }
+    };
+  }
+};
+
+// ----------------------------------------------------
 // KAIKKIEN TYÖKALUJEN KOKOOMA
 // ----------------------------------------------------
 export const ALL_TOOLS: SwissTool[] = [
   qrAnalyzerTool,
-  jsonFormatterTool
+  jsonFormatterTool,
+  requestReplayTool
 ];
