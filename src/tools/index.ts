@@ -64,6 +64,36 @@ export const REST_DNS_TOOL: SwissTool = {
   ]
 };
 
+// Apufunktio työkalun suorittamiseen
+export const executeSwissTool = async (
+  tool: SwissTool,
+  inputs: Record<string, any>,
+  lang: Language = 'fi'
+) => {
+  if (tool.type === 'local' && tool.execute) {
+    return await tool.execute(inputs, lang);
+  }
+
+  if (tool.type === 'rest-api' && tool.endpoint) {
+    try {
+      const queryParams = new URLSearchParams(inputs).toString();
+      const response = await fetch(`${tool.endpoint}?${queryParams}`);
+      const data = await response.json();
+      return { success: response.ok, data };
+    } catch (err: any) {
+      return {
+        success: false,
+        error: lang === 'fi' ? 'REST API virhe: ' + err.message : 'REST API error: ' + err.message
+      };
+    }
+  }
+
+  return { 
+    success: false, 
+    error: lang === 'fi' ? 'Työkalun suoritustapaa ei löydetty.' : 'Tool execution method not found.' 
+  };
+};
+
 // Kootaan kaikki työkalut yhteen taulukkoon
 export const ALL_TOOLS: SwissTool[] = [
   ...jsonTools, // kehitys & data
@@ -85,5 +115,5 @@ export const ALL_TOOLS: SwissTool[] = [
   JSON_FORMATTER_TOOL, // Muotoilijat
   ...sslTools, // Verkko
   REST_DNS_TOOL, // Verkko
-  ...dnsTools
+  ...dnsTools,
 ];

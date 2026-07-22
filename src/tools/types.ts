@@ -37,3 +37,9 @@ export interface SwissTool {
 export const getText = (loc: LocalizedString, lang: Language): string => {
   return loc[lang] || loc['en'] || '';
 };
+
+// types.ts
+export interface WorkflowStep {
+  toolId: string;
+  customInputs?: Record<string, any>;
+}

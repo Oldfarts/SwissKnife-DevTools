@@ -1,4 +1,4 @@
-import SwissKnifeUI from './SwissKnifeUI';
+import { SwissKnifeUI } from './SwissKnifeUI';
 
 function App() {
   return (
