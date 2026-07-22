@@ -16,6 +16,7 @@ import { requestReplayTool } from './requestReplayTool';
 import { jwtPlaygroundTool } from './jwtPlaygroundTool';
 import { apiDiffTool } from './apiDiffTool';
 import { logAnalyzerTool } from './logAnalyzerTool';
+import { jsonSchemaTool } from './jsonSchemaTool';
 
 export * from './types';
 
@@ -69,6 +70,7 @@ export const ALL_TOOLS: SwissTool[] = [
   ...xmlTools, // kehitys & data
   ...apiTools, // kehitys & data
   apiDiffTool, // kehitys & data
+  jsonSchemaTool, // kehitys & data
   requestReplayTool, // Verkko & API
   ...jwtTools, // Tietoturva & Auth
   jwtPlaygroundTool,
