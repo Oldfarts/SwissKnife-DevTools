@@ -21,7 +21,7 @@ interface Tool {
 }
 
 interface WorkflowStep {
-  id: string; // Uniikki ID jokaiselle vaiheelle, estää key-konfliktit
+  id: string;
   toolId: string;
   inputs: Record<string, any>;
 }
@@ -79,14 +79,24 @@ export const WorkflowBuilder: React.FC<WorkflowBuilderProps> = ({
       const firstTool = tools[0];
       const initialInputs: Record<string, any> = {};
       
+      // Vain ensimmäinen vaihe käyttää oletusarvoja. Myöhemmät vaiheet alustetaan tyhjillä,
+      // jotta edellisen vaiheen tulos ketjuu automaattisesti kenttään.
+      const isFirstStep = workflowSteps.length === 0;
+
       firstTool.inputs?.forEach((input) => {
-        if (input.default !== undefined) {
-          initialInputs[input.key] = input.default;
-        } else if (input.options && input.options.length > 0) {
-          const firstOpt = input.options[0];
-          initialInputs[input.key] = typeof firstOpt === 'object' && firstOpt !== null ? (firstOpt as any).value : firstOpt;
+        if (isFirstStep) {
+          if (input.default !== undefined) {
+            initialInputs[input.key] = input.default;
+          } else if (input.options && input.options.length > 0) {
+            const firstOpt = input.options[0];
+            initialInputs[input.key] = typeof firstOpt === 'object' && firstOpt !== null ? (firstOpt as any).value : firstOpt;
+          } else {
+            initialInputs[input.key] = '';
+          }
         } else {
-          initialInputs[input.key] = '';
+          initialInputs[input.key] = input.type === 'select' && input.options && input.options.length > 0 
+            ? (typeof input.options[0] === 'object' ? input.options[0].value : input.options[0]) 
+            : '';
         }
       });
 
@@ -105,14 +115,23 @@ export const WorkflowBuilder: React.FC<WorkflowBuilderProps> = ({
     const selectedTool = tools.find((t) => t.id === toolId);
     const initialInputs: Record<string, any> = {};
 
+    // Jos vaihe on ensimmäinen (index === 0), sallitaan oletusarvot, muuten tyhjäksi ketjutusta varten
+    const isFirstStep = index === 0;
+
     selectedTool?.inputs?.forEach((input) => {
-      if (input.default !== undefined) {
-        initialInputs[input.key] = input.default;
-      } else if (input.options && input.options.length > 0) {
-        const firstOpt = input.options[0];
-        initialInputs[input.key] = typeof firstOpt === 'object' && firstOpt !== null ? (firstOpt as any).value : firstOpt;
+      if (isFirstStep) {
+        if (input.default !== undefined) {
+          initialInputs[input.key] = input.default;
+        } else if (input.options && input.options.length > 0) {
+          const firstOpt = input.options[0];
+          initialInputs[input.key] = typeof firstOpt === 'object' && firstOpt !== null ? (firstOpt as any).value : firstOpt;
+        } else {
+          initialInputs[input.key] = '';
+        }
       } else {
-        initialInputs[input.key] = '';
+        initialInputs[input.key] = input.type === 'select' && input.options && input.options.length > 0 
+          ? (typeof input.options[0] === 'object' ? input.options[0].value : input.options[0]) 
+          : '';
       }
     });
 
@@ -155,10 +174,11 @@ export const WorkflowBuilder: React.FC<WorkflowBuilderProps> = ({
 
         const currentInputs = { ...step.inputs };
         
+        // Automaattinen ketjutus: Jos kenttä on tyhjä, syötetään edellisen vaiheen tulos sinne
         if (previousOutput && tool.inputs) {
           const textInput = tool.inputs.find(i => i.type === 'text' || i.type === 'textarea');
           if (textInput && !currentInputs[textInput.key]) {
-            currentInputs[textInput.key] = typeof previousOutput === 'string' ? previousOutput : JSON.stringify(previousOutput);
+            currentInputs[textInput.key] = typeof previousOutput === 'string' ? previousOutput : JSON.stringify(previousOutput, null, 2);
           }
         }
 
