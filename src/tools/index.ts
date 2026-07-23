@@ -19,6 +19,10 @@ import { logAnalyzerTool } from './logAnalyzerTool';
 import { jsonSchemaTool } from './jsonSchemaTool';
 import { aiTestGeneratorTool } from './aiTestGeneratorTool';
 import { fetchSwaggerTool } from './fetchSwaggerTool';
+import { fetchSoapTool } from './fetchSoapTool';
+import { aiSoapTestGeneratorTool } from './aiSoapTestGeneratorTool';
+import { restUnitTestGeneratorTool } from './restUnitTestGeneratorTool';
+import { soapUnitTestGeneratorTool } from './soapUnitTestGeneratorTool';
 
 export * from './types';
 
@@ -120,4 +124,8 @@ export const ALL_TOOLS: SwissTool[] = [
   ...dnsTools,
   aiTestGeneratorTool, // AI & Testaus
   fetchSwaggerTool, // Verkko & API
+  fetchSoapTool, // Verkko & API
+  aiSoapTestGeneratorTool, // AI & Testaus
+  restUnitTestGeneratorTool, // AI & Testaus
+  soapUnitTestGeneratorTool, // AI & Testaus
 ];
