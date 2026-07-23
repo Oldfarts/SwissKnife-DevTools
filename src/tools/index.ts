@@ -17,6 +17,8 @@ import { jwtPlaygroundTool } from './jwtPlaygroundTool';
 import { apiDiffTool } from './apiDiffTool';
 import { logAnalyzerTool } from './logAnalyzerTool';
 import { jsonSchemaTool } from './jsonSchemaTool';
+import { aiTestGeneratorTool } from './aiTestGeneratorTool';
+import { fetchSwaggerTool } from './fetchSwaggerTool';
 
 export * from './types';
 
@@ -116,4 +118,6 @@ export const ALL_TOOLS: SwissTool[] = [
   ...sslTools, // Verkko
   REST_DNS_TOOL, // Verkko
   ...dnsTools,
+  aiTestGeneratorTool, // AI & Testaus
+  fetchSwaggerTool, // Verkko & API
 ];

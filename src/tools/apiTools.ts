@@ -1,5 +1,8 @@
 import { SwissTool } from './types';
 
+// REST API -tester #/api-proxy/post
+// Tämä sen takia, että lokaalisti ei voi kaikkea kysyä!!!
+
 export const apiTools: SwissTool[] = [
   {
     id: 'api-tester',
