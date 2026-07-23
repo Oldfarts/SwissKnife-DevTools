@@ -23,6 +23,8 @@ import { fetchSoapTool } from './fetchSoapTool';
 import { aiSoapTestGeneratorTool } from './aiSoapTestGeneratorTool';
 import { restUnitTestGeneratorTool } from './restUnitTestGeneratorTool';
 import { soapUnitTestGeneratorTool } from './soapUnitTestGeneratorTool';
+import { restPythonUnitTestGeneratorTool } from './restPythonUnitTestGeneratorTool';
+import { soapPythonUnitTestGeneratorTool } from './soapPythonUnitTestGeneratorTool';
 
 export * from './types';
 
@@ -128,4 +130,6 @@ export const ALL_TOOLS: SwissTool[] = [
   aiSoapTestGeneratorTool, // AI & Testaus
   restUnitTestGeneratorTool, // AI & Testaus
   soapUnitTestGeneratorTool, // AI & Testaus
+  restPythonUnitTestGeneratorTool, // AI & Testaus
+  soapPythonUnitTestGeneratorTool, // AI & Testaus
 ];
