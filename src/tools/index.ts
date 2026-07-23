@@ -1,5 +1,5 @@
 import { SwissTool, Language, getText } from './types';
-import { jwtDecoderTool } from './jwtDecoder';
+//import { jwtDecoderTool } from './jwtDecoder';
 import { regexTesterTool } from './regexTester';
 import { colorConverterTool } from './colorConverter';
 import { jsonTools } from './jsonTools';
