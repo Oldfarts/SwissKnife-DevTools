@@ -25,6 +25,7 @@ import { restUnitTestGeneratorTool } from './restUnitTestGeneratorTool';
 import { soapUnitTestGeneratorTool } from './soapUnitTestGeneratorTool';
 import { restPythonUnitTestGeneratorTool } from './restPythonUnitTestGeneratorTool';
 import { soapPythonUnitTestGeneratorTool } from './soapPythonUnitTestGeneratorTool';
+import { WorkflowManager } from './workflowStorage';
 
 export * from './types';
 
@@ -132,4 +133,5 @@ export const ALL_TOOLS: SwissTool[] = [
   soapUnitTestGeneratorTool, // AI & Testaus
   restPythonUnitTestGeneratorTool, // AI & Testaus
   soapPythonUnitTestGeneratorTool, // AI & Testaus
+  WorkflowManager, // Työnkulkujen hallinta 
 ];

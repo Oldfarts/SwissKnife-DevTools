@@ -34,9 +34,11 @@ export interface SwissTool {
   execute?: (inputs: Record<string, any>, lang: Language) => Promise<{ success: boolean; data?: any; error?: string }>;
 }
 
-export const getText = (loc: LocalizedString, lang: Language): string => {
-  return loc[lang] || loc['en'] || '';
-};
+export function getText(textObj: { fi: string; en: string } | string | undefined, lang: Language): string {
+  if (!textObj) return ''; // Jos arvo on puuttumallaan, palautetaan tyhjä merkkijono
+  if (typeof textObj === 'string') return textObj; // Jos se onkin suora merkkijono
+  return textObj[lang] || textObj.fi || '';
+}
 
 // types.ts
 export interface WorkflowStep {

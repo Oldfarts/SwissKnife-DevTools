@@ -8,8 +8,6 @@ SwissKnife on modulaarinen, puhtaasti selaimessa toimiva työkaluarkkitehtuuri k
 
 Kaikki ohjelman työkalut noudattavat yhtenäistä `SwissTool`-rajapintaa (`types.ts`). Jokainen työkalu on itsenäinen moduuli, joka määrittelee omat syötteensä, kategoriansa, kielitukensa (FI/EN) ja suorituslogiikkansa (`execute`).
 
-Voit siirtää minkä tahansa alla olevista työkaluista tai kokonaisia kategoriatiedostoja toiseen projektiin yksinkertaisesti viemällä kyseisen tiedoston ja varmistamalla, että kohdeohjelma tukee `SwissTool`-formaattia.
-
 ---
 
 ## 🛠️ Työkalukokonaisuudet (Moduulit)
@@ -34,51 +32,26 @@ Projekti pitää sisällään seuraavat kattavat työkalukategoriat:
 * Kuvatiedostojen (JPEG/PNG) metadata-analyysi.
 * Näyttää kameran tiedot, kuvausajan, resoluution ja mahdolliset sijaintitiedot.
 
-### 6. PDF-analyysi (`documentTools.ts`)
-* PDF-tiedostojen metatietojen ja rakenteen tarkastelu.
-
-### 7. APK-analyysi (`binaryTools.ts`)
+### 6. APK-analyysi (`binaryTools.ts`)
 * Androidin APK-asennuspakettien perusanalyysi ja metatietojen luku.
 
-### 8. QR-analyysi (`qrTools.ts`)
+### 7. QR-analyysi (`qrTools.ts`)
 * QR-koodien luku kuvatiedostoista ja koodien generointi tekstistä/URL-osoitteista.
 
-### 9. DNS-työkalut (`dnsTools.ts`)
+### 8. DNS-työkalut (`dnsTools.ts`)
 * Verkkotunnusten nimipalvelintietojen ja DNS-tietueiden tarkastelutyökalut.
 
-### 10. SSL-työkalut (`sslTools.ts`)
+### 9. SSL-työkalut (`sslTools.ts`)
 * Sertifikaattien voimassaolon, myöntäjien ja tietojen tarkistus.
 
-### 11. API-testaus & Testikoodigeneraattorit (`apiTools.ts`, `restUnitTestGeneratorTool.ts`, `soapUnitTestGeneratorTool.ts`, jne.)
+### 10. API-testaus & Testikoodigeneraattorit (`apiTools.ts`, `restUnitTestGeneratorTool.ts`, `soapUnitTestGeneratorTool.ts`, jne.)
 * **REST API -tester:** Kustomoidut HTTP-pyynnöt (GET, POST, PUT, PATCH, DELETE) JSON-kehikoilla.
 * **SOAP API -tester:** XML-pohjaiset SOAP-kutsut mukautetuilla otsikoilla ja `Envelope`-pohjilla.
-* **OpenAPI/Swagger -> Jest & Python Unittest Generator:** Generoi automaattisesti valmista unit-testikoodia (sekä JavaScript/TypeScript `SuperTest/Jest` että Python `unittest` + `requests`) REST- ja SOAP-rajapinnoille dynaamisine testiarvoineen ja muotoiltuine XML/JSON-rakenteineen.
-* *Sisältää rullaavan ja skaalautuvan tulosikkunan (vaaka- ja pystyvieritykset).*
+* **OpenAPI/Swagger -> Jest & Python Unittest Generator:** Generoi automaattisesti valmista unit-testikoodia REST- ja SOAP-rajapinnoille.
 
-### 12. Muunnokset (`converterTools.ts`)
+### 11. Muunnokset (`converterTools.ts`)
 * Reaaliaikaiset koodaukset ja dekoodaukset: `Base64`, `URL Encoding`, `Hex`, `Binary` ja merkkijonojen muunnokset.
 
----
-
-## 📋 Järjestelmävaatimukset
-
-* [Node.js](https://nodejs.org/) (suosituksena LTS-versio)
-
----
-
-## ⚙️ Asennusohjeet
-
-1. **Hae tai kloonaa repositorio:**
-   ```bash
-   git clone [https://github.com/Oldfarts/SwissKnife-DevTools](https://github.com/Oldfarts/SwissKnife-DevTools)
-   cd <projektin-kansio>
-
-Bash
-npm install
-▶️ Ohjelman käynnistys
-Käynnistä kehitysympäristö paikallisesti:
-
-Bash
-npm run dev
-Komento käynnistää Vite-palvelimen, ja ohjelma aukeaa selaimeen osoitteeseen:
-👉 http://localhost:5173
+### 12. Automatisoidut Työnkulut (`WorkflowBuilder.tsx` & `WorkflowStorage.ts`)
+* Mahdollistaa useamman työkalun ketjuttamisen automatisoiduiksi työnkuluiksi (reseptit).
+* Sisältää tuonnin ja viennin JSON-tiedostoina (`WorkflowManager`).

@@ -1,6 +1,8 @@
+// Esimerkki siitä, miten UI-komponentti kutsuu logiikkaa
+import { WorkflowManager } from "./tools/WorkflowStorage";
 import React, { useState, useEffect } from 'react';
 import { Search, Play, CheckCircle, AlertCircle, Wrench, Globe, Code, Star, History, Trash2, Home, FileText, Upload, Palette, ChevronDown, ChevronRight, Layers, Plus } from 'lucide-react';
-import { ALL_TOOLS, SwissTool, Language, getText } from './tools';
+import { ALL_TOOLS, SwissTool, Language, getText} from './tools';
 import { WorkflowBuilder } from './WorkflowBuilder';
 
 export interface HistoryItem {
@@ -13,6 +15,21 @@ export interface HistoryItem {
   isWorkflow?: boolean;
   workflowSteps?: any[];
 }
+
+// Työnkulun vienti JSON-tiedostona
+const handleExportWorkflow = (workflowName: string, steps: any[]) => {
+  const recipe = {
+    name: workflowName || 'Työnkulku',
+    steps: steps
+  };
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(recipe, null, 2));
+  const downloadAnchor = document.createElement('a');
+  downloadAnchor.setAttribute("href", dataStr);
+  downloadAnchor.setAttribute("download", `${workflowName.toLowerCase().replace(/\s+/g, '-')}-resepti.json`);
+  document.body.appendChild(downloadAnchor);
+  downloadAnchor.click();
+  downloadAnchor.remove();
+};
 
 const executeSwissTool = async (
   tool: SwissTool,
@@ -104,8 +121,26 @@ export function SwissKnifeUI() {
     ];
   });
   
-  // Varmistetaan että tyhjä taulukko [] tai null käsitellään WorkflowBuilderissa uutena työnkulkuna oikein
   const [selectedWorkflowSteps, setSelectedWorkflowSteps] = useState<any[] | null>([]);
+
+  // 1. Tuonti tiedostosta (File Input handler)
+  const handleFileImport = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const fileReader = new FileReader();
+    if (event.target.files && event.target.files[0]) {
+      fileReader.readAsText(event.target.files[0], "UTF-8");
+      fileReader.onload = (e) => {
+        try {
+          const content = e.target?.result as string;
+          const recipe = WorkflowManager.parseAndValidateRecipe(content);
+          WorkflowManager.saveWorkflowLocally(recipe);
+          alert(`Resepti "${recipe.name}" tuotu ja tallennettu!`);
+          setWorkflowsList(prev => [...prev, { id: Date.now().toString(), name: recipe.name, steps: recipe.steps || [] }]);
+        } catch (error: any) {
+          alert(`Tuonti epäonnistui: ${error.message}`);
+        }
+      };
+    }
+  };
 
   const t = UI_TRANSLATIONS[lang];
 
@@ -397,15 +432,32 @@ export function SwissKnifeUI() {
               <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
                 <Layers className="w-3.5 h-3.5" /> {lang === 'fi' ? 'Työnkulut' : 'Workflows'}
               </span>
-              <button
-                onClick={() => {
-                  setSelectedWorkflowSteps([]);
-                  setActiveTab('workflows');
-                }}
-                className="text-[10px] bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold px-2 py-1 rounded transition cursor-pointer flex items-center gap-1 shadow-sm"
-              >
-                <Plus className="w-3 h-3 stroke-[3]" /> {lang === 'fi' ? 'Uusi' : 'New'}
-              </button>
+              <div className="flex items-center gap-1">
+                <label className="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-2 py-1 rounded transition cursor-pointer flex items-center gap-1">
+                  <Upload className="w-3 h-3" /> {lang === 'fi' ? 'Tuo' : 'Import'}
+                  <input type="file" accept=".json" className="hidden" onChange={handleFileImport} />
+                </label>
+                
+                <button
+                  onClick={() => {
+                    const activeWf = workflowsList[0];
+                    handleExportWorkflow(activeWf ? activeWf.name : 'Työnkulku', selectedWorkflowSteps || activeWf?.steps || []);
+                  }}
+                  className="text-[10px] bg-slate-800 hover:bg-slate-700 text-cyan-400 font-bold px-2 py-1 rounded transition cursor-pointer flex items-center gap-1"
+                >
+                  📤 {lang === 'fi' ? 'Vie' : 'Export'}
+                </button>
+
+                <button
+                  onClick={() => {
+                    setSelectedWorkflowSteps([]);
+                    setActiveTab('workflows');
+                  }}
+                  className="text-[10px] bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold px-2 py-1 rounded transition cursor-pointer flex items-center gap-1 shadow-sm"
+                >
+                  <Plus className="w-3 h-3 stroke-[3]" /> {lang === 'fi' ? 'Uusi' : 'New'}
+                </button>
+              </div>
             </div>
 
             <div className="space-y-1">
@@ -458,7 +510,7 @@ export function SwissKnifeUI() {
                           const isSelected = tool.id === selectedTool.id;
                           const isFav = favorites.includes(tool.id);
                           return (
-                            <button
+                            <div
                               key={tool.id}
                               onClick={() => setSelectedTool(tool)}
                               className={`w-full text-left p-2.5 rounded-lg transition flex items-center justify-between cursor-pointer group ${
@@ -480,11 +532,11 @@ export function SwissKnifeUI() {
 
                               <button
                                 onClick={(e) => toggleFavorite(tool.id, e)}
-                                className="p-1 text-slate-600 hover:text-amber-400 transition shrink-0"
+                                className="p-1 text-slate-600 hover:text-amber-400 transition shrink-0 cursor-pointer"
                               >
                                 <Star className={`w-3.5 h-3.5 ${isFav ? 'fill-amber-400 text-amber-400' : ''}`} />
                               </button>
-                            </button>
+                            </div>
                           );
                         })}
                       </div>
