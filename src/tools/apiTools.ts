@@ -38,6 +38,15 @@ export const apiTools: SwissTool[] = [
         if (!inputs.url) {
           return { success: false, error: 'URL-osoite vaaditaan.' };
         }
+
+        // Muutetaan lokaalit ZAP-kutsut automaattisesti käyttämään Viten proxya (CORS-kierto)
+        let targetUrl = inputs.url;
+        if (targetUrl.startsWith('http://localhost:8080')) {
+          targetUrl = targetUrl.replace('http://localhost:8080', '/zap-api');
+        } else if (targetUrl.startsWith('/JSON')) {
+          targetUrl = '/zap-api' + targetUrl;
+        }
+
         const method = inputs.method || 'GET';
         const options: RequestInit = {
           method: method,
@@ -48,7 +57,7 @@ export const apiTools: SwissTool[] = [
           options.body = inputs.body;
         }
 
-        const res = await fetch(inputs.url, options);
+        const res = await fetch(targetUrl, options); // Käytetään muokattua osoitetta!
         const responseData = await res.text();
 
         return {
@@ -98,6 +107,14 @@ export const apiTools: SwissTool[] = [
         if (!inputs.url) {
           return { success: false, error: 'URL-osoite vaaditaan.' };
         }
+        // SOAP-testerin execute-funktioon:
+        let targetUrl = inputs.url;
+        if (targetUrl.startsWith('http://localhost:8080')) {
+          targetUrl = targetUrl.replace('http://localhost:8080', '/zap-api');
+        } else if (targetUrl.startsWith('/JSON')) {
+          targetUrl = '/zap-api' + targetUrl;
+        }
+
         if (!inputs.body) {
           return { success: false, error: 'SOAP Envelope XML vaaditaan.' };
         }
@@ -116,7 +133,7 @@ export const apiTools: SwissTool[] = [
           body: inputs.body
         };
 
-        const res = await fetch(inputs.url, options);
+        const res = await fetch(targetUrl, options);
         const responseData = await res.text();
 
         return {

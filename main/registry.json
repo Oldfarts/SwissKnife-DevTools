@@ -1,0 +1,77 @@
+[
+  {
+    "id": "aws-s3-checker",
+    "version": "1.0.0",
+    "author": "Jani Ärväs",
+    "name": {
+      "fi": "AWS S3 Tarkistin",
+      "en": "AWS S3 Checker"
+    },
+    "description": {
+      "fi": "Tarkistaa AWS S3 bucketin tilan.",
+      "en": "Checks AWS S3 bucket status."
+    },
+    "category": {
+      "fi": "Pilvipalvelut",
+      "en": "Cloud Services"
+    },
+    "type": "rest-api",
+    "endpoint": "https://api.aws-tools.example/check",
+    "inputs": [
+      {
+        "key": "bucketName",
+        "type": "text",
+        "label": {
+          "fi": "Bucket nimi",
+          "en": "Bucket Name"
+        }
+      }
+    ]
+  },
+{
+    "id": "owasp-zap-generic-api",
+    "version": "1.1.0",
+    "author": "Jani Ärväs",
+    "name": {
+      "fi": "OWASP ZAP Yleinen API",
+      "en": "OWASP ZAP Generic API"
+    },
+    "description": {
+      "fi": "Kutsu mitä tahansa OWASP ZAP:n JSON-rajapinnan metodia vapaasti.",
+      "en": "Query any OWASP ZAP JSON API method freely."
+    },
+    "category": {
+      "fi": "Tietoturva",
+      "en": "Security"
+    },
+    "type": "rest-api",
+    "endpoint": "http://localhost:8080/JSON/",
+    "inputs": [
+      {
+        "key": "apiPath",
+        "type": "text",
+        "label": {
+          "fi": "API Polku (esim. core/view/version tai spider/action/scan)",
+          "en": "API Path (e.g., core/view/version or spider/action/scan)"
+        },
+        "placeholder": {
+          "fi": "core/view/version",
+          "en": "core/view/version"
+        },
+        "default": "core/view/version"
+      },
+      {
+        "key": "targetUrl",
+        "type": "text",
+        "label": {
+          "fi": "Kohde URL tai lisäparametri (tarvittaessa)",
+          "en": "Target URL or extra parameter (if needed)"
+        },
+        "placeholder": {
+          "fi": "http://example.com",
+          "en": "http://example.com"
+        }
+      }
+    ]
+  }
+]

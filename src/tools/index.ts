@@ -25,9 +25,15 @@ import { restUnitTestGeneratorTool } from './restUnitTestGeneratorTool';
 import { soapUnitTestGeneratorTool } from './soapUnitTestGeneratorTool';
 import { restPythonUnitTestGeneratorTool } from './restPythonUnitTestGeneratorTool';
 import { soapPythonUnitTestGeneratorTool } from './soapPythonUnitTestGeneratorTool';
-import { WorkflowManager } from './WorkflowStorage';
+import { WorkflowManager } from './workflowStorage';
+import registryData from "../../main/registry.json";
 
 export * from './types';
+
+// Varmistetaan että AVAILABLE_PLUGINS on varmasti taulukko
+export const AVAILABLE_PLUGINS: any[] = Array.isArray(registryData) 
+  ? registryData 
+  : (registryData as any).default || [];
 
 // Yksittäiset työkalut määriteltynä
 export const JSON_FORMATTER_TOOL: SwissTool = {
@@ -85,9 +91,39 @@ export const executeSwissTool = async (
 
   if (tool.type === 'rest-api' && tool.endpoint) {
     try {
-      const queryParams = new URLSearchParams(inputs).toString();
-      const response = await fetch(`${tool.endpoint}?${queryParams}`);
-      const data = await response.json();
+      const { apiPath, ...restInputs } = inputs;
+      
+      // Jos apiPath on annettu, yhdistetään se endpointiin, muuten käytetään pelkkää endpointia
+      let fullEndpoint = tool.endpoint;
+      if (apiPath) {
+        // Poistetaan mahdolliset ylimääräiset kauttaviivat
+        const cleanBasePath = tool.endpoint.replace(/\/+$/, '');
+        const cleanApiPath = apiPath.replace(/^\/+/, '');
+        fullEndpoint = `${cleanBasePath}/${cleanApiPath}`;
+      }
+
+      // Siivotaan tyhjät syötteet pois query-parametreista, ettei ZAP saa turhia tyhjiä arvoja
+      const filteredInputs = Object.fromEntries(
+        Object.entries(restInputs).filter(([_, v]) => v !== '' && v !== null && v !== undefined)
+      );
+      
+      const queryParams = new URLSearchParams(filteredInputs).toString();
+      const targetEndpoint = fullEndpoint.replace('http://localhost:8080', '/zap-api');
+      
+      const finalUrl = queryParams ? `${targetEndpoint}?${queryParams}` : targetEndpoint;
+      
+      const response = await fetch(finalUrl);
+      const text = await response.text();
+
+      if (text.trim().toLowerCase().startsWith('<!doctype') || text.trim().toLowerCase().startsWith('<html')) {
+        throw new Error(
+          lang === 'fi' 
+            ? 'Palvelin palautti HTML-sivun (tarkista API-polku tai parametrit).' 
+            : 'Server returned an HTML page (check API path or parameters).'
+        );
+      }
+
+      const data = text ? JSON.parse(text) : null;
       return { success: response.ok, data };
     } catch (err: any) {
       return {
@@ -135,3 +171,4 @@ export const ALL_TOOLS: SwissTool[] = [
   soapPythonUnitTestGeneratorTool, // AI & Testaus
   WorkflowManager, // Työnkulkujen hallinta 
 ];
+

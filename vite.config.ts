@@ -6,10 +6,10 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   server: {
     proxy: {
-      '/api-proxy': {
-        target: 'https://httpbin.org',
+      '/zap-api': {
+        target: 'http://localhost:8080',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api-proxy/, ''),
+        rewrite: (path) => path.replace(/^\/zap-api/, ''),
       },
     },
   },
