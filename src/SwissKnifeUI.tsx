@@ -25,7 +25,10 @@ const handleExportWorkflow = (workflowName: string, steps: any[]) => {
   const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(recipe, null, 2));
   const downloadAnchor = document.createElement('a');
   downloadAnchor.setAttribute("href", dataStr);
-  downloadAnchor.setAttribute("download", `${workflowName.toLowerCase().replace(/\s+/g, '-')}-resepti.json`);
+  
+  // Poistettu "-resepti" tekstinpätkä tiedostonimestä alta:
+  downloadAnchor.setAttribute("download", `${workflowName.toLowerCase().replace(/\s+/g, '-')}.json`);
+  
   document.body.appendChild(downloadAnchor);
   downloadAnchor.click();
   downloadAnchor.remove();
