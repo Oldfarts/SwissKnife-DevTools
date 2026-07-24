@@ -25,7 +25,7 @@ import { restUnitTestGeneratorTool } from './restUnitTestGeneratorTool';
 import { soapUnitTestGeneratorTool } from './soapUnitTestGeneratorTool';
 import { restPythonUnitTestGeneratorTool } from './restPythonUnitTestGeneratorTool';
 import { soapPythonUnitTestGeneratorTool } from './soapPythonUnitTestGeneratorTool';
-import { WorkflowManager } from './workflowStorage';
+import { WorkflowManager } from './WorkflowStorage';
 
 export * from './types';
 

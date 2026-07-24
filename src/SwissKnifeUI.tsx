@@ -1,4 +1,3 @@
-// Esimerkki siitä, miten UI-komponentti kutsuu logiikkaa
 import { WorkflowManager } from "./tools/WorkflowStorage";
 import React, { useState, useEffect } from 'react';
 import { Search, Play, CheckCircle, AlertCircle, Wrench, Globe, Code, Star, History, Trash2, Home, FileText, Upload, Palette, ChevronDown, ChevronRight, Layers, Plus } from 'lucide-react';
@@ -16,7 +15,7 @@ export interface HistoryItem {
   workflowSteps?: any[];
 }
 
-// Työnkulun vienti JSON-tiedostona
+// Työnkulun vienti JSON-tiedostona (nimestä poistettu -resepti -pääte)
 const handleExportWorkflow = (workflowName: string, steps: any[]) => {
   const recipe = {
     name: workflowName || 'Työnkulku',
@@ -25,10 +24,7 @@ const handleExportWorkflow = (workflowName: string, steps: any[]) => {
   const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(recipe, null, 2));
   const downloadAnchor = document.createElement('a');
   downloadAnchor.setAttribute("href", dataStr);
-  
-  // Poistettu "-resepti" tekstinpätkä tiedostonimestä alta:
   downloadAnchor.setAttribute("download", `${workflowName.toLowerCase().replace(/\s+/g, '-')}.json`);
-  
   document.body.appendChild(downloadAnchor);
   downloadAnchor.click();
   downloadAnchor.remove();
@@ -116,17 +112,15 @@ export function SwissKnifeUI() {
     return (saved as Language) || 'fi';
   });
 
-  // Tallennetut työnkulut sivupalkissa näytettäväksi
+  // Tallennetut työnkulut sivupalkissa - alustetaan suoraan ilman turhia oletusesimerkkejä
   const [workflowsList, setWorkflowsList] = useState<Array<{ id: string; name: string; steps: any[] }>>(() => {
     const saved = localStorage.getItem('sk_saved_workflows');
-    return saved ? JSON.parse(saved) : [
-      { id: '1', name: lang === 'fi' ? 'Esimerkkityönkulku' : 'Sample Workflow', steps: [] }
-    ];
+    return saved ? JSON.parse(saved) : [];
   });
   
   const [selectedWorkflowSteps, setSelectedWorkflowSteps] = useState<any[] | null>([]);
 
-  // 1. Tuonti tiedostosta (File Input handler)
+  // Tuonti tiedostosta (File Input handler)
   const handleFileImport = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileReader = new FileReader();
     if (event.target.files && event.target.files[0]) {
@@ -137,7 +131,7 @@ export function SwissKnifeUI() {
           const recipe = WorkflowManager.parseAndValidateRecipe(content);
           WorkflowManager.saveWorkflowLocally(recipe);
           alert(`Resepti "${recipe.name}" tuotu ja tallennettu!`);
-          setWorkflowsList(prev => [...prev, { id: Date.now().toString(), name: recipe.name, steps: recipe.steps || [] }]);
+          setWorkflowsList(prev => [...prev.filter(w => w.name !== recipe.name), { id: Date.now().toString(), name: recipe.name, steps: recipe.steps || [] }]);
         } catch (error: any) {
           alert(`Tuonti epäonnistui: ${error.message}`);
         }
@@ -303,6 +297,22 @@ export function SwissKnifeUI() {
     }
   };
 
+  // Yksittäisen historialkion poistofunktio
+  const removeHistoryItem = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setHistory((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  // Yksittäisen työnkulun poistofunktio listalta
+  const removeWorkflowItem = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setWorkflowsList((prev) => {
+      const updated = prev.filter((wf) => wf.id !== id);
+      localStorage.setItem('sk_saved_workflows', JSON.stringify(updated));
+      return updated;
+    });
+  };
+
   const filteredTools = tools.filter((tool) => {
     const name = getText(tool.name, lang).toLowerCase();
     const cat = getText(tool.category, lang).toLowerCase();
@@ -465,24 +475,40 @@ export function SwissKnifeUI() {
 
             <div className="space-y-1">
               {workflowsList.map((wf) => (
-                <button
+                <div
                   key={wf.id}
                   onClick={() => {
                     setSelectedWorkflowSteps(wf.steps);
                     setActiveTab('workflows');
                   }}
-                  className={`w-full text-left p-2 rounded-lg transition flex items-center justify-between cursor-pointer group text-xs ${
+                  className={`w-full text-left p-2 rounded-lg transition flex items-center justify-between cursor-pointer group text-xs relative pr-7 ${
                     activeTab === 'workflows' 
                       ? 'bg-cyan-950/40 border border-cyan-800/40 text-cyan-200' 
                       : 'hover:bg-slate-900 text-slate-400 hover:text-slate-200'
                   }`}
                 >
-                  <span className="truncate font-medium">{wf.name}</span>
-                  <span className="text-[10px] text-slate-500 font-mono">
-                    {wf.steps.length} {lang === 'fi' ? 'vaihetta' : 'steps'}
-                  </span>
-                </button>
+                  <div className="truncate font-medium flex items-center gap-1.5">
+                    <span className="truncate">{wf.name}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="text-[10px] text-slate-500 font-mono">
+                      {wf.steps.length}
+                    </span>
+                    <button
+                      onClick={(e) => removeWorkflowItem(wf.id, e)}
+                      className="absolute right-1.5 top-1.5 p-1 text-slate-500 hover:text-rose-400 transition rounded"
+                      title={lang === 'fi' ? 'Poista työnkulku' : 'Remove workflow'}
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
               ))}
+              {workflowsList.length === 0 && (
+                <div className="text-[11px] text-slate-500 text-center py-2">
+                  {lang === 'fi' ? 'Ei tallennettuja työnkulkuja.' : 'No saved workflows.'}
+                </div>
+              )}
             </div>
           </div>
 
@@ -566,31 +592,38 @@ export function SwissKnifeUI() {
                     onClick={() => setHistory([])}
                     className="text-[10px] text-rose-400 hover:underline cursor-pointer flex items-center gap-1"
                   >
-                    <Trash2 className="w-3 h-3" /> {lang === 'fi' ? 'Tyhjennä' : 'Clear'}
+                    <Trash2 className="w-3 h-3" /> {lang === 'fi' ? 'Tyhjennä kaikki' : 'Clear all'}
                   </button>
                 )}
               </div>
 
               {history.length > 0 ? (
                 history.map((item) => (
-                  <button
+                  <div
                     key={item.id}
                     onClick={() => handleSelectHistoryItem(item)}
-                    className="w-full text-left p-2.5 rounded-lg bg-slate-900/80 hover:bg-slate-900 border border-slate-800 hover:border-cyan-800/50 transition cursor-pointer space-y-1 group"
+                    className="w-full text-left p-2.5 rounded-lg bg-slate-900/80 hover:bg-slate-900 border border-slate-800 hover:border-cyan-800/50 transition cursor-pointer space-y-1 group relative"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-semibold text-slate-200 group-hover:text-cyan-300 truncate flex items-center gap-1.5">
+                      <span className="text-xs font-semibold text-slate-200 group-hover:text-cyan-300 truncate flex items-center gap-1.5 pr-6">
                         {item.isWorkflow ? <Layers className="w-3 h-3 text-cyan-400 shrink-0" /> : <Wrench className="w-3 h-3 text-emerald-400 shrink-0" />}
                         {item.toolName}
                       </span>
-                      <span className="text-[10px] text-slate-500 font-mono">{item.timestamp}</span>
+                      <button
+                        onClick={(e) => removeHistoryItem(item.id, e)}
+                        className="absolute right-2 top-2.5 p-1 text-slate-500 hover:text-rose-400 transition rounded"
+                        title={lang === 'fi' ? 'Poista rivi' : 'Remove item'}
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
                     </div>
-                    <div className="text-[11px] text-slate-400 truncate font-mono">
-                      {item.isWorkflow 
-                        ? `${item.inputs.stepsCount} ${lang === 'fi' ? 'vaihetta' : 'steps'}`
-                        : JSON.stringify(item.inputs)}
+                    <div className="flex items-center justify-between text-[10px] text-slate-500 font-mono">
+                      <span className="truncate max-w-[150px]">
+                        {item.isWorkflow ? `${item.inputs.stepsCount} vaihetta` : JSON.stringify(item.inputs)}
+                      </span>
+                      <span>{item.timestamp}</span>
                     </div>
-                  </button>
+                  </div>
                 ))
               ) : (
                 <div className="text-xs text-slate-500 text-center py-6">
@@ -718,9 +751,9 @@ export function SwissKnifeUI() {
                 {history.map((item) => (
                   <div
                     key={item.id}
-                    className="p-4 bg-slate-950 border border-slate-800 hover:border-cyan-800/50 rounded-xl space-y-3 transition group"
+                    className="p-4 bg-slate-950 border border-slate-800 hover:border-cyan-800/50 rounded-xl space-y-3 transition group relative"
                   >
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between pr-12">
                       <div className="flex items-center gap-3">
                         <span className="p-2 bg-cyan-950/50 border border-cyan-800/50 rounded-lg text-cyan-400">
                           {item.isWorkflow ? <Layers className="w-4 h-4" /> : <Wrench className="w-4 h-4" />}
@@ -733,14 +766,24 @@ export function SwissKnifeUI() {
                         </div>
                       </div>
                       
-                      <button
-                        onClick={() => handleSelectHistoryItem(item)}
-                        className="px-4 py-2 bg-slate-900 hover:bg-cyan-600 hover:text-slate-950 text-slate-300 border border-slate-800 hover:border-cyan-600 rounded-lg text-xs font-semibold transition cursor-pointer flex items-center gap-1.5"
-                      >
-                        <Play className="w-3 h-3 fill-current" />
-                        {item.isWorkflow ? (lang === 'fi' ? 'Avaa työnkulku' : 'Open workflow') : (lang === 'fi' ? 'Avaa työkalu' : 'Open tool')}
-                      </button>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => handleSelectHistoryItem(item)}
+                          className="px-4 py-2 bg-slate-900 hover:bg-cyan-600 hover:text-slate-950 text-slate-300 border border-slate-800 hover:border-cyan-600 rounded-lg text-xs font-semibold transition cursor-pointer flex items-center gap-1.5"
+                        >
+                          <Play className="w-3 h-3 fill-current" />
+                          {item.isWorkflow ? (lang === 'fi' ? 'Avaa työnkulku' : 'Open workflow') : (lang === 'fi' ? 'Avaa työkalu' : 'Open tool')}
+                        </button>
+                      </div>
                     </div>
+
+                    <button
+                      onClick={(e) => removeHistoryItem(item.id, e)}
+                      className="absolute right-4 top-4 p-2 text-slate-500 hover:text-rose-400 hover:bg-rose-950/30 border border-transparent hover:border-rose-900/50 rounded-lg transition cursor-pointer"
+                      title={lang === 'fi' ? 'Poista historiasta' : 'Remove from history'}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
 
                     <div className="bg-slate-900/60 border border-slate-800/80 rounded-lg p-3 text-xs font-mono text-slate-400 max-h-32 overflow-y-auto">
                       <span className="text-slate-500 block mb-1">
