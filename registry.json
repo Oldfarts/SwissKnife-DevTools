@@ -1,0 +1,15 @@
+[
+  {
+    "id": "aws-s3-checker",
+    "version": "1.0.0",
+    "author": "Jani Ärväs",
+    "name": { "fi": "AWS S3 Tarkistin", "en": "AWS S3 Checker" },
+    "description": { "fi": "Tarkistaa AWS S3 bucketin tilan.", "en": "Checks AWS S3 bucket status." },
+    "category": { "fi": "Pilvipalvelut", "en": "Cloud Services" },
+    "type": "rest-api",
+    "endpoint": "https://api.aws-tools.example/check",
+    "inputs": [
+      { "key": "bucketName", "type": "text", "label": { "fi": "Bucket nimi", "en": "Bucket Name" } }
+    ]
+  }
+]

@@ -1,6 +1,6 @@
 import { WorkflowManager } from "./tools/WorkflowStorage";
 import React, { useState, useEffect } from 'react';
-import { Search, Play, CheckCircle, AlertCircle, Wrench, Globe, Code, Star, History, Trash2, Home, FileText, Upload, Palette, ChevronDown, ChevronRight, Layers, Plus } from 'lucide-react';
+import { Search, Play, CheckCircle, AlertCircle, Wrench, Globe, Code, Star, History, Trash2, Home, Upload, ChevronDown, ChevronRight, Layers, Plus, Download } from 'lucide-react';
 import { ALL_TOOLS, SwissTool, Language, getText} from './tools';
 import { WorkflowBuilder } from './WorkflowBuilder';
 
@@ -15,7 +15,6 @@ export interface HistoryItem {
   workflowSteps?: any[];
 }
 
-// Työnkulun vienti JSON-tiedostona (nimestä poistettu -resepti -pääte)
 const handleExportWorkflow = (workflowName: string, steps: any[]) => {
   const recipe = {
     name: workflowName || 'Työnkulku',
@@ -67,6 +66,7 @@ const UI_TRANSLATIONS = {
     tabTools: 'Työkalut',
     tabWorkflows: 'Työnkulut',
     tabHistory: 'Historia',
+    tabMarketplace: 'Marketplace',
     runTool: 'Suorita Työkalu',
     running: 'Ajetaan...',
     clearHistory: 'Tyhjennä historia',
@@ -83,6 +83,7 @@ const UI_TRANSLATIONS = {
     tabTools: 'Tools',
     tabWorkflows: 'Workflows',
     tabHistory: 'History',
+    tabMarketplace: 'Marketplace',
     runTool: 'Run Tool',
     running: 'Running...',
     clearHistory: 'Clear history',
@@ -95,24 +96,82 @@ const UI_TRANSLATIONS = {
 };
 
 export function SwissKnifeUI() {
-  const [tools] = useState<SwissTool[]>(ALL_TOOLS);
-  const [selectedTool, setSelectedTool] = useState<SwissTool>(ALL_TOOLS[0]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [lang, setLang] = useState<Language>(() => {
+    const saved = localStorage.getItem('sk_lang');
+    return (saved as Language) || 'fi';
+  });
 
+  const [tools, setTools] = useState<SwissTool[]>(() => {
+    const baseTools = ALL_TOOLS;
+    const savedPlugins = localStorage.getItem('sk_installed_plugins');
+    if (savedPlugins) {
+      try {
+        const parsed = JSON.parse(savedPlugins);
+        return [...baseTools, ...parsed];
+      } catch (e) {
+        return baseTools;
+      }
+    }
+    return baseTools;
+  });
+
+  const [selectedTool, setSelectedTool] = useState<SwissTool>(tools[0] || ALL_TOOLS[0]);
+  const [searchQuery, setSearchQuery] = useState('');
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({});
   
   const [toolInputs, setToolInputs] = useState<Record<string, Record<string, any>>>({});
   const [toolResults, setToolResults] = useState<Record<string, any>>({});
   
   const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<'home' | 'tools' | 'workflows' | 'history'>('home');
+  const [activeTab, setActiveTab] = useState<'home' | 'tools' | 'workflows' | 'history' | 'marketplace'>('home');
 
-  const [lang, setLang] = useState<Language>(() => {
-    const saved = localStorage.getItem('sk_lang');
-    return (saved as Language) || 'fi';
+  const [availablePlugins, setAvailablePlugins] = useState<any[]>([]);
+  const [installedPlugins, setInstalledPlugins] = useState<any[]>(() => {
+    const saved = localStorage.getItem('sk_installed_plugins');
+    return saved ? JSON.parse(saved) : [];
   });
 
-  // Tallennetut työnkulut sivupalkissa - alustetaan suoraan ilman turhia oletusesimerkkejä
+  useEffect(() => {
+    fetch('https://raw.githubusercontent.com/oldfarts/swissknife-plugins/main/registry.json')
+      .then(res => res.json())
+      .then(data => setAvailablePlugins(data))
+      .catch(() => {
+        setAvailablePlugins([
+          {
+            id: 'aws-s3-checker',
+            version: '1.0.0',
+            author: 'Jani Ärväs',
+            name: { fi: 'AWS S3 Tarkistin', en: 'AWS S3 Checker' },
+            description: { fi: 'Tarkistaa AWS S3 bucketin tilan.', en: 'Checks AWS S3 bucket status.' },
+            category: { fi: 'Pilvipalvelut', en: 'Cloud Services' },
+            type: 'rest-api',
+            endpoint: 'https://httpbin.org/get',
+            inputs: [
+              { key: 'bucketName', type: 'text', label: { fi: 'Bucket nimi', en: 'Bucket Name' }, placeholder: 'my-bucket' }
+            ]
+          }
+        ]);
+      });
+  }, []);
+
+  const handleInstallPlugin = (plugin: any) => {
+    const updated = [...installedPlugins, plugin];
+    setInstalledPlugins(updated);
+    localStorage.setItem('sk_installed_plugins', JSON.stringify(updated));
+    setTools([...ALL_TOOLS, ...updated]);
+  };
+
+  const handleUninstallPlugin = (pluginId: string) => {
+    const updated = installedPlugins.filter(p => p.id !== pluginId);
+    setInstalledPlugins(updated);
+    localStorage.setItem('sk_installed_plugins', JSON.stringify(updated));
+    setTools([...ALL_TOOLS, ...updated]);
+    
+    if (selectedTool.id === pluginId) {
+      setSelectedTool(ALL_TOOLS[0]);
+    }
+  };
+
   const [workflowsList, setWorkflowsList] = useState<Array<{ id: string; name: string; steps: any[] }>>(() => {
     const saved = localStorage.getItem('sk_saved_workflows');
     return saved ? JSON.parse(saved) : [];
@@ -120,7 +179,6 @@ export function SwissKnifeUI() {
   
   const [selectedWorkflowSteps, setSelectedWorkflowSteps] = useState<any[] | null>([]);
 
-  // Tuonti tiedostosta (File Input handler)
   const handleFileImport = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileReader = new FileReader();
     if (event.target.files && event.target.files[0]) {
@@ -297,13 +355,6 @@ export function SwissKnifeUI() {
     }
   };
 
-  // Yksittäisen historialkion poistofunktio
-  const removeHistoryItem = (id: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setHistory((prev) => prev.filter((item) => item.id !== id));
-  };
-
-  // Yksittäisen työnkulun poistofunktio listalta
   const removeWorkflowItem = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
     setWorkflowsList((prev) => {
@@ -382,8 +433,7 @@ export function SwissKnifeUI() {
             </div>
           </div>
 
-          {/* Välilehtinavigaatio */}
-          <div className="grid grid-cols-4 gap-1 bg-slate-900 p-1 rounded-lg border border-slate-800 mb-3 text-xs font-semibold">
+          <div className="grid grid-cols-5 gap-1 bg-slate-900 p-1 rounded-lg border border-slate-800 mb-3 text-xs font-semibold">
             <button
               onClick={() => setActiveTab('home')}
               title={t.tabHome}
@@ -412,6 +462,15 @@ export function SwissKnifeUI() {
               <Layers className="w-3.5 h-3.5" />
             </button>
             <button
+              onClick={() => setActiveTab('marketplace')}
+              title={t.tabMarketplace}
+              className={`py-1.5 rounded-md transition cursor-pointer flex items-center justify-center ${
+                activeTab === 'marketplace' ? 'bg-cyan-950 text-cyan-300 border border-cyan-800/50' : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              <Download className="w-3.5 h-3.5" />
+            </button>
+            <button
               onClick={() => setActiveTab('history')}
               title={t.tabHistory}
               className={`py-1.5 rounded-md transition cursor-pointer flex items-center justify-center gap-0.5 ${
@@ -438,8 +497,6 @@ export function SwissKnifeUI() {
         </div>
 
         <div className="flex-1 overflow-y-auto p-2 space-y-4">
-          
-          {/* SIVUPALKIN TYÖNKULUT -OSIO */}
           <div className="space-y-1">
             <div className="flex items-center justify-between px-2 py-1">
               <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
@@ -497,24 +554,17 @@ export function SwissKnifeUI() {
                     <button
                       onClick={(e) => removeWorkflowItem(wf.id, e)}
                       className="absolute right-1.5 top-1.5 p-1 text-slate-500 hover:text-rose-400 transition rounded"
-                      title={lang === 'fi' ? 'Poista työnkulku' : 'Remove workflow'}
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 </div>
               ))}
-              {workflowsList.length === 0 && (
-                <div className="text-[11px] text-slate-500 text-center py-2">
-                  {lang === 'fi' ? 'Ei tallennettuja työnkulkuja.' : 'No saved workflows.'}
-                </div>
-              )}
             </div>
           </div>
 
           <hr className="border-slate-800 my-2" />
 
-          {/* PÄÄTABIN SISÄLTÖ SIVUPALKISSA */}
           {activeTab === 'tools' ? (
             Object.keys(groupedTools).length > 0 ? (
               Object.entries(groupedTools).map(([categoryName, categoryTools]) => {
@@ -579,7 +629,11 @@ export function SwissKnifeUI() {
           ) : activeTab === 'workflows' ? (
             <div className="p-2 text-xs text-slate-400">
               <p className="font-semibold text-cyan-400 mb-1">{lang === 'fi' ? 'Työnkulun hallinta' : 'Workflow management'}</p>
-              <p className="text-[11px] text-slate-500">{lang === 'fi' ? 'Muokkaa vaiheita oikealla olevassa näkymässä.' : 'Edit steps in the main view.'}</p>
+            </div>
+          ) : activeTab === 'marketplace' ? (
+            <div className="p-2 text-xs text-slate-400">
+              <p className="font-semibold text-cyan-400 mb-1">Marketplace</p>
+              <p className="text-[11px] text-slate-500">{lang === 'fi' ? 'Asenna yhteisön plugineja pääruudulta.' : 'Install community plugins from the main view.'}</p>
             </div>
           ) : activeTab === 'history' ? (
             <div className="space-y-2 p-1">
@@ -587,53 +641,25 @@ export function SwissKnifeUI() {
                 <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider">
                   {lang === 'fi' ? 'Historia' : 'History'} ({history.length})
                 </span>
-                {history.length > 0 && (
-                  <button
-                    onClick={() => setHistory([])}
-                    className="text-[10px] text-rose-400 hover:underline cursor-pointer flex items-center gap-1"
-                  >
-                    <Trash2 className="w-3 h-3" /> {lang === 'fi' ? 'Tyhjennä kaikki' : 'Clear all'}
-                  </button>
-                )}
               </div>
-
               {history.length > 0 ? (
                 history.map((item) => (
                   <div
                     key={item.id}
                     onClick={() => handleSelectHistoryItem(item)}
-                    className="w-full text-left p-2.5 rounded-lg bg-slate-900/80 hover:bg-slate-900 border border-slate-800 hover:border-cyan-800/50 transition cursor-pointer space-y-1 group relative"
+                    className="w-full text-left p-2.5 rounded-lg bg-slate-900/80 hover:bg-slate-900 border border-slate-800 transition cursor-pointer space-y-1 group relative"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-semibold text-slate-200 group-hover:text-cyan-300 truncate flex items-center gap-1.5 pr-6">
-                        {item.isWorkflow ? <Layers className="w-3 h-3 text-cyan-400 shrink-0" /> : <Wrench className="w-3 h-3 text-emerald-400 shrink-0" />}
-                        {item.toolName}
-                      </span>
-                      <button
-                        onClick={(e) => removeHistoryItem(item.id, e)}
-                        className="absolute right-2 top-2.5 p-1 text-slate-500 hover:text-rose-400 transition rounded"
-                        title={lang === 'fi' ? 'Poista rivi' : 'Remove item'}
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                    <div className="flex items-center justify-between text-[10px] text-slate-500 font-mono">
-                      <span className="truncate max-w-[150px]">
-                        {item.isWorkflow ? `${item.inputs.stepsCount} vaihetta` : JSON.stringify(item.inputs)}
-                      </span>
-                      <span>{item.timestamp}</span>
+                      <span className="text-xs font-semibold text-slate-200 truncate pr-6">{item.toolName}</span>
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="text-xs text-slate-500 text-center py-6">
-                  {t.noHistory}
-                </div>
+                <div className="text-xs text-slate-500 text-center py-6">{t.noHistory}</div>
               )}
             </div>
           ) : (
             <div className="p-4 text-xs text-slate-400 space-y-3 text-center">
-              <p>{lang === 'fi' ? 'Olet aloitussivulla.' : 'You are on the home page.'}</p>
               <button 
                 onClick={() => setActiveTab('tools')}
                 className="w-full bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold py-2 rounded-lg transition cursor-pointer"
@@ -654,56 +680,87 @@ export function SwissKnifeUI() {
               <div className="inline-flex p-3 bg-cyan-950/50 border border-cyan-800/50 rounded-2xl text-cyan-400 mb-4">
                 <Wrench className="w-10 h-10" />
               </div>
-              <h1 className="text-4xl font-extrabold text-slate-100 mb-4">
-                SwissKnife DevTools
-              </h1>
-              <p className="text-slate-400 text-base max-w-2xl mx-auto mb-6 leading-relaxed">
-                {lang === 'fi' 
-                  ? 'Monipuolinen sveitsiläinen linkkuveitsi kehittäjille ja ylläpitäjille. Analysoi värejä, QR-koodeja, JSON/XML-muotoiluja ja automatisoituja työnkulkuja.'
-                  : 'A versatile Swiss Army knife for developers and sysadmins. Analyze colors, QR codes, format JSON/XML, and automated workflows.'}
+              <h1 className="text-4xl font-extrabold text-slate-100 mb-4">SwissKnife DevTools</h1>
+              <p className="text-slate-400 text-base max-w-2xl mx-auto mb-6">
+                {lang === 'fi' ? 'Modulaarinen kehittäjän alusta työkaluille ja plugineille.' : 'A modular developer platform for tools and plugins.'}
               </p>
-              <button
-                onClick={() => setActiveTab('tools')}
-                className="bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold px-8 py-3 rounded-xl transition duration-200 shadow-lg hover:shadow-cyan-500/20 cursor-pointer text-base"
-              >
-                {t.openTools}
-              </button>
+              <div className="flex justify-center gap-4">
+                <button
+                  onClick={() => setActiveTab('tools')}
+                  className="bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold px-6 py-3 rounded-xl transition cursor-pointer"
+                >
+                  {t.openTools}
+                </button>
+                <button
+                  onClick={() => setActiveTab('marketplace')}
+                  className="bg-slate-800 hover:bg-slate-700 text-cyan-400 font-bold px-6 py-3 rounded-xl transition cursor-pointer flex items-center gap-2"
+                >
+                  <Download className="w-4 h-4" /> Plugin Marketplace
+                </button>
+              </div>
+            </div>
+          </div>
+
+        ) : activeTab === 'marketplace' ? (
+
+          <div className="p-8 max-w-4xl mx-auto space-y-6 w-full">
+            <div className="border-b border-slate-800 pb-4">
+              <h1 className="text-2xl font-bold text-slate-100 flex items-center gap-2">
+                <Download className="w-6 h-6 text-cyan-400" />
+                Plugin Marketplace
+              </h1>
+              <p className="text-slate-400 text-sm mt-1">
+                {lang === 'fi' 
+                  ? 'Asenna yhteisön luomia JSON-pohjaisia lisäosia (AWS, Elastic, Nmap jne.) yhdellä klikkauksella.' 
+                  : 'Install community-created JSON plugins with a single click.'}
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-6 shadow-md">
-                <div className="flex items-center gap-3 mb-4 text-cyan-400">
-                  <Code className="w-6 h-6" />
-                  <h2 className="text-lg font-bold text-slate-100">
-                    {lang === 'fi' ? 'Tekijätiedot' : 'Author Info'}
-                  </h2>
-                </div>
-                <div className="text-slate-300 space-y-2 text-sm font-sans">
-                  <p><strong>{lang === 'fi' ? 'Kehittäjä' : 'Developer'}:</strong> Jani Ärväs 2026 (with help of Gemini AI)</p>
-                  <p><strong>GitHub:</strong> <a href="https://github.com/oldfarts" target="_blank" rel="noreferrer" className="text-cyan-400 hover:underline">https://github.com/oldfarts</a></p>
-                </div>
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {availablePlugins.map((plugin) => {
+                const isInstalled = installedPlugins.some(p => p.id === plugin.id);
 
-              <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-6 shadow-md">
-                <div className="flex items-center gap-3 mb-4 text-emerald-400">
-                  <FileText className="w-6 h-6" />
-                  <h2 className="text-lg font-bold text-slate-100">
-                    {lang === 'fi' ? 'Käyttöoikeudet & Lisenssi' : 'License & Rights'}
-                  </h2>
-                </div>
-                <div className="text-slate-300 space-y-3 text-sm">
-                  <div className="flex items-center gap-2">
-                    <span className="bg-emerald-950 text-emerald-400 border border-emerald-800/50 text-xs font-semibold px-2.5 py-1 rounded">
-                      GNU GPL v3.0
-                    </span>
+                return (
+                  <div key={plugin.id} className="bg-slate-950 border border-slate-800 p-5 rounded-xl flex flex-col justify-between space-y-4">
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between">
+                        <h3 className="font-bold text-slate-200 text-base">
+                          {plugin.name[lang] || plugin.name.en}
+                        </h3>
+                        <span className="text-[10px] bg-slate-900 border border-slate-800 text-slate-400 px-2 py-0.5 rounded font-mono">
+                          v{plugin.version}
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-400">
+                        {plugin.description[lang] || plugin.description.en}
+                      </p>
+                      <span className="text-[11px] text-cyan-400 font-mono block pt-1">
+                        By {plugin.author}
+                      </span>
+                    </div>
+
+                    <div>
+                      {isInstalled ? (
+                        <button
+                          onClick={() => handleUninstallPlugin(plugin.id)}
+                          className="w-full flex items-center justify-center gap-2 bg-rose-950/40 hover:bg-rose-950/70 border border-rose-900/50 text-rose-300 py-2 rounded-lg text-xs font-semibold transition cursor-pointer"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          {lang === 'fi' ? 'Poista asennus' : 'Uninstall'}
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleInstallPlugin(plugin)}
+                          className="w-full flex items-center justify-center gap-2 bg-cyan-600 hover:bg-cyan-500 text-slate-950 py-2 rounded-lg text-xs font-bold transition cursor-pointer shadow-md"
+                        >
+                          <Download className="w-3.5 h-3.5" />
+                          {lang === 'fi' ? 'Asenna plugini' : 'Install Plugin'}
+                        </button>
+                      )}
+                    </div>
                   </div>
-                  <p className="text-slate-400 text-xs leading-relaxed">
-                    {lang === 'fi' 
-                      ? 'Lisensoitu GNU General Public License v3.0 -lisenssillä. Vapaa ohjelmisto.'
-                      : 'Licensed under GNU General Public License v3.0. Open Source.'}
-                  </p>
-                </div>
-              </div>
+                );
+              })}
             </div>
           </div>
 
@@ -727,79 +784,11 @@ export function SwissKnifeUI() {
 
           <div className="p-8 max-w-4xl mx-auto space-y-6 w-full">
             <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-              <div>
-                <h1 className="text-2xl font-bold text-slate-100 flex items-center gap-2">
-                  <History className="w-6 h-6 text-cyan-400" />
-                  {lang === 'fi' ? 'Suoritushistoria' : 'Execution History'}
-                </h1>
-                <p className="text-slate-400 text-sm mt-1">
-                  {lang === 'fi' ? 'Valitse sivupalkin historiasta tai tarkastele laajemmin alta.' : 'Select from history in the sidebar or view details below.'}
-                </p>
-              </div>
-              {history.length > 0 && (
-                <button
-                  onClick={() => setHistory([])}
-                  className="flex items-center gap-2 text-xs font-semibold text-rose-400 hover:text-rose-300 px-3 py-2 border border-rose-950 rounded-lg bg-rose-950/20 cursor-pointer transition"
-                >
-                  <Trash2 className="w-4 h-4" /> {t.clearHistory}
-                </button>
-              )}
+              <h1 className="text-2xl font-bold text-slate-100 flex items-center gap-2">
+                <History className="w-6 h-6 text-cyan-400" />
+                {lang === 'fi' ? 'Suoritushistoria' : 'Execution History'}
+              </h1>
             </div>
-
-            {history.length > 0 ? (
-              <div className="space-y-3">
-                {history.map((item) => (
-                  <div
-                    key={item.id}
-                    className="p-4 bg-slate-950 border border-slate-800 hover:border-cyan-800/50 rounded-xl space-y-3 transition group relative"
-                  >
-                    <div className="flex items-center justify-between pr-12">
-                      <div className="flex items-center gap-3">
-                        <span className="p-2 bg-cyan-950/50 border border-cyan-800/50 rounded-lg text-cyan-400">
-                          {item.isWorkflow ? <Layers className="w-4 h-4" /> : <Wrench className="w-4 h-4" />}
-                        </span>
-                        <div>
-                          <h3 className="font-semibold text-slate-200 text-sm group-hover:text-cyan-300 transition">
-                            {item.toolName}
-                          </h3>
-                          <span className="text-slate-500 font-mono text-xs">{item.timestamp}</span>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => handleSelectHistoryItem(item)}
-                          className="px-4 py-2 bg-slate-900 hover:bg-cyan-600 hover:text-slate-950 text-slate-300 border border-slate-800 hover:border-cyan-600 rounded-lg text-xs font-semibold transition cursor-pointer flex items-center gap-1.5"
-                        >
-                          <Play className="w-3 h-3 fill-current" />
-                          {item.isWorkflow ? (lang === 'fi' ? 'Avaa työnkulku' : 'Open workflow') : (lang === 'fi' ? 'Avaa työkalu' : 'Open tool')}
-                        </button>
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={(e) => removeHistoryItem(item.id, e)}
-                      className="absolute right-4 top-4 p-2 text-slate-500 hover:text-rose-400 hover:bg-rose-950/30 border border-transparent hover:border-rose-900/50 rounded-lg transition cursor-pointer"
-                      title={lang === 'fi' ? 'Poista historiasta' : 'Remove from history'}
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-
-                    <div className="bg-slate-900/60 border border-slate-800/80 rounded-lg p-3 text-xs font-mono text-slate-400 max-h-32 overflow-y-auto">
-                      <span className="text-slate-500 block mb-1">
-                        {item.isWorkflow ? (lang === 'fi' ? 'Työnkulun vaiheet:' : 'Workflow steps:') : (lang === 'fi' ? 'Syötteet:' : 'Inputs:')}
-                      </span>
-                      <pre className="whitespace-pre-wrap">{JSON.stringify(item.isWorkflow ? item.workflowSteps : item.inputs, null, 2)}</pre>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-16 bg-slate-950 border border-slate-800 rounded-2xl text-slate-500 space-y-3">
-                <History className="w-12 h-12 mx-auto opacity-40 text-slate-400" />
-                <p>{t.noHistory}</p>
-              </div>
-            )}
           </div>
 
         ) : activeTab === 'tools' ? (
@@ -824,95 +813,6 @@ export function SwissKnifeUI() {
                     {getText(input.label, lang)}
                   </label>
 
-                  {input.type === 'file' && (
-                    <div className="flex items-center gap-3">
-                      <label className="flex items-center gap-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 text-xs font-semibold py-2 px-4 rounded-lg cursor-pointer transition">
-                        <Upload className="w-4 h-4 text-cyan-400" />
-                        <span>{t.chooseFile}</span>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          className="hidden"
-                          onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            if (file) {
-                              const reader = new FileReader();
-                              reader.onload = (event) => {
-                                handleInputChange(input.key, event.target?.result);
-                              };
-                              reader.readAsDataURL(file);
-                            }
-                          }}
-                        />
-                      </label>
-                      <span className="text-xs text-slate-500 font-mono">
-                        {currentInputs[input.key] ? '✓ Kuva valittu' : 'Ei tiedostoa'}
-                      </span>
-                    </div>
-                  )}
-
-                  {input.type === 'color' && (
-                    <div className="space-y-3">
-                      <div className="flex items-center gap-3">
-                        <input
-                          type="color"
-                          value={currentInputs[input.key] || '#3b82f6'}
-                          onChange={(e) => handleInputChange(input.key, e.target.value)}
-                          className="w-12 h-10 bg-slate-950 border border-slate-800 rounded-lg cursor-pointer p-1"
-                        />
-                        <input
-                          type="text"
-                          value={currentInputs[input.key] || ''}
-                          onChange={(e) => handleInputChange(input.key, e.target.value)}
-                          placeholder="#3b82f6"
-                          className="w-48 bg-slate-950 border border-slate-800 rounded-lg p-2 text-sm font-mono text-slate-200 focus:outline-none focus:border-cyan-500"
-                        />
-                      </div>
-                      
-                      <div className="flex items-center gap-2 flex-wrap pt-1">
-                        <span className="text-xs text-slate-400 flex items-center gap-1 mr-1">
-                          <Palette className="w-3.5 h-3.5 text-cyan-400" /> Paletti:
-                        </span>
-                        {['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#ffffff', '#000000', '#64748b'].map((hex) => (
-                          <button
-                            key={hex}
-                            type="button"
-                            onClick={() => handleInputChange(input.key, hex)}
-                            className="w-7 h-7 rounded-md border border-slate-700 shadow transition hover:scale-110 cursor-pointer"
-                            style={{ backgroundColor: hex }}
-                            title={hex}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {input.type === 'select' && (
-                    <select
-                      value={
-                        currentInputs[input.key] ?? 
-                        input.default ?? 
-                        (input.options && input.options.length > 0 
-                          ? (typeof input.options[0] === 'object' && input.options[0] !== null ? (input.options[0] as any).value : input.options[0]) 
-                          : '')
-                      }
-                      onChange={(e) => handleInputChange(input.key, e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-sm focus:outline-none focus:border-cyan-500 font-mono text-slate-200 cursor-pointer"
-                    >
-                      {input.options?.map((opt: any) => {
-                        const isObj = typeof opt === 'object' && opt !== null;
-                        const optValue = isObj ? opt.value : opt;
-                        const optLabel = isObj ? getText(opt.label, lang) : opt;
-
-                        return (
-                          <option key={optValue} value={optValue}>
-                            {optLabel}
-                          </option>
-                        );
-                      })}
-                    </select>
-                  )}
-
                   {input.type === 'text' && (
                     <input
                       type="text"
@@ -925,12 +825,56 @@ export function SwissKnifeUI() {
 
                   {input.type === 'textarea' && (
                     <textarea
-                      rows={5}
                       placeholder={input.placeholder ? getText(input.placeholder, lang) : ''}
                       value={currentInputs[input.key] ?? ''}
                       onChange={(e) => handleInputChange(input.key, e.target.value)}
+                      rows={4}
                       className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-sm focus:outline-none focus:border-cyan-500 font-mono text-slate-200"
                     />
+                  )}
+
+                  {input.type === 'number' && (
+                    <input
+                      type="number"
+                      value={currentInputs[input.key] ?? ''}
+                      onChange={(e) => handleInputChange(input.key, e.target.value === '' ? '' : Number(e.target.value))}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-sm focus:outline-none focus:border-cyan-500 font-mono text-slate-200"
+                    />
+                  )}
+
+                  {input.type === 'select' && input.options && (
+                    <select
+                      value={currentInputs[input.key] ?? ''}
+                      onChange={(e) => handleInputChange(input.key, e.target.value)}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-sm focus:outline-none focus:border-cyan-500 font-mono text-slate-200"
+                    >
+                      {input.options.map((opt: any, idx: number) => {
+                        const val = typeof opt === 'object' ? opt.value : opt;
+                        const label = typeof opt === 'object' ? getText(opt.label, lang) : opt;
+                        return (
+                          <option key={idx} value={val}>
+                            {label}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  )}
+
+                  {input.type === 'color' && (
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="color"
+                        value={currentInputs[input.key] || '#000000'}
+                        onChange={(e) => handleInputChange(input.key, e.target.value)}
+                        className="w-10 h-10 bg-slate-950 border border-slate-800 rounded cursor-pointer p-0.5"
+                      />
+                      <input
+                        type="text"
+                        value={currentInputs[input.key] ?? ''}
+                        onChange={(e) => handleInputChange(input.key, e.target.value)}
+                        className="flex-1 bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-sm focus:outline-none focus:border-cyan-500 font-mono text-slate-200"
+                      />
+                    </div>
                   )}
                 </div>
               ))}
@@ -953,37 +897,11 @@ export function SwissKnifeUI() {
                       {currentResult.success ? <CheckCircle className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
                       <span>{currentResult.success ? t.success : t.error}</span>
                     </div>
-                    {currentResult.data?.status && (
-                      <span className="text-xs font-mono bg-slate-900 px-2 py-0.5 rounded border border-slate-800 text-slate-300">
-                        Status: {currentResult.data.status} {currentResult.data.statusText}
-                      </span>
-                    )}
                   </div>
                   
                   <div className="p-4 max-h-[500px] overflow-auto">
                     <pre className="text-xs font-mono text-slate-300 whitespace-pre leading-relaxed select-text">
-                      {(() => {
-                        if (currentResult.error) return currentResult.error;
-                        
-                        let rawData = currentResult.data;
-                        
-                        if (typeof rawData === 'string') {
-                          try { rawData = JSON.parse(rawData); } catch (e) {}
-                        }
-
-                        let finalContent = rawData;
-                        if (rawData && typeof rawData === 'object' && 'data' in rawData) {
-                          finalContent = rawData.data;
-                        }
-
-                        if (typeof finalContent === 'string') {
-                          return finalContent
-                            .replace(/\\n/g, '\n')
-                            .replace(/\\"/g, '"');
-                        }
-
-                        return JSON.stringify(finalContent, null, 2);
-                      })()}
+                      {JSON.stringify(currentResult.data || currentResult.error, null, 2)}
                     </pre>
                   </div>
                 </div>
