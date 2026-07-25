@@ -37,6 +37,25 @@ const handleExportWorkflow = (workflowName: string, steps: any[]) => {
   downloadAnchor.remove();
 };
 
+// Funktio pelkän työnkulun loppudatan vientiin tiedostoon
+const handleExportWorkflowDataOnly = (resultData: any) => {
+  try {
+    const content = typeof resultData === 'string' 
+      ? resultData 
+      : JSON.stringify(resultData, null, 2);
+      
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(content);
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", `workflow-result-${Date.now()}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+  } catch (err) {
+    console.error("Datan vienti epäonnistui:", err);
+  }
+};
+
 const UI_TRANSLATIONS = {
   fi: {
     title: 'SwissKnife Alusta',
@@ -93,7 +112,7 @@ export function SwissKnifeUI({ initialLang = 'fi', onSaveData, loadData }: Swiss
     return saved ? JSON.parse(saved) : [];
   });
 
-  // 1. Haetaan aktiiviset pluginit ja yhdistetään listat, suodattaen samalla vialliset/tyhjät pois
+  // Haetaan aktiiviset pluginit ja yhdistetään listat, suodattaen samalla vialliset/tyhjät pois
   const activeExternalPlugins = AVAILABLE_PLUGINS.filter(p => installedPluginIds.includes(p.id));
   
   const rawTools = [...BUILT_IN_TOOLS, ...ALL_TOOLS, ...activeExternalPlugins];
@@ -116,7 +135,7 @@ export function SwissKnifeUI({ initialLang = 'fi', onSaveData, loadData }: Swiss
     'Developer Tools': false,
     'Pilvipalvelut': false,
     'Cloud Services': false,
-    'Ulkopuoliset pluginit': false, // Esimerkki: pidetään oletuksena kiinni
+    'Ulkopuoliset pluginit': false,
     'External Plugins': false
   });
   
@@ -783,6 +802,7 @@ export function SwissKnifeUI({ initialLang = 'fi', onSaveData, loadData }: Swiss
               lang={lang} 
               initialWorkflowSteps={selectedWorkflowSteps}
               onSaveHistory={handleSaveWorkflowHistory}
+              onExportData={handleExportWorkflowDataOnly} // Välitetään datan vientifunktio WorkflowBuilderille, jos se tukee sitä
               t={{
                 workflowTitle: lang === 'fi' ? 'Automatisoidut Työnkulut' : 'Automated Workflows',
                 addStep: lang === 'fi' ? 'Lisää vaihe' : 'Add Step',
