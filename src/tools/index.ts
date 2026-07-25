@@ -220,7 +220,6 @@ export const ALL_TOOLS: SwissTool[] = [
   soapUnitTestGeneratorTool, // AI & Testaus
   restPythonUnitTestGeneratorTool, // AI & Testaus
   soapPythonUnitTestGeneratorTool, // AI & Testaus
-  WorkflowManager, // Työnkulkujen hallinta 
   REST_DNS_TOOL, // Verkko & DNS
   JSON_FORMATTER_TOOL, // Kehitys & data
 ];

@@ -1,4 +1,4 @@
-import { WorkflowRecipe } from '../types/workflow';
+import { WorkflowRecipe } from '../tools/workflow';
 
 export async function executeWorkflow(
   recipe: WorkflowRecipe, 

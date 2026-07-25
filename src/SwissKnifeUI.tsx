@@ -22,7 +22,6 @@ interface SwissKnifeUIProps {
   loadData?: (key: string) => any;
 }
 
-const BUILT_IN_TOOLS = [{}];
 
 const handleExportWorkflow = (workflowName: string, steps: any[]) => {
   const recipe = {
@@ -76,6 +75,8 @@ const UI_TRANSLATIONS = {
 };
 
 export function SwissKnifeUI({ initialLang = 'fi', onSaveData, loadData }: SwissKnifeUIProps) {
+  const BUILT_IN_TOOLS: any[] = [];
+
   const [lang, setLang] = useState<Language>(() => {
     if (loadData) {
       const savedLang = loadData('sk_lang');
@@ -92,21 +93,31 @@ export function SwissKnifeUI({ initialLang = 'fi', onSaveData, loadData }: Swiss
     return saved ? JSON.parse(saved) : [];
   });
 
-  useEffect(() => {
-    localStorage.setItem('sk_installed_plugins', JSON.stringify(installedPluginIds));
-  }, [installedPluginIds]);
-
+  // 1. Haetaan aktiiviset pluginit ja yhdistetään listat, suodattaen samalla vialliset/tyhjät pois
   const activeExternalPlugins = AVAILABLE_PLUGINS.filter(p => installedPluginIds.includes(p.id));
-  const tools = [...BUILT_IN_TOOLS, ...ALL_TOOLS, ...activeExternalPlugins];
+  
+  const rawTools = [...BUILT_IN_TOOLS, ...ALL_TOOLS, ...activeExternalPlugins];
+
+  const tools = rawTools.filter((tool) => {
+    if (!tool || Object.keys(tool).length === 0) return false;
+
+    const hasId = Boolean(tool.id);
+    const hasName = Boolean(tool.name && (typeof tool.name === 'string' || tool.name.fi || tool.name.en));
+    const hasCategory = Boolean(tool.category);
+
+    return hasId && hasName && hasCategory;
+  });
 
   const [selectedTool, setSelectedTool] = useState<any>(tools[0]);
   const [searchQuery, setSearchQuery] = useState('');
 
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({
-    'Kehittäjän työkalut': true,
-    'Developer Tools': true,
-    'Pilvipalvelut': true,
-    'Cloud Services': true
+    'Kehittäjän työkalut': false,
+    'Developer Tools': false,
+    'Pilvipalvelut': false,
+    'Cloud Services': false,
+    'Ulkopuoliset pluginit': false, // Esimerkki: pidetään oletuksena kiinni
+    'External Plugins': false
   });
   
   const [toolInputs, setToolInputs] = useState<Record<string, Record<string, any>>>({});
@@ -570,7 +581,7 @@ export function SwissKnifeUI({ initialLang = 'fi', onSaveData, loadData }: Swiss
           {activeTab === 'tools' ? (
             Object.keys(groupedTools).length > 0 ? (
               Object.entries(groupedTools).map(([categoryName, categoryTools]) => {
-                const isOpen = searchQuery ? true : (openCategories[categoryName] ?? true);
+                const isOpen = searchQuery ? false : (openCategories[categoryName] ?? false);
 
                 return (
                   <div key={categoryName} className="space-y-1">
