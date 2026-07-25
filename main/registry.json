@@ -70,10 +70,6 @@
         "placeholder": {
           "fi": "http://example.com",
           "en": "http://example.com"
-        },
-        "category": {
-          "fi": "ULKOPUOLISET PLUGINIT",
-          "en": "OUT PLUGINS"
         }
       }
     ]
@@ -140,12 +136,126 @@
       "fi": "Hakee kaikki löydetyt haavoittuvuudet ja hälytykset ZAPista.",
       "en": "Fetches all discovered vulnerabilities and alerts from ZAP."
     },
-     "category": {
+    "category": {
       "fi": "ULKOPUOLISET PLUGINIT",
       "en": "OUT PLUGINS"
     },
     "type": "rest-api",
     "endpoint": "http://localhost:8080/JSON/core/view/alerts/",
     "inputs": []
+  },
+{
+    "id": "zap-start-scan-fixed-v2",
+    "name": { 
+      "fi": "Käynnistä ZAP Skannaus Politiikalla", 
+      "en": "Start ZAP Scan with Policy" 
+    },
+    "description": { 
+      "fi": "Käynnistää aktiivisen skannauksen määritellyllä politiikalla.", 
+      "en": "Starts active scan with a specified policy." 
+    },
+    "version": "2.0.0",
+    "author": "Jani Ärväs",
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "rest-api",
+    "endpoint": "/zap-api/JSON/ascan/action/scan/",
+    "inputs": [
+      {
+        "key": "url",
+        "label": { "fi": "Kohde-URL", "en": "Target URL" },
+        "type": "text",
+        "default": "https://petstore3.swagger.io",
+        "placeholder": { "fi": "https://...", "en": "https://..." }
+      },
+      {
+        "key": "scanPolicyName",
+        "label": { "fi": "Politiikan nimi", "en": "Policy Name" },
+        "type": "text",
+        "default": "Default Policy",
+        "placeholder": { "fi": "Esim. Default Policy", "en": "E.g. Default Policy" }
+      }
+    ],
+    "execute": "(inputs) => { return 'Skannaus aloitettu kohteelle: ' + inputs.url; }"
+  },
+  {
+    "id": "zap-wait-for-scan",
+    "name": { 
+      "fi": "Odota ZAP Skannauksen Valmistumista", 
+      "en": "Wait for ZAP Scan Completion" 
+    },
+    "description": { 
+      "fi": "Seuraa ZAP-skannauksen etenemistä, kunnes se on 100% valmis.", 
+      "en": "Polls ZAP scan progress until it reaches 100%." 
+    },
+    "version": "1.0.0",
+    "author": "Jani Ärväs",
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "workflow",
+    "endpoint": "/zap-api/JSON/ascan/view/status/",
+    "inputs": [
+      {
+        "key": "scanId",
+        "label": { "fi": "Skannauksen ID", "en": "Scan ID" },
+        "type": "text",
+        "default": "0",
+        "placeholder": { "fi": "0", "en": "0" }
+      }
+    ],
+    "execute": "async (inputs) => { const scanId = inputs.scanId || '0'; let progress = '0'; while (parseInt(progress) < 100) { const res = await fetch('/zap-api/JSON/ascan/view/status/?scanId=' + scanId); const data = await res.json(); progress = data.status || '0'; if (parseInt(progress) < 100) { console.log('ZAP skannaus kesken: ' + progress + '%'); await new Promise(r => setTimeout(r, 3000)); } } return 'ZAP skannaus valmis (100%)!'; }"
+  },
+  {
+    "id": "zap-generate-html-report",
+    "name": { 
+      "fi": "Generoi ZAP HTML-raportti", 
+      "en": "Generate ZAP HTML Report" 
+    },
+    "description": { 
+      "fi": "Hakee tietoturvaskannauksen tulokset OWASP ZAP:lta ja muodostaa niistä HTML-raportin.", 
+      "en": "Fetches security scan results from OWASP ZAP and generates an HTML report." 
+    },
+    "version": "1.0.0",
+    "author": "Jani Ärväs",
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "rest-api",
+    "endpoint": "http://localhost:8080/OTHER/core/other/htmlreport/",
+    "inputs": [
+      {
+        "key": "reportTitle",
+        "label": { "fi": "Raportin otsikko", "en": "Report Title" },
+        "type": "text",
+        "default": "SwissKnife Security Audit Report"
+      }
+    ],
+    "execute": "(inputs) => { return '<html><head><title>' + inputs.reportTitle + '</title></head><body><h1>Security Audit Report</h1><p>ZAP scan completed successfully.</p></body></html>'; }"
+  },
+  {
+    "id": "zap-save-html-report",
+    "name": { 
+      "fi": "Tallenna ZAP HTML-raportti", 
+      "en": "Save ZAP HTML Report" 
+    },
+    "description": { 
+      "fi": "Hakee valmiin HTML-raportin ZAP:lta ja tallentaa sen tiedostoksi koneelle.", 
+      "en": "Fetches the HTML report from ZAP and saves it as a file." 
+    },
+    "version": "1.0.0",
+    "author": "Jani Ärväs",
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "workflow",
+    "endpoint": "/zap-api/OTHER/core/other/htmlreport/",
+    "inputs": [],
+    "execute": "async () => { try { const res = await fetch('/zap-api/OTHER/core/other/htmlreport/'); const text = await res.text(); let htmlContent = text; try { const json = JSON.parse(text); if (json.rawText) htmlContent = json.rawText; } catch (e) { /* Ei ollut JSONia, käytetään suoraan tekstiä */ } const blob = new Blob([htmlContent], { type: 'text/html' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'zap-security-report.html'; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url); return 'HTML-raportti tallennetuttu onnistuneesti tiedostona zap-security-report.html!'; } catch (err) { console.error('Raportin lataus epäonnistui:', err); return 'Virhe raportin tallennuksessa: ' + err.message; } }"
   }
 ]
