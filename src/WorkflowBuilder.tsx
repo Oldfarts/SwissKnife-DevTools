@@ -60,7 +60,6 @@ export const WorkflowBuilder: React.FC<WorkflowBuilderProps> = ({
   const [results, setResults] = useState<WorkflowResultItem[]>([]);
   const [history, setHistory] = useState<HistoryItem[]>([]);
 
-  // Synkronoidaan esiasetetut vaiheet (esim. sivupalkista tai historiasta valitut)
   useEffect(() => {
     if (initialWorkflowSteps && Array.isArray(initialWorkflowSteps)) {
       const formatted = initialWorkflowSteps.map((step, idx) => ({
@@ -78,9 +77,6 @@ export const WorkflowBuilder: React.FC<WorkflowBuilderProps> = ({
     if (tools.length > 0) {
       const firstTool = tools[0];
       const initialInputs: Record<string, any> = {};
-      
-      // Vain ensimmäinen vaihe käyttää oletusarvoja. Myöhemmät vaiheet alustetaan tyhjillä,
-      // jotta edellisen vaiheen tulos ketjuu automaattisesti kenttään.
       const isFirstStep = workflowSteps.length === 0;
 
       firstTool.inputs?.forEach((input) => {
@@ -114,8 +110,6 @@ export const WorkflowBuilder: React.FC<WorkflowBuilderProps> = ({
   const updateStepTool = (index: number, toolId: string) => {
     const selectedTool = tools.find((t) => t.id === toolId);
     const initialInputs: Record<string, any> = {};
-
-    // Jos vaihe on ensimmäinen (index === 0), sallitaan oletusarvot, muuten tyhjäksi ketjutusta varten
     const isFirstStep = index === 0;
 
     selectedTool?.inputs?.forEach((input) => {
@@ -174,11 +168,14 @@ export const WorkflowBuilder: React.FC<WorkflowBuilderProps> = ({
 
         const currentInputs = { ...step.inputs };
         
-        // Automaattinen ketjutus: Jos kenttä on tyhjä, syötetään edellisen vaiheen tulos sinne
+        // Automaattinen ketjutus
         if (previousOutput && tool.inputs) {
           const textInput = tool.inputs.find(i => i.type === 'text' || i.type === 'textarea');
           if (textInput && !currentInputs[textInput.key]) {
-            currentInputs[textInput.key] = typeof previousOutput === 'string' ? previousOutput : JSON.stringify(previousOutput, null, 2);
+            const valToInject = typeof previousOutput === 'string' 
+              ? previousOutput 
+              : (previousOutput.url || previousOutput.name || JSON.stringify(previousOutput));
+            currentInputs[textInput.key] = valToInject;
           }
         }
 
@@ -186,17 +183,71 @@ export const WorkflowBuilder: React.FC<WorkflowBuilderProps> = ({
 
         if (tool.type === 'local' && tool.execute) {
           res = await tool.execute(currentInputs, lang);
-        } else if (tool.type === 'rest-api' && tool.endpoint) {
+        } else if (tool.endpoint) {
           try {
-            const queryParams = new URLSearchParams(currentInputs).toString();
-            const response = await fetch(`${tool.endpoint}?${queryParams}`);
-            const data = await response.json();
-            res = { success: response.ok, data };
+            const { apiPath, ...restInputs } = currentInputs;
+            let fullEndpoint = tool.endpoint;
+            
+            if (apiPath) {
+              const cleanBasePath = fullEndpoint.replace(/\/+$/, '');
+              const cleanApiPath = apiPath.replace(/^\/+/, '');
+              fullEndpoint = `${cleanBasePath}/${cleanApiPath}`;
+            }
+
+            const queryParamsObj: Record<string, string> = {};
+            Object.entries(restInputs).forEach(([k, v]) => {
+              if (v !== '' && v !== null && v !== undefined) {
+                queryParamsObj[k] = String(v);
+              }
+            });
+
+            const queryParams = new URLSearchParams(queryParamsObj).toString();
+            
+            // PAKOTETAAN KÄYTTÄMÄÄN VITE-PROXYÄ (/zap-api) CORS-virheiden välttämiseksi
+            let targetEndpoint = fullEndpoint;
+            if (targetEndpoint.startsWith('http://localhost:8080')) {
+              targetEndpoint = targetEndpoint.replace('http://localhost:8080', '/zap-api');
+            } else if (!targetEndpoint.startsWith('/zap-api')) {
+              targetEndpoint = `/zap-api${targetEndpoint.startsWith('/') ? '' : '/'}${targetEndpoint}`;
+            }
+
+            const finalUrl = queryParams ? `${targetEndpoint}?${queryParams}` : targetEndpoint;
+
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 60000);
+
+            let response;
+            try {
+              response = await fetch(finalUrl, { signal: controller.signal });
+            } catch (networkError: any) {
+              clearTimeout(timeoutId);
+              if (tool.id?.includes('import') || tool.id?.includes('scan') || networkError.name === 'AbortError') {
+                const backgroundData = { message: "Komento lähetetty ZAPille (ajo käynnissä taustalla)." };
+                executionResults.push({
+                  toolName: tool.name,
+                  success: true,
+                  data: backgroundData
+                });
+                previousOutput = backgroundData;
+                continue;
+              }
+              throw networkError;
+            } finally {
+              clearTimeout(timeoutId);
+            }
+
+            const text = await response.text();
+            let data = null;
+            try {
+              data = text ? JSON.parse(text) : null;
+            } catch {
+              data = { rawText: text };
+            }
+
+            res = { success: response.ok, data: data || { message: "Suoritettu onnistuneesti" } };
           } catch (err: any) {
             res = { success: false, error: err.message };
           }
-        } else {
-          res = { success: true, data: `Simuloitu ajo työkaluun ${tool.name}` };
         }
 
         executionResults.push({
@@ -231,7 +282,7 @@ export const WorkflowBuilder: React.FC<WorkflowBuilderProps> = ({
       }
     }
   };
-
+  
   return (
     <div className="flex flex-col h-full max-w-4xl mx-auto gap-4 p-4 bg-slate-900 rounded-xl border border-slate-800 w-full">
       <div className="flex items-center justify-between border-b border-slate-800 pb-3">

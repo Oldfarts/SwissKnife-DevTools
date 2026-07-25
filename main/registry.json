@@ -12,8 +12,8 @@
       "en": "Checks AWS S3 bucket status."
     },
     "category": {
-      "fi": "Pilvipalvelut",
-      "en": "Cloud Services"
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
     },
     "type": "rest-api",
     "endpoint": "https://api.aws-tools.example/check",
@@ -28,7 +28,7 @@
       }
     ]
   },
-{
+  { 
     "id": "owasp-zap-generic-api",
     "version": "1.1.0",
     "author": "Jani Ärväs",
@@ -41,8 +41,8 @@
       "en": "Query any OWASP ZAP JSON API method freely."
     },
     "category": {
-      "fi": "Tietoturva",
-      "en": "Security"
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
     },
     "type": "rest-api",
     "endpoint": "http://localhost:8080/JSON/",
@@ -61,7 +61,7 @@
         "default": "core/view/version"
       },
       {
-        "key": "targetUrl",
+        "key": "url",
         "type": "text",
         "label": {
           "fi": "Kohde URL tai lisäparametri (tarvittaessa)",
@@ -70,8 +70,82 @@
         "placeholder": {
           "fi": "http://example.com",
           "en": "http://example.com"
+        },
+        "category": {
+          "fi": "ULKOPUOLISET PLUGINIT",
+          "en": "OUT PLUGINS"
         }
       }
     ]
+  },
+  { 
+    "id": "owasp-zap-openapi-import",
+    "version": "1.0.1",
+    "author": "Jani Ärväs",
+    "name": {
+      "fi": "OWASP ZAP OpenAPI Tuonti",
+      "en": "OWASP ZAP OpenAPI Import"
+    },
+    "description": {
+      "fi": "Tekee REST/openapi importin.",
+      "en": "Fetches REST/openapi import."
+    },
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "rest-api",
+    "endpoint": "http://localhost:8080/JSON/openapi/action/importUrl/",
+    "inputs": [
+      {
+        "key": "url",
+        "type": "text",
+        "label": {
+          "fi": "OpenAPI URL",
+          "en": "OpenAPI URL"
+        },
+        "default": "https://petstore.swagger.io/v2/swagger.json"
+      }
+    ]
+  },
+  { 
+    "id": "owasp-zap-critical-alerts",
+    "version": "1.0.0",
+    "author": "Jani Ärväs",
+    "name": {
+      "fi": "OWASP ZAP Kriittiset Hälytykset",
+      "en": "OWASP ZAP Critical Alerts"
+    },
+    "description": {
+      "fi": "Hakee ZAP-raportista kriittiset (High) haavoittuvuudet ja hälytykset.",
+      "en": "Fetches critical (High) vulnerabilities and alerts from ZAP."
+    },
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "rest-api",
+    "endpoint": "http://localhost:8080/JSON/core/view/alerts/",
+    "inputs": []
+  },
+  {
+    "id": "owasp-zap-all-alerts",
+    "version": "1.0.0",
+    "author": "Jani Ärväs",
+    "name": {
+      "fi": "OWASP ZAP Kaikki Hälytykset",
+      "en": "OWASP ZAP All Alerts"
+    },
+    "description": {
+      "fi": "Hakee kaikki löydetyt haavoittuvuudet ja hälytykset ZAPista.",
+      "en": "Fetches all discovered vulnerabilities and alerts from ZAP."
+    },
+     "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "rest-api",
+    "endpoint": "http://localhost:8080/JSON/core/view/alerts/",
+    "inputs": []
   }
 ]
