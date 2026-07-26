@@ -214,8 +214,8 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
   };
   
   useEffect(() => {
-    saveDataToStorage('sk_lang', lang);
-  }, [lang]);
+    saveDataToStorage('sk_installed_plugins', installedPluginIds);
+  }, [installedPluginIds]);
 
   useEffect(() => {
     saveDataToStorage('sk_favorites', favorites);
@@ -541,7 +541,7 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
                   }}
                   className="text-[10px] bg-slate-800 hover:bg-slate-700 text-cyan-400 font-bold px-2 py-1 rounded transition cursor-pointer flex items-center gap-1"
                 >
-                  📤 {lang === 'fi' ? 'Vie' : 'Export'}
+                   {lang === 'fi' ? 'Vie' : 'Export'}
                 </button>
 
                 <button
