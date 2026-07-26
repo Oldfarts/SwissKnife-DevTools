@@ -93,7 +93,7 @@ const UI_TRANSLATIONS = {
   }
 };
 
-export function SwissKnifeUI({ initialLang = 'fi', onSaveData, loadData }: SwissKnifeUIProps) {
+export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: SwissKnifeUIProps) {
   const BUILT_IN_TOOLS: any[] = [];
 
   const [lang, setLang] = useState<Language>(() => {
@@ -750,7 +750,7 @@ export function SwissKnifeUI({ initialLang = 'fi', onSaveData, loadData }: Swiss
                 rel="noreferrer"
                 className="bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold px-6 py-3 rounded-xl transition duration-200 shadow-lg cursor-pointer flex items-center gap-2 text-base inline-flex"
               >
-                📥 {lang === 'en' ? 'Open latest ZAP Report' : 'Avaa viimeisin ZAP Raportti'}
+                📥 {lang === 'fi' ? 'Avaa viimeisin ZAP Raportti':'Open latest ZAP Report' }
               </a>
               <p className="text-slate-400 text-base max-w-2xl mx-auto mb-6 leading-relaxed">
                 {lang === 'fi' 
