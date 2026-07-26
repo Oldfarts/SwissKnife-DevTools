@@ -1,5 +1,38 @@
 [
   {
+    "id": "utility-wait",
+    "version": "1.0.0",
+    "author": "Jani Ärväs",
+    "name": {
+      "fi": "Odotus / Viive",
+      "en": "Wait / Delay"
+    },
+    "description": {
+      "fi": "Pysäyttää työnkulun ketjun määrätyksi ajaksi (esim. ZAP-skannauksen välissä).",
+      "en": "Pauses the workflow chain for a specified duration."
+    },
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "local",
+    "inputs": [
+      {
+        "key": "seconds",
+        "type": "text",
+        "label": {
+          "fi": "Odotusaika sekunteina",
+          "en": "Wait time in seconds"
+        },
+        "default": "10",
+        "placeholder": {
+          "fi": "10",
+          "en": "10"
+        }
+      }
+    ],
+      "execute": "async (inputs) => { const waitTimeSec = Number(inputs?.seconds ?? inputs?.inputContent ?? 10) || 10; await new Promise((resolve) => setTimeout(resolve, waitTimeSec * 1000)); return { success: true, data: inputs?.inputContent ?? 'Odotettu ' + waitTimeSec + ' sekuntia' }; }"  },
+  {
     "id": "aws-s3-checker",
     "version": "1.0.0",
     "author": "Jani Ärväs",
@@ -54,10 +87,6 @@
           "fi": "API Polku (esim. core/view/version tai spider/action/scan)",
           "en": "API Path (e.g., core/view/version or spider/action/scan)"
         },
-        "placeholder": {
-          "fi": "core/view/version",
-          "en": "core/view/version"
-        },
         "default": "core/view/version"
       },
       {
@@ -66,10 +95,6 @@
         "label": {
           "fi": "Kohde URL tai lisäparametri (tarvittaessa)",
           "en": "Target URL or extra parameter (if needed)"
-        },
-        "placeholder": {
-          "fi": "http://example.com",
-          "en": "http://example.com"
         }
       }
     ]
@@ -167,20 +192,17 @@
         "key": "url",
         "label": { "fi": "Kohde-URL", "en": "Target URL" },
         "type": "text",
-        "default": "https://petstore3.swagger.io",
-        "placeholder": { "fi": "https://...", "en": "https://..." }
+        "default": "https://petstore3.swagger.io"
       },
       {
         "key": "scanPolicyName",
         "label": { "fi": "Politiikan nimi", "en": "Policy Name" },
         "type": "text",
-        "default": "Default Policy",
-        "placeholder": { "fi": "Esim. Default Policy", "en": "E.g. Default Policy" }
+        "default": "Default Policy"
       }
-    ],
-    "execute": "(inputs) => { return 'Skannaus käynnistetty'; }"
+    ]
   },
-  {
+{
     "id": "zap-generate-html-report",
     "name": { 
       "fi": "Generoi ZAP HTML-raportti", 
@@ -190,14 +212,13 @@
       "fi": "Hakee tietoturvaskannauksen tulokset OWASP ZAP:lta ja muodostaa niistä HTML-raportin.", 
       "en": "Fetches security scan results from OWASP ZAP and generates an HTML report." 
     },
-    "version": "1.0.0",
+    "version": "1.0.1",
     "author": "Jani Ärväs",
     "category": {
       "fi": "ULKOPUOLISET PLUGINIT",
       "en": "OUT PLUGINS"
     },
-    "type": "rest-api",
-    "endpoint": "http://localhost:8080/OTHER/core/other/htmlreport/",
+    "type": "local",
     "inputs": [
       {
         "key": "reportTitle",
@@ -206,6 +227,6 @@
         "default": "SwissKnife Security Audit Report"
       }
     ],
-    "execute": "(inputs) => { return '<html><head><title>' + inputs.reportTitle + '</title></head><body><h1>Security Audit Report</h1><p>ZAP scan completed successfully.</p></body></html>'; }"
+    "execute": "async (inputs) => { try { const res = await fetch('/zap-api/OTHER/core/other/htmlreport/'); const html = await res.text(); return { success: true, data: { message: 'HTML-raportti haettu onnistuneesti', length: html.length } }; } catch (e) { return { success: false, error: e.message }; } }"
   }
 ]

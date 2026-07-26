@@ -182,7 +182,26 @@ export const WorkflowBuilder: React.FC<WorkflowBuilderProps> = ({
         let res: any = { success: false, error: 'Tuntematon suoritustapa' };
 
         if (tool.type === 'local' && tool.execute) {
-          res = await tool.execute(currentInputs, lang);
+          let executeFn = tool.execute;
+
+          // Jos execute on tallennettu merkkijonona, muunnetaan se funktioksi lennosta
+          if (typeof executeFn === 'string') {
+            try {
+              executeFn = new Function(`return ${executeFn}`)();
+            } catch (e: any) {
+              console.error("Virhe funktion parsinnassa:", e);
+            }
+          }
+
+          if (typeof executeFn === 'function') {
+            try {
+              res = await executeFn(currentInputs, lang);
+            } catch (execErr: any) {
+              res = { success: false, error: execErr.message };
+            }
+          } else {
+            res = { success: false, error: 'Työkalun execute ei ole kelvollinen funktio' };
+          }
         } else if (tool.endpoint) {
           try {
             const { apiPath, ...restInputs } = currentInputs;
@@ -224,7 +243,7 @@ export const WorkflowBuilder: React.FC<WorkflowBuilderProps> = ({
               if (tool.id?.includes('import') || tool.id?.includes('scan') || networkError.name === 'AbortError') {
                 const backgroundData = { message: "Komento lähetetty ZAPille (ajo käynnissä taustalla)." };
                 executionResults.push({
-                  toolName: tool.name,
+                  toolName: typeof tool.name === 'object' ? (tool.name[lang] || tool.name.fi || tool.name.en) : tool.name,
                   success: true,
                   data: backgroundData
                 });
@@ -250,8 +269,12 @@ export const WorkflowBuilder: React.FC<WorkflowBuilderProps> = ({
           }
         }
 
+        const resolvedToolName = typeof tool.name === 'object' 
+          ? (tool.name[lang] || tool.name.fi || tool.name.en) 
+          : tool.name;
+
         executionResults.push({
-          toolName: tool.name,
+          toolName: resolvedToolName,
           success: res.success ?? true,
           data: res.data ?? res,
           error: res.error

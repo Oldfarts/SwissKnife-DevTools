@@ -37,50 +37,64 @@ export const AVAILABLE_PLUGINS: any[] = Array.isArray(registryData)
   ? registryData 
   : (registryData as any).default || [];
 
-// Määritä tähän ZAP API -avaimesi (jos ZAP vaatii sen)
-const ZAP_API_KEY = "rokrokrok"; 
+// Apufunktio merkkijonona tallennetun execute-funktion herättämiseen
+export function hydratePlugin(plugin: any) {
+  let executeFn = plugin.execute;
+  if (typeof executeFn === 'string') {
+    try {
+      // Muutetaan merkkijono ajettavaksi funktioksi
+      executeFn = new Function('return ' + plugin.execute)();
+    } catch (e) {
+      console.error(`Virhe pluginin ${plugin.id} execute-funktion parsinnassa:`, e);
+      executeFn = async () => ({ success: false, error: 'Virheellinen execute-funktio' });
+    }
+  }
+  return {
+    ...plugin,
+    execute: executeFn
+  };
+}
 
-// Apufunktio työkalun suorittamiseen
 export const executeSwissTool = async (
-  tool: SwissTool,
+  tool: any,
   inputs: Record<string, any>,
-  lang: Language = 'fi'
+  lang: 'fi' | 'en' = 'fi'
 ) => {
-  if (tool.type === 'local' && tool.execute) {
-    return await tool.execute(inputs, lang);
+  // 1. Varmistetaan turvallisesti, että plugin on hydratoitu (jos execute on stringinä)
+  let executableTool = tool;
+  if (tool && typeof tool.execute === 'string') {
+    try {
+      const fn = new Function('return ' + tool.execute)();
+      executableTool = { ...tool, execute: fn };
+    } catch (e) {
+      console.error('Virhe execute-funktion parsinnassa:', e);
+    }
   }
 
-  if (tool.type === 'rest-api' && tool.endpoint) {
+  // 2. Jos työkalulla on validi execute-funktio (esim. paikallinen tai utility-wait), ajetaan se
+  if (executableTool && typeof executableTool.execute === 'function') {
+    try {
+      return await executableTool.execute(inputs, lang);
+    } catch (err: any) {
+      return { success: false, error: 'Virhe työkalun suorituksessa: ' + err.message };
+    }
+  }
+
+  // 3. Jos kyseessä on REST-API työkalu (eikä erillistä execute-funktiota ole)
+  if (executableTool && executableTool.type === 'rest-api' && executableTool.endpoint) {
     try {
       const { apiPath, ...restInputs } = inputs;
 
-      // Automaattinen korjaus: ZAP käyttää 'url'-parametria 'targetUrl':n sijaan
       if (restInputs.targetUrl && !restInputs.url) {
         restInputs.url = restInputs.targetUrl;
         delete restInputs.targetUrl;
       }
 
-      let fullEndpoint = tool.endpoint;
+      let fullEndpoint = executableTool.endpoint;
       if (apiPath) {
-        const cleanBasePath = tool.endpoint.replace(/\/+$/, '');
+        const cleanBasePath = executableTool.endpoint.replace(/\/+$/, '');
         const cleanApiPath = apiPath.replace(/^\/+/, '');
         fullEndpoint = `${cleanBasePath}/${cleanApiPath}`;
-      }
-
-      // Jos kyseessä on OpenAPI/Swagger import ja käyttäjä antoi raakatekstiä (JSON) URL:n sijaan:
-      if (tool.id === 'owasp-zap-import-openapi' && restInputs.url && restInputs.url.trim().startsWith('{')) {
-        try {
-          // Vaihdetaan endpoint ZAP:n tiedoston tuontiin tai lähetetään POST-pyynnöllä sisäisesti
-          // (ZAP hyväksyy usein POST-pyyntöinä dataa, tai voimme luoda väliaikaisen Blob-URL:n / local mockin)
-          const blob = new Blob([restInputs.url], { type: 'application/json' });
-          const formData = new FormData();
-          formData.append('file', blob, 'swagger.json');
-          
-          // Vaihtoehtoisesti jos ZAP vaatii tiedostopolun, voit tallentaa sen tai käyttää ZAP:n toista rajapintaa.
-          // Tässä esimerkissä ohjataan käyttämään ZAP:n file-pohjaista importtia tai käsitellään virhe sirosti.
-        } catch (e) {
-          // Jatketaan normaalisti, jos ei ollutkaan raakajsonia
-        }
       }
 
       const filteredInputs = Object.fromEntries(
@@ -88,15 +102,8 @@ export const executeSwissTool = async (
       );
       
       const queryParams = new URLSearchParams(filteredInputs);
-
-      // Lisätään ZAP API -avain automaattisesti pyyntöön
-      if (ZAP_API_KEY) {
-        queryParams.append('apikey', ZAP_API_KEY);
-      }
-
       const queryParamsString = queryParams.toString();
       
-      // Varmistetaan Vite-proxyn (/zap-api) käyttö ERR_EMPTY_RESPONSE-virheiden välttämiseksi
       let targetEndpoint = fullEndpoint;
       if (targetEndpoint.startsWith('http://localhost:8080')) {
         targetEndpoint = targetEndpoint.replace('http://localhost:8080', '/zap-api');
@@ -123,59 +130,6 @@ export const executeSwissTool = async (
       } catch (parseErr) {
         data = { message: text };
       }
-      
-      // 1. Erikoiskäsittely kriittisille hälytyksille (High)
-      if (tool.id === 'owasp-zap-critical-alerts') {
-        const alerts = data?.alerts || [];
-        const criticalAlerts = alerts.filter((alert: any) => alert.risk === 'High');
-
-        if (criticalAlerts.length === 0) {
-          return {
-            success: true,
-            data: { message: lang === 'fi' ? "Ei kriittisiä haavoittuvuuksia (High) löytynyt!" : "No critical vulnerabilities (High) found!" }
-          };
-        }
-
-        return {
-          success: true,
-          data: {
-            count: criticalAlerts.length,
-            criticalAlerts: criticalAlerts.map((a: any) => ({
-              name: a.name,
-              risk: a.risk,
-              url: a.url,
-              description: a.description
-            }))
-          }
-        };
-      }
-
-      // 2. Erikoiskäsittely kaikille hälytyksille
-      if (tool.id === 'owasp-zap-all-alerts') {
-        const alerts = data?.alerts || [];
-
-        if (alerts.length === 0) {
-          return {
-            success: true,
-            data: { message: lang === 'fi' ? "Ei hälytyksiä tai haavoittuvuuksia löytynyt." : "No alerts or vulnerabilities found." }
-          };
-        }
-
-        const formattedAlerts = alerts.map((a: any) => ({
-          risk: a.risk,
-          name: a.name,
-          url: a.url,
-          confidence: a.confidence
-        }));
-
-        return {
-          success: true,
-          data: {
-            totalCount: alerts.length,
-            alerts: formattedAlerts
-          }
-        };
-      }
 
       return { success: response.ok, data: data || { message: "Suoritettu onnistuneesti" } };
     } catch (err: any) {
@@ -188,7 +142,7 @@ export const executeSwissTool = async (
 
   return { 
     success: false, 
-    error: lang === 'fi' ? 'Työkalun suoritustapaa ei löydetty.' : 'Tool execution method not found.' 
+    error: lang === 'fi' ? 'Työkalun suoritustapaa (execute tai endpoint) ei löydetty.' : 'Tool execution method not found.' 
   };
 };
 

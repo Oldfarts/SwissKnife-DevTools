@@ -22,7 +22,6 @@ interface SwissKnifeUIProps {
   loadData?: (key: string) => any;
 }
 
-
 const handleExportWorkflow = (workflowName: string, steps: any[]) => {
   const recipe = {
     name: workflowName || 'Työnkulku',
@@ -37,7 +36,6 @@ const handleExportWorkflow = (workflowName: string, steps: any[]) => {
   downloadAnchor.remove();
 };
 
-// Funktio pelkän työnkulun loppudatan vientiin tiedostoon
 const handleExportWorkflowDataOnly = (resultData: any) => {
   try {
     const content = typeof resultData === 'string' 
@@ -112,18 +110,14 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
     return saved ? JSON.parse(saved) : [];
   });
 
-  // Haetaan aktiiviset pluginit ja yhdistetään listat, suodattaen samalla vialliset/tyhjät pois
   const activeExternalPlugins = AVAILABLE_PLUGINS.filter(p => installedPluginIds.includes(p.id));
-  
   const rawTools = [...BUILT_IN_TOOLS, ...ALL_TOOLS, ...activeExternalPlugins];
 
   const tools = rawTools.filter((tool) => {
     if (!tool || Object.keys(tool).length === 0) return false;
-
     const hasId = Boolean(tool.id);
     const hasName = Boolean(tool.name && (typeof tool.name === 'string' || tool.name.fi || tool.name.en));
     const hasCategory = Boolean(tool.category);
-
     return hasId && hasName && hasCategory;
   });
 
@@ -284,7 +278,65 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
     if (!selectedTool) return;
     setLoading(true);
     try {
-      const res = await executeSwissTool(selectedTool, currentInputs, lang);
+      let res;
+      
+      // Valmistellaan execute-funktio tarvittaessa
+      let executeFn = selectedTool.execute;
+      if (typeof executeFn === 'string') {
+        try {
+          executeFn = new Function(`return ${executeFn}`)();
+        } catch (e) {
+          console.error("Virhe funktion parsinnassa:", e);
+        }
+      }
+
+      // Moottori: Tuetaan executeWithPolling, paikallista execute-funktiota tai automaattista REST-API fetch-kutsua
+      if (typeof selectedTool.executeWithPolling === 'function') {
+        res = await selectedTool.executeWithPolling(currentInputs);
+      } else if (typeof executeFn === 'function') {
+        res = await executeFn(currentInputs, lang);
+      } else if (selectedTool.endpoint || selectedTool.type === 'rest-api') {
+        try {
+          let targetEndpoint = selectedTool.endpoint || '';
+          
+          if (targetEndpoint.startsWith('http://localhost:8080')) {
+            targetEndpoint = targetEndpoint.replace('http://localhost:8080', '/zap-api');
+          } else if (targetEndpoint && !targetEndpoint.startsWith('/zap-api') && !targetEndpoint.startsWith('http')) {
+            targetEndpoint = `/zap-api${targetEndpoint.startsWith('/') ? '' : '/'}${targetEndpoint}`;
+          }
+
+          const queryParamsObj: Record<string, string> = {};
+          Object.entries(currentInputs).forEach(([k, v]) => {
+            if (k !== 'inputContent' && v !== '' && v !== null && v !== undefined) {
+              queryParamsObj[k] = String(v);
+            }
+          });
+          
+          const queryParams = new URLSearchParams(queryParamsObj).toString();
+          const finalUrl = queryParams && targetEndpoint ? `${targetEndpoint}?${queryParams}` : targetEndpoint;
+
+          const response = await fetch(finalUrl);
+          const text = await response.text();
+          let data;
+          try {
+            data = text ? JSON.parse(text) : null;
+          } catch {
+            data = { rawText: text };
+          }
+
+          res = {
+            success: response.ok,
+            data: data || { message: "Suoritettu onnistuneesti" }
+          };
+        } catch (err: any) {
+          res = {
+            success: false,
+            error: err.message
+          };
+        }
+      } else {
+        throw new Error(`Työkalulla "${getText(selectedTool.name, lang) || selectedTool.id}" ei ole määritelty suoritustapaa (execute tai endpoint).`);
+      }
       
       const formattedRes = typeof res === 'object' && res !== null && 'success' in res 
         ? res 
@@ -522,7 +574,6 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
         </div>
 
         <div className="flex-1 overflow-y-auto p-2 space-y-4">
-          
           <div className="space-y-1">
             <div className="flex items-center justify-between px-2 py-1">
               <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
@@ -735,7 +786,6 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
       {/* PÄÄALUE */}
       <div className="flex-1 flex flex-col h-full bg-slate-900 overflow-y-auto">
         {activeTab === 'home' ? (
-          
           <div className="max-w-4xl mx-auto p-8 space-y-8 my-auto">
             <div className="bg-slate-950 border border-slate-800 rounded-2xl p-8 text-center shadow-2xl">
               <div className="inline-flex p-3 bg-cyan-950/50 border border-cyan-800/50 rounded-2xl text-cyan-400 mb-4">
@@ -748,7 +798,7 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
                 href="http://localhost:8080/OTHER/core/other/htmlreport/"
                 target="_blank"
                 rel="noreferrer"
-                className="bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold px-6 py-3 rounded-xl transition duration-200 shadow-lg cursor-pointer flex items-center gap-2 text-base inline-flex"
+                className="bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold px-6 py-3 rounded-xl transition duration-200 shadow-lg cursor-pointer flex items-center gap-2 text-base inline-flex mb-4"
               >
                 📥 {lang === 'fi' ? 'Avaa viimeisin ZAP Raportti':'Open latest ZAP Report' }
               </a>
@@ -801,16 +851,14 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
               </div>
             </div>
           </div>
-
         ) : activeTab === 'workflows' ? (
-          
           <div className="p-6 h-full flex flex-col">
             <WorkflowBuilder 
               tools={workflowTools} 
               lang={lang} 
               initialWorkflowSteps={selectedWorkflowSteps}
               onSaveHistory={handleSaveWorkflowHistory}
-              onExportData={handleExportWorkflowDataOnly} // Välitetään datan vientifunktio WorkflowBuilderille, jos se tukee sitä
+              onExportData={handleExportWorkflowDataOnly}
               t={{
                 workflowTitle: lang === 'fi' ? 'Automatisoidut Työnkulut' : 'Automated Workflows',
                 addStep: lang === 'fi' ? 'Lisää vaihe' : 'Add Step',
@@ -818,9 +866,7 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
               }} 
             />
           </div>
-
         ) : activeTab === 'plugins' ? (
-
           <div className="p-8 max-w-4xl mx-auto space-y-6 w-full">
             <div className="border-b border-slate-800 pb-4">
               <h1 className="text-2xl font-bold text-slate-100 flex items-center gap-2">
@@ -863,9 +909,7 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
               })}
             </div>
           </div>
-
         ) : activeTab === 'history' ? (
-
           <div className="p-8 max-w-4xl mx-auto space-y-6 w-full">
             <div className="flex items-center justify-between border-b border-slate-800 pb-4">
               <div>
@@ -874,7 +918,7 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
                   {lang === 'fi' ? 'Suoritushistoria' : 'Execution History'}
                 </h1>
                 <p className="text-slate-400 text-sm mt-1">
-                  {lang === 'fi' ? 'Valitse sivupalkin historiasta tai tarkastele laajemmin alta.' : 'Select from history in the sidebar or view details below.'}
+                  {lang === 'fi' ? 'Valitse sivupalkin historiasta tai tarkastele laajemmasti alta.' : 'Select from history in the sidebar or view details below.'}
                 </p>
               </div>
               {history.length > 0 && (
@@ -942,9 +986,7 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
               </div>
             )}
           </div>
-
         ) : activeTab === 'tools' && selectedTool ? (
-
           <>
             <div className="p-6 border-b border-slate-800 bg-slate-950/30">
               <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 mb-2 uppercase tracking-wider">
