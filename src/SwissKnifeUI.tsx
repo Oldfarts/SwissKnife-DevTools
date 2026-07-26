@@ -744,6 +744,14 @@ export function SwissKnifeUI({ initialLang = 'fi', onSaveData, loadData }: Swiss
               <h1 className="text-4xl font-extrabold text-slate-100 mb-4">
                 SwissKnife DevTools
               </h1>
+              <a
+                href="http://localhost:8080/OTHER/core/other/htmlreport/"
+                target="_blank"
+                rel="noreferrer"
+                className="bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold px-6 py-3 rounded-xl transition duration-200 shadow-lg cursor-pointer flex items-center gap-2 text-base inline-flex"
+              >
+                📥 {lang === 'en' ? 'Open latest ZAP Report' : 'Avaa viimeisin ZAP Raportti'}
+              </a>
               <p className="text-slate-400 text-base max-w-2xl mx-auto mb-6 leading-relaxed">
                 {lang === 'fi' 
                   ? 'Monipuolinen sveitsiläinen linkkuveitsi kehittäjille ja ylläpitäjille. Analysoi värejä, QR-koodeja, JSON/XML-muotoiluja ja automatisoituja työnkulkuja.'
