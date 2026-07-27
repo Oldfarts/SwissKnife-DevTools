@@ -1,0 +1,27 @@
+{
+  "name": "Työnkulku",
+  "steps": [
+    {
+      "id": "step-1785157691226-mznh",
+      "toolId": "owasp-zap-openapi-import",
+      "inputs": {
+        "url": "http://localhost:5173/mini-api.json"
+      }
+    },
+    {
+      "id": "step-1785157695399-jv3r",
+      "toolId": "zap-start-scan-fixed-v2",
+      "inputs": {
+        "url": "http://localhost:5173/mini-api.json",
+        "scanPolicyName": "Default Policy"
+      }
+    },
+    {
+      "id": "step-1785157712477-g1y0",
+      "toolId": "zap-generate-html-report",
+      "inputs": {
+        "reportTitle": "mini-api.json"
+      }
+    }
+  ]
+}
