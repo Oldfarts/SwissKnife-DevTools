@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Play, Plus, Trash2, CheckCircle, AlertCircle, History, Clock } from 'lucide-react';
+import { executeSwissTool } from '../src/tools/index';
 
 interface ToolInputDef {
   key: string;
@@ -12,12 +13,23 @@ interface ToolInputDef {
 
 interface Tool {
   id: string;
-  name: string;
-  description: string;
+  name: any; 
+  description: any;
   inputs?: ToolInputDef[];
   type?: string;
   endpoint?: string;
-  execute?: (inputs: Record<string, any>, lang: string) => Promise<any>;
+  executionMode?: string; 
+  pollConfig?: {          
+    idField?: string;
+    intervalMs?: number;
+    timeoutMs?: number;
+    statusEndpoint?: string;
+    statusParameter?: string;
+    statusField?: string;
+    finishedValue?: string;
+    resultEndpoint?: string;
+  };
+  execute?: (inputs: Record<string, any>, lang: string, onProgress?: (progress: number, message?: string) => void) => Promise<any>;
 }
 
 interface WorkflowStep {
@@ -162,15 +174,19 @@ export const WorkflowBuilder: React.FC<WorkflowBuilderProps> = ({
     try {
       let previousOutput: any = '';
 
-      for (const step of workflowSteps) {
+      for (let i = 0; i < workflowSteps.length; i++) {
+        const step = workflowSteps[i];
         const tool = tools.find(t => t.id === step.toolId);
         if (!tool) continue;
+        
+        console.log("Työkalu debug:", tool);
+        console.log(`[Workflow Progress] Aloitetaan askeleen #${i + 1} (${tool.id}) suoritus...`);
 
         const currentInputs = { ...step.inputs };
         
         // Automaattinen ketjutus
         if (previousOutput && tool.inputs) {
-          const textInput = tool.inputs.find(i => i.type === 'text' || i.type === 'textarea');
+          const textInput = tool.inputs.find(inp => inp.type === 'text' || inp.type === 'textarea');
           if (textInput && !currentInputs[textInput.key]) {
             const valToInject = typeof previousOutput === 'string' 
               ? previousOutput 
@@ -181,92 +197,18 @@ export const WorkflowBuilder: React.FC<WorkflowBuilderProps> = ({
 
         let res: any = { success: false, error: 'Tuntematon suoritustapa' };
 
-        if (tool.type === 'local' && tool.execute) {
-          let executeFn = tool.execute;
-
-          // Jos execute on tallennettu merkkijonona, muunnetaan se funktioksi lennosta
-          if (typeof executeFn === 'string') {
-            try {
-              executeFn = new Function(`return ${executeFn}`)();
-            } catch (e: any) {
-              console.error("Virhe funktion parsinnassa:", e);
+        try {
+          // Kaikki suoritukset (paikalliset, REST, pollaus) hoidetaan nyt keskitetysti täällä:
+          res = await executeSwissTool(
+            tool,
+            currentInputs,
+            lang,
+            (progress, message) => {
+              console.log(`[Workflow Progress] Askel #${i + 1} (${tool.id}) - ${progress}%: ${message || ''}`);
             }
-          }
-
-          if (typeof executeFn === 'function') {
-            try {
-              res = await executeFn(currentInputs, lang);
-            } catch (execErr: any) {
-              res = { success: false, error: execErr.message };
-            }
-          } else {
-            res = { success: false, error: 'Työkalun execute ei ole kelvollinen funktio' };
-          }
-        } else if (tool.endpoint) {
-          try {
-            const { apiPath, ...restInputs } = currentInputs;
-            let fullEndpoint = tool.endpoint;
-            
-            if (apiPath) {
-              const cleanBasePath = fullEndpoint.replace(/\/+$/, '');
-              const cleanApiPath = apiPath.replace(/^\/+/, '');
-              fullEndpoint = `${cleanBasePath}/${cleanApiPath}`;
-            }
-
-            const queryParamsObj: Record<string, string> = {};
-            Object.entries(restInputs).forEach(([k, v]) => {
-              if (v !== '' && v !== null && v !== undefined) {
-                queryParamsObj[k] = String(v);
-              }
-            });
-
-            const queryParams = new URLSearchParams(queryParamsObj).toString();
-            
-            // PAKOTETAAN KÄYTTÄMÄÄN VITE-PROXYÄ (/zap-api) CORS-virheiden välttämiseksi
-            let targetEndpoint = fullEndpoint;
-            if (targetEndpoint.startsWith('http://localhost:8080')) {
-              targetEndpoint = targetEndpoint.replace('http://localhost:8080', '/zap-api');
-            } else if (!targetEndpoint.startsWith('/zap-api')) {
-              targetEndpoint = `/zap-api${targetEndpoint.startsWith('/') ? '' : '/'}${targetEndpoint}`;
-            }
-
-            const finalUrl = queryParams ? `${targetEndpoint}?${queryParams}` : targetEndpoint;
-
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 60000);
-
-            let response;
-            try {
-              response = await fetch(finalUrl, { signal: controller.signal });
-            } catch (networkError: any) {
-              clearTimeout(timeoutId);
-              if (tool.id?.includes('import') || tool.id?.includes('scan') || networkError.name === 'AbortError') {
-                const backgroundData = { message: "Komento lähetetty ZAPille (ajo käynnissä taustalla)." };
-                executionResults.push({
-                  toolName: typeof tool.name === 'object' ? (tool.name[lang] || tool.name.fi || tool.name.en) : tool.name,
-                  success: true,
-                  data: backgroundData
-                });
-                previousOutput = backgroundData;
-                continue;
-              }
-              throw networkError;
-            } finally {
-              clearTimeout(timeoutId);
-            }
-
-            const text = await response.text();
-            let data = null;
-            try {
-              data = text ? JSON.parse(text) : null;
-            } catch {
-              data = { rawText: text };
-            }
-
-            res = { success: response.ok, data: data || { message: "Suoritettu onnistuneesti" } };
-          } catch (err: any) {
-            res = { success: false, error: err.message };
-          }
+          );
+        } catch (err: any) {
+          res = { success: false, error: err.message };
         }
 
         const resolvedToolName = typeof tool.name === 'object' 
@@ -280,9 +222,11 @@ export const WorkflowBuilder: React.FC<WorkflowBuilderProps> = ({
           error: res.error
         });
 
+        console.log(`[Workflow Progress] Askel #${i + 1} (${tool.id}): 100% - Valmis.`, res);
         previousOutput = res.data ?? res;
       }
     } catch (error: any) {
+      console.error("[Workflow Progress] Vakava virhe työnkulussa:", error);
       executionResults.push({
         toolName: 'Yleinen virhe',
         success: false,
@@ -338,7 +282,7 @@ export const WorkflowBuilder: React.FC<WorkflowBuilderProps> = ({
                   >
                     {tools.map((tool) => (
                       <option key={tool.id} value={tool.id}>
-                        {tool.name}
+                        {typeof tool.name === 'object' ? (tool.name[lang] || tool.name.fi || tool.name.en) : tool.name}
                       </option>
                     ))}
                   </select>

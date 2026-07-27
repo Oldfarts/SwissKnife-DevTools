@@ -31,7 +31,8 @@
         }
       }
     ],
-      "execute": "async (inputs) => { const waitTimeSec = Number(inputs?.seconds ?? inputs?.inputContent ?? 10) || 10; await new Promise((resolve) => setTimeout(resolve, waitTimeSec * 1000)); return { success: true, data: inputs?.inputContent ?? 'Odotettu ' + waitTimeSec + ' sekuntia' }; }"  },
+      "execute": "async (inputs) => { const waitTimeSec = Number(inputs?.seconds ?? inputs?.inputContent ?? 10) || 10; await new Promise((resolve) => setTimeout(resolve, waitTimeSec * 1000)); return { success: true, data: inputs?.inputContent ?? 'Odotettu ' + waitTimeSec + ' sekuntia' }; }"  
+  },
   {
     "id": "aws-s3-checker",
     "version": "1.0.0",
@@ -171,38 +172,55 @@
   },
   {
     "id": "zap-start-scan-fixed-v2",
-    "name": { 
-      "fi": "Käynnistä ZAP Skannaus Politiikalla", 
-      "en": "Start ZAP Scan with Policy" 
-    },
-    "description": { 
-      "fi": "Käynnistää aktiivisen skannauksen määritellyllä politiikalla.", 
-      "en": "Starts active scan with a specified policy." 
-    },
     "version": "2.1.0",
     "author": "Jani Ärväs",
+    "name": {
+      "fi": "Käynnistä ZAP Skannaus Politiikalla",
+      "en": "Start ZAP Scan with Policy"
+    },
+    "description": {
+      "fi": "Käynnistää aktiivisen skannauksen.",
+      "en": "Starts active scan."
+    },
     "category": {
       "fi": "ULKOPUOLISET PLUGINIT",
       "en": "OUT PLUGINS"
     },
     "type": "rest-api",
     "endpoint": "/zap-api/JSON/ascan/action/scan/",
+    "executionMode": "poll",
+    "pollConfig": {
+      "idField": "scan",
+      "intervalMs": 100,
+      "timeoutMs": 600000,
+      "statusEndpoint": "/zap-api/JSON/ascan/view/status/",
+      "statusParameter": "scanId",
+      "statusField": "status",
+      "finishedValue": "100",
+      "resultEndpoint": "/zap-api/JSON/core/view/alerts/"
+    },
     "inputs": [
       {
         "key": "url",
-        "label": { "fi": "Kohde-URL", "en": "Target URL" },
+        "label": {
+          "fi": "Kohde URL",
+          "en": "Target URL"
+        },
         "type": "text",
         "default": "https://petstore3.swagger.io"
       },
       {
         "key": "scanPolicyName",
-        "label": { "fi": "Politiikan nimi", "en": "Policy Name" },
+        "label": {
+          "fi": "Politiikan nimi",
+          "en": "Policy Name"
+        },
         "type": "text",
         "default": "Default Policy"
       }
     ]
   },
-{
+  {
     "id": "zap-generate-html-report",
     "name": { 
       "fi": "Generoi ZAP HTML-raportti", 
@@ -228,5 +246,34 @@
       }
     ],
     "execute": "async (inputs) => { try { const res = await fetch('/zap-api/OTHER/core/other/htmlreport/'); const html = await res.text(); return { success: true, data: { message: 'HTML-raportti haettu onnistuneesti', length: html.length } }; } catch (e) { return { success: false, error: e.message }; } }"
+  },
+  {
+    "id": "image-exif-reader",
+    "version": "1.1.0",
+    "author": "Jani Ärväs",
+    "name": {
+      "fi": "Kuvien EXIF Lukija",
+      "en": "Image EXIF Reader"
+    },
+    "description": {
+      "fi": "Lukee ja näyttää kuvatiedoston (JPG/PNG) EXIF-metatiedot suoraan selaimessa.",
+      "en": "Reads and displays EXIF metadata from an image file directly in the browser."
+    },
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "local",
+    "inputs": [
+      {
+        "key": "imageFile",
+        "type": "file",
+        "label": {
+          "fi": "Valitse kuvatiedosto työpöydältä",
+          "en": "Select image file"
+        }
+      }
+    ],
+    "execute": "async (inputs) => { const file = inputs.imageFile; if (!file) { return { success: false, error: 'Tiedostoa ei valittu.' }; } return { success: true, data: { name: file.name, size: file.size, type: file.type, lastModified: new Date(file.lastModified).toLocaleString(), message: 'Kuva vastaanotettu onnistuneesti selaimessa.' } }; }"
   }
 ]

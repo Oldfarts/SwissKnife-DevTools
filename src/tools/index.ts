@@ -27,6 +27,8 @@ import { restPythonUnitTestGeneratorTool } from './restPythonUnitTestGeneratorTo
 import { soapPythonUnitTestGeneratorTool } from './soapPythonUnitTestGeneratorTool';
 import { WorkflowManager } from './workflowStorage';
 import registryData from "../../main/registry.json";
+import { executePolling } from "./executors/pollingExecutor";
+import { callRest } from "./executors/restExecutor";
 
 import { REST_DNS_TOOL } from './REST_DNS_TOOL';
 import { JSON_FORMATTER_TOOL } from './JSON_FORMATTER_TOOL';
@@ -56,96 +58,150 @@ export function hydratePlugin(plugin: any) {
 }
 
 export const executeSwissTool = async (
-  tool: any,
-  inputs: Record<string, any>,
-  lang: 'fi' | 'en' = 'fi'
+    tool: SwissTool,
+    inputs: Record<string, any>,
+    lang: Language = "fi",
+    onProgress?: (progress: number, message?: string) => void
 ) => {
-  // 1. Varmistetaan turvallisesti, että plugin on hydratoitu (jos execute on stringinä)
-  let executableTool = tool;
-  if (tool && typeof tool.execute === 'string') {
-    try {
-      const fn = new Function('return ' + tool.execute)();
-      executableTool = { ...tool, execute: fn };
-    } catch (e) {
-      console.error('Virhe execute-funktion parsinnassa:', e);
-    }
-  }
 
-  // 2. Jos työkalulla on validi execute-funktio (esim. paikallinen tai utility-wait), ajetaan se
-  if (executableTool && typeof executableTool.execute === 'function') {
-    try {
-      return await executableTool.execute(inputs, lang);
-    } catch (err: any) {
-      return { success: false, error: 'Virhe työkalun suorituksessa: ' + err.message };
-    }
-  }
+    let executableTool =
+        tool && typeof tool.execute === "string"
+            ? hydratePlugin(tool)
+            : tool;
 
-  // 3. Jos kyseessä on REST-API työkalu (eikä erillistä execute-funktiota ole)
-  if (executableTool && executableTool.type === 'rest-api' && executableTool.endpoint) {
-    try {
-      const { apiPath, ...restInputs } = inputs;
-
-      if (restInputs.targetUrl && !restInputs.url) {
-        restInputs.url = restInputs.targetUrl;
-        delete restInputs.targetUrl;
-      }
-
-      let fullEndpoint = executableTool.endpoint;
-      if (apiPath) {
-        const cleanBasePath = executableTool.endpoint.replace(/\/+$/, '');
-        const cleanApiPath = apiPath.replace(/^\/+/, '');
-        fullEndpoint = `${cleanBasePath}/${cleanApiPath}`;
-      }
-
-      const filteredInputs = Object.fromEntries(
-        Object.entries(restInputs).filter(([_, v]) => v !== '' && v !== null && v !== undefined)
-      );
-      
-      const queryParams = new URLSearchParams(filteredInputs);
-      const queryParamsString = queryParams.toString();
-      
-      let targetEndpoint = fullEndpoint;
-      if (targetEndpoint.startsWith('http://localhost:8080')) {
-        targetEndpoint = targetEndpoint.replace('http://localhost:8080', '/zap-api');
-      } else if (!targetEndpoint.startsWith('/zap-api')) {
-        targetEndpoint = `/zap-api${targetEndpoint.startsWith('/') ? '' : '/'}${targetEndpoint}`;
-      }
-
-      const finalUrl = queryParamsString ? `${targetEndpoint}?${queryParamsString}` : targetEndpoint;
-      
-      let response;
-      try {
-        response = await fetch(finalUrl);
-      } catch (networkError) {
-        return {
-          success: true,
-          data: { message: lang === 'fi' ? "Komento lähetetty ZAPille (ajo käynnissä)." : "Command sent to ZAP (execution running)." }
+    // --- PAKOTETAAN POLLING ZAP-TYÖKALULLE, JOS SITÄ EI LÖYDY ---
+    if (executableTool && executableTool.id === "zap-start-scan-fixed-v2") {
+        executableTool.executionMode = "poll";
+        executableTool.pollConfig = {
+            idField: "scan",
+            intervalMs: 100,
+            timeoutMs: 600000,
+            statusEndpoint: "/zap-api/JSON/ascan/view/status/",
+            statusParameter: "scanId",
+            statusField: "status",
+            finishedValue: "100",
+            resultEndpoint: "/zap-api/JSON/core/view/alerts/"
         };
-      }
-
-      const text = await response.text();
-      let data = null;
-      try {
-        data = text ? JSON.parse(text) : null;
-      } catch (parseErr) {
-        data = { message: text };
-      }
-
-      return { success: response.ok, data: data || { message: "Suoritettu onnistuneesti" } };
-    } catch (err: any) {
-      return {
-        success: false,
-        error: 'REST API virhe: ' + err.message
-      };
     }
-  }
+    // -------------------------------------------------------------
 
-  return { 
-    success: false, 
-    error: lang === 'fi' ? 'Työkalun suoritustapaa (execute tai endpoint) ei löydetty.' : 'Tool execution method not found.' 
-  };
+    console.log("EXECUTE TOOL DEBUG:", executableTool.id, executableTool.executionMode, executableTool.pollConfig);
+    
+    // ... loppu koodista ennallaan ...
+    //--------------------------------------------------
+    // LOCAL TOOL
+    //--------------------------------------------------
+
+    if (typeof executableTool.execute === "function") {
+        try {
+            onProgress?.(0, "Starting...");
+
+            const result = await executableTool.execute(
+                inputs,
+                lang,
+                onProgress
+            );
+            onProgress?.(100, "Completed");
+            return result;
+
+        } catch (err: any) {
+            return {
+                success: false,
+                error: "Virhe työkalun suorituksessa: " + err.message
+            };
+        }
+    }
+
+    //--------------------------------------------------
+    // REST TOOL
+    //--------------------------------------------------
+
+    if (
+        executableTool.type === "rest-api" &&
+        executableTool.endpoint
+    ) {
+
+        try {
+            const { apiPath, ...restInputs } = inputs;
+
+            //----------------------------------------------
+            // targetUrl -> url
+            //----------------------------------------------
+
+            if (restInputs.targetUrl && !restInputs.url) {
+                restInputs.url = restInputs.targetUrl;
+                delete restInputs.targetUrl;
+            }
+
+            //----------------------------------------------
+            // Runtime endpoint
+            //----------------------------------------------
+
+            let endpoint = executableTool.endpoint;
+
+            if (apiPath) {
+                const cleanBase =
+                    executableTool.endpoint.replace(/\/+$/, "");
+                const cleanPath =
+                    apiPath.replace(/^\/+/, "");
+                endpoint = `${cleanBase}/${cleanPath}`;
+            }
+
+            //----------------------------------------------
+            // Runtime tool
+            //----------------------------------------------
+
+            const runtimeTool: SwissTool = {
+                ...executableTool,
+                endpoint
+            };
+
+            //----------------------------------------------
+            // POLLING EXECUTOR
+            //----------------------------------------------
+            if (runtimeTool.executionMode === "poll") {
+                return await executePolling(
+                    runtimeTool,
+                    restInputs,
+                    onProgress
+                );
+            }
+
+            //----------------------------------------------
+            // NORMAL REST EXECUTOR
+            //----------------------------------------------
+
+            onProgress?.(0, "Connecting...");
+
+            const result = await callRest(
+                runtimeTool.endpoint!,
+                restInputs
+            );
+
+            onProgress?.(100, "Completed");
+            return {
+                success: result.ok,
+                data: result.data
+            };
+        } catch (err: any) {
+            return {
+                success: false,
+                error: "REST API virhe: " + err.message
+            };
+        }
+    }
+    //--------------------------------------------------
+    // Unsupported tool
+    //--------------------------------------------------
+
+    return {
+        success: false,
+        error:
+            lang === "fi"
+                ? "Työkalun suoritustapaa ei löytynyt."
+                : "Tool execution method not found."
+    };
 };
-
 // Kootaan kaikki työkalut yhteen taulukkoon
 export const ALL_TOOLS: SwissTool[] = [
   ...jsonTools, // kehitys & data

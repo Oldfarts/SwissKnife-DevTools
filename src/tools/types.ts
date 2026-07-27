@@ -31,7 +31,17 @@ export interface SwissTool {
   type: 'local' | 'rest-api';
   endpoint?: string;
   inputs: InputField[];
-  execute?: (inputs: Record<string, any>, lang: Language) => Promise<{ success: boolean; data?: any; error?: string }>;
+  execute?: (
+    inputs: Record<string, any>,
+    lang: Language
+  ) => Promise<{
+    success: boolean;
+    data?: any;
+    error?: string;
+  }>;
+
+  executionMode?: "sync" | "poll";
+  pollConfig?: PollConfig;
 }
 
 export function getText(textObj: { fi: string; en: string } | string | undefined, lang: Language): string {
@@ -44,4 +54,32 @@ export function getText(textObj: { fi: string; en: string } | string | undefined
 export interface WorkflowStep {
   toolId: string;
   customInputs?: Record<string, any>;
+}
+
+export interface PollConfig {
+  // Kenttä, josta käynnistyksen yhteydessä saadaan Job ID
+  idField?: string;
+  // Pollauksen aikaväli
+  intervalMs?: number;
+  // Maksimiaika
+  timeoutMs?: number;
+  // Status-rajapinta
+  statusEndpoint: string;
+  // Parametrin nimi (esim. scanId)
+  statusParameter?: string;
+  // Kenttä, josta status luetaan
+  statusField: string;
+  // Arvo, joka tarkoittaa valmistumista
+  finishedValue: string;
+  // Lopputulos haetaan tästä (valinnainen)
+  resultEndpoint?: string;
+}
+
+export interface WorkflowProgress {
+  currentStep: number;
+  totalSteps: number;
+  toolId: string;
+  toolName: string;
+  progress: number;
+  message?: string;
 }
