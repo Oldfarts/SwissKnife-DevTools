@@ -1,6 +1,6 @@
 import { SwissTool } from './types';
 
-export const REST_DNS_TOOL: SwissTool = {
+export const restDnsTool: SwissTool = {
   id: 'rest-dns-lookup',
   name: { fi: 'REST: DNS-haku', en: 'REST: DNS Lookup' },
   category: { fi: 'Verkko', en: 'Network' },

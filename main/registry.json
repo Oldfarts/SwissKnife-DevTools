@@ -126,7 +126,7 @@
           "fi": "OpenAPI URL",
           "en": "OpenAPI URL"
         },
-        "default": "https://petstore.swagger.io/v2/swagger.json"
+        "default": "http://localhost:5173/mini-api.json"
       }
     ]
   },
@@ -207,7 +207,7 @@
           "en": "Target URL"
         },
         "type": "text",
-        "default": "https://petstore3.swagger.io"
+        "default": "http://localhost:5173/mini-api.json"
       },
       {
         "key": "scanPolicyName",
@@ -245,7 +245,7 @@
         "default": "SwissKnife Security Audit Report"
       }
     ],
-    "execute": "async (inputs) => { try { const res = await fetch('/zap-api/OTHER/core/other/htmlreport/'); const html = await res.text(); return { success: true, data: { message: 'HTML-raportti haettu onnistuneesti', length: html.length } }; } catch (e) { return { success: false, error: e.message }; } }"
+    "execute": "async (inputs) => { try { const res = await fetch('/zap-api/OTHER/core/other/htmlreport/'); const html = await res.text(); const blob = new Blob([html], { type: 'text/html' }); const url = window.URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'zap-security-report.html'; document.body.appendChild(a); a.click(); window.URL.revokeObjectURL(url); document.body.removeChild(a); return { success: true, data: { message: 'HTML-raportti haettu ja tallennettu tiedostona onnistuneesti', length: html.length } }; } catch (e) { return { success: false, error: e.message }; } }"
   },
   {
     "id": "image-exif-reader",

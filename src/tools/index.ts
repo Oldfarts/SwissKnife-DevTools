@@ -30,8 +30,8 @@ import registryData from "../../main/registry.json";
 import { executePolling } from "./executors/pollingExecutor";
 import { callRest } from "./executors/restExecutor";
 
-import { REST_DNS_TOOL } from './REST_DNS_TOOL';
-import { JSON_FORMATTER_TOOL } from './JSON_FORMATTER_TOOL';
+import { restDnsTool } from './restDnsTool';
+import { jsonFormatterTool } from './jsonFormatterTool';
 export * from './types';
 
 // Varmistetaan että AVAILABLE_PLUGINS on varmasti taulukko
@@ -74,7 +74,7 @@ export const executeSwissTool = async (
         executableTool.executionMode = "poll";
         executableTool.pollConfig = {
             idField: "scan",
-            intervalMs: 100,
+            intervalMs: 500,
             timeoutMs: 600000,
             statusEndpoint: "/zap-api/JSON/ascan/view/status/",
             statusParameter: "scanId",
@@ -230,6 +230,6 @@ export const ALL_TOOLS: SwissTool[] = [
   soapUnitTestGeneratorTool, // AI & Testaus
   restPythonUnitTestGeneratorTool, // AI & Testaus
   soapPythonUnitTestGeneratorTool, // AI & Testaus
-  REST_DNS_TOOL, // Verkko & DNS
-  JSON_FORMATTER_TOOL, // Kehitys & data
+  restDnsTool, // Verkko & DNS
+  jsonFormatterTool, // Kehitys & data
 ];
