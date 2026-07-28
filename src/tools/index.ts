@@ -28,9 +28,10 @@ import { WorkflowManager } from './workflowStorage';
 import registryData from "../../main/registry.json";
 import { executePolling } from "./executors/pollingExecutor";
 import { callRest } from "./executors/restExecutor";
-
 import { restDnsTool } from './restDnsTool';
 import { jsonFormatterTool } from './jsonFormatterTool';
+import { playwrightTestTool } from '../tools/playwright/playwrightTestTool';
+
 export * from './types';
 
 // Varmistetaan että AVAILABLE_PLUGINS on varmasti taulukko
@@ -230,4 +231,5 @@ export const ALL_TOOLS: SwissTool[] = [
   soapPythonUnitTestGeneratorTool, // AI & Testaus
   restDnsTool, // Verkko & DNS
   jsonFormatterTool, // Kehitys & data
+  playwrightTestTool, // Verkko & Testaus
 ];

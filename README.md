@@ -52,6 +52,30 @@ Projekti pitää sisällään seuraavat kattavat työkalukategoriat:
 ### 11. Automatisoidut Työnkulut (`WorkflowBuilder.tsx` & `WorkflowStorage.ts`)
 * Mahdollistaa useamman työkalun ketjuttamisen automatisoiduiksi työnkuluiksi (reseptit).
 * Sisältää tuonnin ja viennin JSON-tiedostoina (`WorkflowManager`).
-* Sisältää esimerkki tiedoston \SwissKnife-DevTools\src\example-workflows\Työnkulku.json
+* Sisältää esimerkki tiedoston `\SwissKnife-DevTools\src\example-workflows\Työnkulku.json`.
 
 <img width="1919" height="1033" alt="image" src="https://github.com/user-attachments/assets/098671c3-f0b4-47e1-b40c-842b2da86a4b" />
+---
+
+## 🤖 Kehittäjän Työkalut & Taustapalvelut (Playwright & OWASP ZAP)
+
+Projekti sisältää valmiit integrointi- ja automatisointityökalut selaimen ohjaukseen sekä tietoturvatestaukseen:
+
+### Playwright (Selainautomaatio & Testit)
+Sijainti: `src\tools\playwright\`
+* **Käynnistys:** Voit käynnistää Playwright-taustapalvelun erilliseen komentorivi-ikkunaan suoraan Vite-kehityspalvelimen kautta tai ajamalla projektin juuresta `start-playwrightServer.bat`.
+* **Testien ajaminen UI-tilassa:**
+  ```bash
+  cd src\tools\playwright
+  npx playwright test testRestExecution.spec.js --ui
+
+Tallennus (Codegen):
+
+Bash
+npx playwright codegen http://localhost:5173
+OWASP ZAP (Tietoturva & Daemon)
+Sijainti: start-ZAP.bat / C:\Program Files\ZAP\Zed Attack Proxy\Zap.bat
+
+Käynnistys: ZAP voidaan käynnistää automaattisesti taustalle (Daemon-tilassa portissa 8080 ilman API-avainrajoituksia) suoraan vite.config.ts-tiedoston kautta kehitysympäristön käynnistyessä (npm run dev).
+
+Proxy-tuki: Vite-kehityspalvelin välittää automaattisesti pyynnöt osoitteesta /zap-api suoraan paikalliselle ZAP-rajapinnalle.

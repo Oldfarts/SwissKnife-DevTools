@@ -10,12 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
     "jsqr": "^1.4.0",
     "lucide-react": "^1.25.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.0",
     "@rolldown/binding-win32-x64-msvc": "^1.2.0",
     "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^24.13.2",
@@ -23,6 +26,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.3",
     "oxlint": "^1.71.0",
+    "playwright": "^1.62.0",
     "typescript": "~6.0.2",
     "vite": "^8.1.1"
   }
