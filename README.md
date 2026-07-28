@@ -23,17 +23,19 @@ Näillä ohjeilla saat projektin kloonattua ja käynnistettyä omalla koneellasi
    ```bash
    npm run dev
 
-5. **OWASP ZAP, lataa ja asenna se os.https://www.zaproxy.org/download/ **
+5. **OWASP ZAP, lataa ja asenna se os.https://www.zaproxy.org/download/**
 
 6. **OWASP ZAP & API Key -asetukset (No Key / Avaimeton tila):**
 
 6.1 **Intro**
+
 Oletuksena OWASP ZAP vaatii API-avaimen (API key) kaikkien skriptien, proxyn ja API-kutsujen yhteydessä turvallisuussyistä. Kun kehitetään paikallisesti (esim. SwissKnife DevTools -projektin sisällä tai automaatiotesteissä), API-avaimen kysely tai sen puuttumisesta johtuvat `401 Unauthorized` -virheet halutaan usein kytkeä pois päältä.
 
 Tässä ovat tavat, miten OWASP ZAP saadaan ajettua ilman API-avainta (**No Key**):
 -config api.disablekey=true: Tämä parametri kertoo ZAP:lle, että API-kutsuja voi tehdä vapaasti ilman apikey-muuttujaa.
 
 6.2.**Manuaalinen käynnistys komentoriviltä ilman avainta**
+
 Jos käynnistät ZAP:n manuaalisesti erillisestä .bat-tiedostosta tai komentoriviltä daemon-tilassa, lisää komennon perään sama konfiguraatiolipuke:
 
    ```bash
