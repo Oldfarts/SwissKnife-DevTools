@@ -249,7 +249,7 @@
   },
   {
     "id": "image-exif-reader",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "author": "Jani Ärväs",
     "name": {
       "fi": "Kuvien EXIF Lukija",
@@ -274,6 +274,35 @@
         }
       }
     ],
-    "execute": "async (inputs) => { const file = inputs.imageFile; if (!file) { return { success: false, error: 'Tiedostoa ei valittu.' }; } return { success: true, data: { name: file.name, size: file.size, type: file.type, lastModified: new Date(file.lastModified).toLocaleString(), message: 'Kuva vastaanotettu onnistuneesti selaimessa.' } }; }"
-  }
+    "execute": "async (inputs) => { const raw = inputs.imageFile; if (!raw) { return { success: false, error: 'Tiedostoa ei valittu.' }; } let base64Data = typeof raw === 'string' ? raw : (raw.data || JSON.stringify(raw)); let approxBytes = Math.round((base64Data.length * 3) / 4); return { success: true, data: { format: 'Base64 / Data URL', estimatedSizeKb: Math.round(approxBytes / 1024), previewLength: base64Data.length, base64Snippet: base64Data.substring(0, 50) + '...', message: 'Kuva muunnettu ja vastaanotettu Base64-muodossa.' } }; }"
+  },
+  {
+  "id": "image-exif-reader2",
+  "version": "1.0.0",
+  "author": "Jani Ärväs",
+  "name": {
+    "fi": "Kuvien base64 muuntaja",
+    "en": "Image base64 converter"
+  },
+  "description": {
+    "fi": "Lukee ja näyttää kuvatiedoston (JPG/PNG) EXIF-metatiedot suoraan selaimessa.",
+    "en": "Reads and displays EXIF metadata from an image file directly in the browser."
+  },
+  "category": {
+    "fi": "ULKOPUOLISET PLUGINIT",
+    "en": "OUT PLUGINS"
+  },
+  "type": "local",
+  "inputs": [
+    {
+      "key": "imageFile",
+      "type": "file",
+      "label": {
+        "fi": "Valitse kuvatiedosto työpöydältä",
+        "en": "Select image file"
+      }
+    }
+  ],
+  "execute": "async (inputs) => { const raw = inputs.imageFile; if (!raw) { return { success: false, error: 'Tiedostoa ei valittu.' }; } let base64Data = typeof raw === 'string' ? raw : (raw.data || JSON.stringify(raw)); let approxBytes = Math.round((base64Data.length * 3) / 4); return { success: true, data: { format: 'Base64 / Data URL', estimatedSizeKb: Math.round(approxBytes / 1024), previewLength: base64Data.length, base64Snippet: base64Data.substring(0, 50) + '...', message: 'Kuva muunnettu ja vastaanotettu Base64-muodossa.' } }; }"
+}
 ]

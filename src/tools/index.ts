@@ -1,5 +1,4 @@
 import { SwissTool, Language, getText } from './types';
-//import { jwtDecoderTool } from './jwtDecoder';
 import { regexTesterTool } from './regexTester';
 import { colorConverterTool } from './colorConverter';
 import { jsonTools } from './jsonTools';
@@ -217,7 +216,6 @@ export const ALL_TOOLS: SwissTool[] = [
   ...fileTools, // kehitys & data
   qrAnalyzerTool, // Tietoturva & Utilitetit
   logAnalyzerTool, // Tietoturva & Utilitetit
-  //jwtDecoderTool,
   regexTesterTool, // Teksti & koodi
   colorConverterTool, // Muotoilu
   ...sslTools, // Verkko

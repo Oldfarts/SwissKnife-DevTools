@@ -825,7 +825,7 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
                 </div>
                 <div className="text-slate-300 space-y-2 text-sm font-sans">
                   <p><strong>{lang === 'fi' ? 'Kehittäjä' : 'Developer'}:</strong> Jani Ärväs 2026 (with help of Gemini AI)</p>
-                  <p><strong>GitHub:</strong> <a href="https://github.com/oldfarts" target="_blank" rel="noreferrer" className="text-cyan-400 hover:underline">https://github.com/oldfarts</a></p>
+                  <p><strong>GitHub:</strong> <a href="https://github.com/Oldfarts/SwissKnife-DevTools" target="_blank" rel="noreferrer" className="text-cyan-400 hover:underline">https://github.com/Oldfarts/SwissKnife-DevTools</a></p>
                 </div>
               </div>
 
