@@ -282,7 +282,6 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
     try {
       let res;
       
-      // Valmistellaan execute-funktio tarvittaessa
       let executeFn = selectedTool.execute;
       if (typeof executeFn === 'string') {
         try {
@@ -292,7 +291,6 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
         }
       }
 
-      // Moottori: Tuetaan executeWithPolling, paikallista execute-funktiota tai automaattista REST-API fetch-kutsua
       if (typeof selectedTool.executeWithPolling === 'function') {
         res = await selectedTool.executeWithPolling(currentInputs);
       } else if (typeof executeFn === 'function') {
@@ -439,11 +437,16 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
     setWorkflowsList((prev) => prev.filter((wf) => wf.id !== id));
   };
 
+  // Lajiteltu ja suodatettu työkalulista (Aakkosjärjestys lisätty)[cite: 2]
   const filteredTools = tools.filter((tool) => {
     const name = getText(tool.name, lang).toLowerCase();
     const cat = getText(tool.category, lang).toLowerCase();
     const q = searchQuery.toLowerCase();
     return name.includes(q) || cat.includes(q);
+  }).sort((a, b) => {
+    const nameA = getText(a.name, lang).toLowerCase();
+    const nameB = getText(b.name, lang).toLowerCase();
+    return nameA.localeCompare(nameB);
   });
 
   const groupedTools = filteredTools.reduce((acc, tool, index) => {
@@ -806,7 +809,6 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
               </a>
               <button
                   onClick={() => {
-                    // Kutsuu taustalle endpointtia, joka käynnistää .bat-tiedoston
                     fetch('http://localhost:3000/api/run-playwright-bat', { method: 'POST' })
                       .then(res => res.json())
                       .then(data => alert(lang === 'fi' ? 'Playwright-serveri käynnistetty!' : 'Playwright server started!'))
@@ -893,7 +895,12 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
             </div>
 
             <div className="grid grid-cols-1 gap-4">
-              {AVAILABLE_PLUGINS.map((plugin, idx) => {
+              {/* Plugin-listan aakkosjärjestyslajittelu lisätty[cite: 2] */}
+              {[...AVAILABLE_PLUGINS].sort((a, b) => {
+                const nameA = getText(a.name, lang).toLowerCase();
+                const nameB = getText(b.name, lang).toLowerCase();
+                return nameA.localeCompare(nameB);
+              }).map((plugin, idx) => {
                 const isInstalled = installedPluginIds.includes(plugin.id);
                 return (
                   <div key={plugin.id || `plugin-${idx}`} className="p-5 bg-slate-950 border border-slate-800 rounded-xl flex items-center justify-between">

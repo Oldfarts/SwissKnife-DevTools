@@ -145,8 +145,8 @@
     "version": "2.1.0",
     "author": "Jani Ärväs",
     "name": {
-      "fi": "Käynnistä ZAP Skannaus Politiikalla",
-      "en": "Start ZAP Scan with Policy"
+      "fi": "OWASP ZAP - Käynnistä ZAP Skannaus Politiikalla",
+      "en": "OWASP ZAP - Start ZAP Scan with Policy"
     },
     "description": {
       "fi": "Käynnistää aktiivisen skannauksen.",
@@ -193,8 +193,8 @@
   {
     "id": "zap-generate-html-report",
     "name": { 
-      "fi": "Generoi ZAP HTML-raportti", 
-      "en": "Generate ZAP HTML Report" 
+      "fi": "OWASP ZAP - Generoi ZAP HTML-raportti", 
+      "en": "OWASP ZAP - Generate ZAP HTML Report" 
     },
     "description": { 
       "fi": "Hakee tietoturvaskannauksen tulokset OWASP ZAP:lta ja muodostaa niistä HTML-raportin.", 

@@ -184,7 +184,6 @@ export const WorkflowBuilder: React.FC<WorkflowBuilderProps> = ({
 
         const currentInputs = { ...step.inputs };
         
-        // Automaattinen ketjutus
         if (previousOutput && tool.inputs) {
           const textInput = tool.inputs.find(inp => inp.type === 'text' || inp.type === 'textarea');
           if (textInput && !currentInputs[textInput.key]) {
@@ -198,7 +197,6 @@ export const WorkflowBuilder: React.FC<WorkflowBuilderProps> = ({
         let res: any = { success: false, error: 'Tuntematon suoritustapa' };
 
         try {
-          // Kaikki suoritukset (paikalliset, REST, pollaus) hoidetaan nyt keskitetysti täällä:
           res = await executeSwissTool(
             tool,
             currentInputs,
@@ -280,7 +278,12 @@ export const WorkflowBuilder: React.FC<WorkflowBuilderProps> = ({
                     onChange={(e) => updateStepTool(index, e.target.value)}
                     className="flex-1 bg-slate-900 border border-slate-700 rounded-md px-3 py-2 text-slate-100 text-sm focus:outline-none focus:border-cyan-500 cursor-pointer"
                   >
-                    {tools.map((tool) => (
+                    {/* Työkalujen aakkosjärjestyslajittelu lisätty[cite: 3] */}
+                    {[...tools].sort((a, b) => {
+                      const nameA = (typeof a.name === 'object' ? (a.name[lang] || a.name.fi || a.name.en) : a.name).toLowerCase();
+                      const nameB = (typeof b.name === 'object' ? (b.name[lang] || b.name.fi || b.name.en) : b.name).toLowerCase();
+                      return nameA.localeCompare(nameB);
+                    }).map((tool) => (
                       <option key={tool.id} value={tool.id}>
                         {typeof tool.name === 'object' ? (tool.name[lang] || tool.name.fi || tool.name.en) : tool.name}
                       </option>
