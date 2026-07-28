@@ -1,4 +1,4 @@
-import { SwissTool } from './types';
+import { SwissTool } from '../tools/types';
 
 export const jwtDecoderTool: SwissTool = {
   id: 'jwt-decoder',

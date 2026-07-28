@@ -1,4 +1,4 @@
-import { SwissTool } from './types';
+import { SwissTool } from '../tools/types';
 
 // REST API -tester #/api-proxy/post
 // Tämä sen takia, että lokaalisti ei voi kaikkea kysyä!!!

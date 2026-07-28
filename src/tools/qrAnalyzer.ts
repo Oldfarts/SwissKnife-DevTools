@@ -1,5 +1,5 @@
 import jsQR from 'jsqr';
-import { SwissTool, Language } from '../types';
+import { SwissTool, Language } from '../tools/types';
 
 export const qrAnalyzerTool: SwissTool = {
   id: 'qr-analyzer',

@@ -1,10 +1,10 @@
-import { SwissTool } from './types';
+import { SwissTool } from '../tools/types';
 
 // Yksittäiset työkalut määriteltynä
 export const jsonFormatterTool: SwissTool = {
   id: 'json-formatter1',
   name: { fi: 'JSON Pretty Printer', en: 'JSON Pretty Printer' },
-  category: { fi: 'Muotoilijat', en: 'Formatters' },
+  category: { fi: 'Kehitys & Data', en: 'Dev & Data' },
   description: {
     fi: 'Muotoilee ja siistii sekavan JSON-merkkijonon luettavaan muotoon.',
     en: 'Formats and beautifies raw JSON strings into a readable structure.'

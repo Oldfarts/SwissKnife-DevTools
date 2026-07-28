@@ -1,4 +1,4 @@
-import { SwissTool, getText } from './tools';
+import { SwissTool, getText } from '../tools/types';
 
 export const jsonSchemaTool: SwissTool = {
   id: 'json-schema-generator',
@@ -15,10 +15,7 @@ export const jsonSchemaTool: SwissTool = {
       label: { fi: 'Suunta / Toiminto', en: 'Direction / Action' },
       type: 'select',
       default: 'json-to-schema',
-      options: [
-        { value: 'json-to-schema', label: { fi: 'JSON -> JSON Schema', en: 'JSON -> JSON Schema' } },
-        { value: 'schema-to-json', label: { fi: 'JSON Schema -> Esimerkki-JSON', en: 'Schema -> JSON Example' } }
-      ]
+      options: ['json-to-schema', 'schema-to-json']
     },
     {
       key: 'inputData',

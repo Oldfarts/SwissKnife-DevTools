@@ -1,4 +1,4 @@
-import { SwissTool } from '../types';
+import { SwissTool } from '../tools/types';
 
 export const fetchSwaggerTool: SwissTool = {
   id: 'fetch-swagger-url',
@@ -20,8 +20,8 @@ export const fetchSwaggerTool: SwissTool = {
       key: 'url',
       label: { fi: 'Swagger / OpenAPI JSON URL', en: 'Swagger / OpenAPI JSON URL' },
       type: 'text',
-      placeholder: { fi: 'https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/examples/v3.0/json/petstore.json', en: 'https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/examples/v3.0/json/petstore.json' },
-      default: 'https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/examples/v3.0/json/petstore.json'
+      placeholder: { fi: 'http://localhost:5173/mini-api.json', en: 'http://localhost:5173/mini-api.json' },
+      default: 'http://localhost:5173/mini-api.json'
     }
   ],
   execute: async (inputs, lang = 'fi') => {

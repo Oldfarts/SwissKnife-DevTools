@@ -1,4 +1,4 @@
-import { SwissTool } from '../types';
+import { SwissTool } from '../tools/types';
 
 export const requestReplayTool: SwissTool = {
   id: 'request-replay',
@@ -37,12 +37,7 @@ export const requestReplayTool: SwissTool = {
       key: 'action',
       label: { fi: 'Toiminto', en: 'Action' },
       type: 'select',
-      // Lokalisoituaan vaihtoehdot käyttäjä näkee ne valitulla kielellä, mutta arvo (value) pysyy teknisenä
-      options: [
-        { value: 'execute', label: { fi: 'Suorita pyyntö', en: 'Execute Request' } },
-        { value: 'edit', label: { fi: 'Muokkaa pyyntöä (Simuloi)', en: 'Edit Request (Simulate)' } },
-        { value: 'compare', label: { fi: 'Vertaile vastauksia', en: 'Compare Responses' } }
-      ],
+      options: ['execute', 'edit', 'compare'],
       default: 'execute'
     }
   ],

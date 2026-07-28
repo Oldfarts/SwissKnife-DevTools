@@ -1,4 +1,4 @@
-import { SwissTool } from './types';
+import { SwissTool } from '../tools/types';
 
 export const apiDiffTool: SwissTool = {
   id: 'rest-api-diff',
@@ -7,8 +7,8 @@ export const apiDiffTool: SwissTool = {
     en: 'REST API / OpenAPI Diff' 
   },
   category: { 
-    fi: 'Kehittäjän työkalut', 
-    en: 'Developer Tools' 
+    fi: 'Kehittäjän työkalut & AI', 
+    en: 'Developer Tools & AI' 
   },
   description: { 
     fi: 'Vertaa kahta Swagger/OpenAPI-tiedostoa ja tunnista uudet, poistetut ja muuttuneet endpointit sekä parametrit.', 

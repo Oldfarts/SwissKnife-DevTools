@@ -1,4 +1,4 @@
-import { SwissTool } from './types';
+import { SwissTool } from '../tools/types';
 
 export const restPythonUnitTestGeneratorTool: SwissTool = {
   id: 'rest-python-unit-test-generator',

@@ -1,4 +1,4 @@
-import { SwissTool } from './types';
+import { SwissTool } from '../tools/types';
 
 export const jwtPlaygroundTool: SwissTool = {
   id: 'jwt-attack-playground',
@@ -20,13 +20,7 @@ export const jwtPlaygroundTool: SwissTool = {
       key: 'testType',
       label: { fi: 'Testityyppi / Hyökkäys', en: 'Test Type / Attack' },
       type: 'select',
-      options: [
-        { value: 'weak_secret', label: { fi: 'Heikon salaisuuden testaus (Brute-force)', en: 'Weak Secret Tester (Brute-force)' } },
-        { value: 'alg_confusion', label: { fi: 'Algoritmin sekoitus (HS256 vs RS256)', en: 'Algorithm Confusion Checker' } },
-        { value: 'expiration', label: { fi: 'Vanhenemissimulaattori (Exp)', en: 'Expiration Simulator' } },
-        { value: 'audience', label: { fi: 'Audience-validaattori (Aud)', en: 'Audience Validator' } },
-        { value: 'issuer', label: { fi: 'Issuer-validaattori (Iss)', en: 'Issuer Validator' } }
-      ],
+      options: ['weak_secret', 'alg_confusion', 'expiration', 'audience', 'issuer'],
       default: 'weak_secret'
     },
     {
@@ -104,10 +98,8 @@ export const jwtPlaygroundTool: SwissTool = {
         const commonSecrets = ['secret', 'password', '123456', 'admin', 'jwt_secret', param];
         let foundSecret: string | null = null;
 
-        // Yksinkertaistettu simulaatio tarkistuksesta
         for (const s of commonSecrets) {
           if (s && s.length > 0) {
-            // Simuloidaan löytö, jos käyttäjän antama tai joku yleinen matcha
             if (s === 'secret' || s === param) {
               foundSecret = s;
               break;
