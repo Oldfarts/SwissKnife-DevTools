@@ -101,36 +101,6 @@
     ]
   },
   { 
-    "id": "owasp-zap-openapi-import",
-    "version": "1.0.1",
-    "author": "Jani Ärväs",
-    "name": {
-      "fi": "OWASP ZAP OpenAPI Tuonti",
-      "en": "OWASP ZAP OpenAPI Import"
-    },
-    "description": {
-      "fi": "Tekee REST/openapi importin.",
-      "en": "Fetches REST/openapi import."
-    },
-    "category": {
-      "fi": "ULKOPUOLISET PLUGINIT",
-      "en": "OUT PLUGINS"
-    },
-    "type": "rest-api",
-    "endpoint": "http://localhost:8080/JSON/openapi/action/importUrl/",
-    "inputs": [
-      {
-        "key": "url",
-        "type": "text",
-        "label": {
-          "fi": "OpenAPI URL",
-          "en": "OpenAPI URL"
-        },
-        "default": "http://localhost:5173/mini-api.json"
-      }
-    ]
-  },
-  { 
     "id": "owasp-zap-critical-alerts",
     "version": "1.0.0",
     "author": "Jani Ärväs",
@@ -304,5 +274,125 @@
     }
   ],
   "execute": "async (inputs) => { const raw = inputs.imageFile; if (!raw) { return { success: false, error: 'Tiedostoa ei valittu.' }; } let base64Data = typeof raw === 'string' ? raw : (raw.data || JSON.stringify(raw)); let approxBytes = Math.round((base64Data.length * 3) / 4); return { success: true, data: { format: 'Base64 / Data URL', estimatedSizeKb: Math.round(approxBytes / 1024), previewLength: base64Data.length, base64Snippet: base64Data.substring(0, 50) + '...', message: 'Kuva muunnettu ja vastaanotettu Base64-muodossa.' } }; }"
-}
+  },
+  {
+    "id": "playwright-visual-regression",
+    "version": "1.0.0",
+    "author": "Jani Ärväs",
+    "name": {
+      "fi": "Playwright Visuaalinen Regressio",
+      "en": "Playwright Visual Regression"
+    },
+    "description": {
+      "fi": "Ottaa sivustosta ruutukaappauksen ja tekee pikselitason vertailun aiempaan versioon.",
+      "en": "Takes a screenshot of the site and performs pixel-level comparison against baseline."
+    },
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "local",
+    "inputs": [
+      {
+        "key": "targetUrl",
+        "type": "text",
+        "label": {
+          "fi": "Kohde URL",
+          "en": "Target URL"
+        },
+        "default": "http://localhost:5173"
+      }
+    ],
+    "execute": "async (inputs) => { const url = inputs?.targetUrl || 'http://localhost:5173'; try { const res = await fetch('http://localhost:3000/api/playwright-test', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url, action: 'snapshot' }) }); const json = await res.json(); return json; } catch (e) { return { success: false, error: 'Playwright-taustapalvelu ei vastaa: ' + e.message }; } }"
+  },
+  {
+    "id": "playwright-html-reporter",
+    "version": "1.0.0",
+    "author": "Jani Ärväs",
+    "name": {
+      "fi": "Playwright HTML-raportin generointi",
+      "en": "Playwright HTML Report Generator"
+    },
+    "description": {
+      "fi": "Rakentaa ja lataa yksityiskohtaisen HTML-raportin testien tilasta ja linkkien poiminnasta.",
+      "en": "Builds and downloads a detailed HTML report of test statuses and link extractions."
+    },
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "local",
+    "inputs": [
+      {
+        "key": "targetUrl",
+        "type": "text",
+        "label": {
+          "fi": "Testattava URL",
+          "en": "Target URL"
+        },
+        "default": "http://localhost:5173"
+      }
+    ],
+    "execute": "async (inputs) => { const url = inputs?.targetUrl || 'http://localhost:5173'; try { const res = await fetch('http://localhost:3000/api/playwright-test', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url, action: 'extract_links' }) }); const json = await res.json(); if (!json.success) return json; const linksHtml = json.data.links.map(l => `<li><a href=\"${l}\" target=\"_blank\">${l}</a></li>`).join(''); const html = `<!DOCTYPE html><html><head><meta charset=\"utf-8\"><title>Playwright Raportti</title></head><body style=\"font-family:sans-serif;padding:20px;\"><h1>Playwright Testiraportti</h1><p><strong>URL:</strong> ${json.data.url}</p><p><strong>Otsikko:</strong> ${json.data.title}</p><h3>Löydetyt linkit (${json.data.links.length} kpl):</h3><ul>${linksHtml}</ul></body></html>`; const blob = new Blob([html], { type: 'text/html' }); const blobUrl = window.URL.createObjectURL(blob); const a = document.createElement('a'); a.href = blobUrl; a.download = 'playwright-test-report.html'; document.body.appendChild(a); a.click(); window.URL.revokeObjectURL(blobUrl); document.body.removeChild(a); return { success: true, data: { message: 'Playwright HTML-raportti luotu ja ladattu onnistuneesti', linksCount: json.data.links.length } }; } catch (e) { return { success: false, error: e.message }; } }"
+  },
+{ 
+    "id": "owasp-zap-openapi-import",
+    "version": "1.0.2",
+    "author": "Jani Ärväs",
+    "name": {
+      "fi": "OWASP ZAP OpenAPI Tuonti",
+      "en": "OWASP ZAP OpenAPI Import"
+    },
+    "description": {
+      "fi": "Tekee REST/openapi importin Viten proxyn kautta.",
+      "en": "Fetches REST/openapi import via Vite proxy."
+    },
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "rest-api",
+    "endpoint": "/zap-api/JSON/openapi/action/importUrl/",
+    "inputs": [
+      {
+        "key": "url",
+        "type": "text",
+        "label": {
+          "fi": "OpenAPI URL",
+          "en": "OpenAPI URL"
+        },
+        "default": "http://localhost:5173/mini-api.json"
+      }
+    ]
+  },
+  { 
+    "id": "owasp-zap-proxy-status",
+    "version": "1.1.3",
+    "author": "Jani Ärväs",
+    "name": {
+      "fi": "OWASP ZAP Spider Status",
+      "en": "OWASP ZAP Spider Status"
+    },
+    "description": {
+      "fi": "Tarkistaa ZAP:n spider-skannauksen tilan ID:n perusteella.",
+      "en": "Checks ZAP spider scan status based on ID."
+    },
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "rest-api",
+    "endpoint": "/zap-api/JSON/spider/view/status/",
+    "inputs": [
+      {
+        "key": "scanId",
+        "type": "text",
+        "label": {
+          "fi": "Skannauksen ID",
+          "en": "Scan ID"
+        },
+        "default": "0"
+      }
+    ]
+  }
 ]
