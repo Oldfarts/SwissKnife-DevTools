@@ -55,3 +55,5 @@ Projekti pitää sisällään seuraavat kattavat työkalukategoriat:
 ### 12. Automatisoidut Työnkulut (`WorkflowBuilder.tsx` & `WorkflowStorage.ts`)
 * Mahdollistaa useamman työkalun ketjuttamisen automatisoiduiksi työnkuluiksi (reseptit).
 * Sisältää tuonnin ja viennin JSON-tiedostoina (`WorkflowManager`).
+
+<img width="1919" height="1033" alt="image" src="https://github.com/user-attachments/assets/098671c3-f0b4-47e1-b40c-842b2da86a4b" />
