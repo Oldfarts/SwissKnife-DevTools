@@ -70,9 +70,8 @@ Sijainti: `src\tools\playwright\`
   npx playwright test testRestExecution.spec.js --ui
 
 Tallennus (Codegen):
+<img width="776" height="33" alt="image" src="https://github.com/user-attachments/assets/f73dd453-42e8-4eec-af06-a53a171a36fc" />
 
-Bash
-npx playwright codegen http://localhost:5173
 OWASP ZAP (Tietoturva & Daemon)
 Sijainti: start-ZAP.bat / C:\Program Files\ZAP\Zed Attack Proxy\Zap.bat
 
