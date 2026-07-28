@@ -25,6 +25,8 @@ Versio 2.17.0 on itsellä asennettuna.
 
 5. **OWASP ZAP & API Key -asetukset (No Key / Avaimeton tila):**
 
+katso kohta 6.1-6.3 ohjeet.
+
 6. **Käynnistä kehityspalvelin (käynnistää automaattisesti myös ZAP:n ja Playwright-taustapalvelun, mikäli asennettu):**
    ```bash
    npm run dev
