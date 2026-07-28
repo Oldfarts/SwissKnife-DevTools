@@ -4,7 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "node scripts/start.js dev",
+    "dev:zap": "node scripts/start.js zap",
+    "dev:playwright": "node scripts/start.js playwright",
+    "dev:all": "node scripts/start.js all",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview"
