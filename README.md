@@ -29,7 +29,13 @@ katso kohta 6.1-6.3 ohjeet.
 
 6. **Käynnistä kehityspalvelin (käynnistää automaattisesti myös ZAP:n ja Playwright-taustapalvelun, mikäli asennettu):**
    ```bash
-   npm run dev
+   npm run dev  (vite ainoastaan)
+   tai
+   npm run dev:zap (vite+ZAP)
+   tai
+   npm run dev:playwright (vite+playwright)
+   tai
+   npm run dev:all (vite+all)
 
 
 6.1 **Intro**
