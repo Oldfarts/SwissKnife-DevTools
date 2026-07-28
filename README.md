@@ -2,6 +2,26 @@
 
 SwissKnife on modulaarinen, puhtaasti selaimessa toimiva työkaluarkkitehtuuri kehittäjille ja ylläpitäjille. Ohjelman ytimenä on **plugin-pohjainen rakenne**: käyttöliittymä (`SwissKnifeUI.tsx`) ja hallintalogiikka on erotettu täysin itse työkaluista (`*.ts`-tiedostot). Tämän ansiosta työkaluja on helppo lisätä, poistaa tai siirtää sellaisenaan myös muihin projekteihin.
 
+## 🚀 Asennusohjeet WINDOWSille
+
+Näillä ohjeilla saat projektin kloonattua ja käynnistettyä omalla koneellasi:
+
+1. **Kloonaa repositorio tai lataa projekti:**
+   ```bash
+   git clone <repositorion-url>
+   cd SwissKnife-DevTools
+
+2. **Asenna tarvittavat riippuvuudet
+   ```bash
+   npm install
+
+3. **Asenna Playwright-selaimet (tarvitaan automaatiotesteille):
+   ```bash
+   npx playwright install
+
+4. **Käynnistä kehityspalvelin (käynnistää automaattisesti myös ZAP:n ja Playwright-taustapalvelun, mikäli asennettu)
+   ```bash
+   npm run dev
 ---
 
 ## 🧩 Modulaarinen Plugin-arkkitehtuuri
