@@ -54,15 +54,6 @@ Paina OK.
 
 ---
 
-### 1. Automaattisesti `vite.config.ts`-tiedoston kautta (Suositeltu)
-Kun käynnistät projektisi kehityspalvelimen (`npm run dev`), voit konfiguroida ZAP:n käynnistysskriptiin lipukkeen, joka kytkee API-avaimen pois päältä heti kättelyssä:
-
-```typescript
-exec(`start /b "" "${zapTarget}" -daemon -port 8080 -config api.disablekey=true`, (err) => {
-  if (err) console.error('⚠️ ZAP:n käynnistys epäonnistui:', err)
-})
----
-
 ## 🧩 Modulaarinen Plugin-arkkitehtuuri
 
 Kaikki ohjelman työkalut noudattavat yhtenäistä `SwissTool`-rajapintaa (`types.ts`). Jokainen työkalu on itsenäinen moduuli, joka määrittelee omat syötteensä, kategoriansa, kielitukensa (FI/EN) ja suorituslogiikkansa (`execute`).
