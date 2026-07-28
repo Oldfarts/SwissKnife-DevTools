@@ -1,13 +1,12 @@
 import express from 'express';
 import { chromium } from 'playwright';
-import { exec } from 'child_process';
 import cors from 'cors';
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-// API-reitti Playwright-testeille
+// API-reitti Playwright-testeille (hoitaa selaimen ajon taustalla)
 app.post('/api/playwright-test', async (req, res) => {
   const { url, action } = req.body;
 
@@ -51,20 +50,7 @@ app.post('/api/playwright-test', async (req, res) => {
   }
 });
 
-// Reitti .bat-tiedoston käynnistämiseen
-app.post('/api/run-playwright-bat', (req, res) => {
-  const batPath = 'F:\\REACT-ohjelmat\\SwissKnife-DevTools\\src\\tools\\playwright\\start-playwrightServer.bat';
-  const command = `start cmd.exe /k "${batPath}"`;
-
-  exec(command, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Virhe bat-tiedoston ajossa: ${error.message}`);
-      return res.status(500).json({ success: false, error: error.message });
-    }
-    res.json({ success: true, message: 'Bat-tiedosto käynnistetty onnistuneesti!' });
-  });
-});
-
+// Käynnistetään taustapalvelu oikeassa paikassa tiedoston lopussa
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Playwright taustapalvelu pyörii osoitteessa http://localhost:${PORT}`);
