@@ -38,10 +38,8 @@ Tässä ovat tavat, miten OWASP ZAP saadaan ajettua ilman API-avainta (**No Key*
 
 Jos käynnistät ZAP:n manuaalisesti erillisestä .bat-tiedostosta tai komentoriviltä daemon-tilassa, lisää komennon perään sama konfiguraatiolipuke:
 
-   ```bash
-   "C:\Program Files\ZAP\Zed Attack Proxy\Zap.bat" -daemon -port 8080 -config api.disablekey=true
+"C:\Program Files\ZAP\Zed Attack Proxy\Zap.bat" -daemon -port 8080 -config api.disablekey=true
 
----
 
 6.3.**ZAP:n käyttöliittymän (GUI) kautta tehdyt asetukset**
 
