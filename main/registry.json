@@ -4,8 +4,8 @@
     "version": "1.0.0",
     "author": "Jani Ärväs",
     "name": {
-      "fi": "Odotus / Viive",
-      "en": "Wait / Delay"
+      "fi": "WORKFLOW- Odotus / Viive",
+      "en": "WORKFLOW- Wait / Delay"
     },
     "description": {
       "fi": "Pysäyttää työnkulun ketjun määrätyksi ajaksi (esim. ZAP-skannauksen välissä).",
@@ -67,8 +67,8 @@
     "version": "1.1.0",
     "author": "Jani Ärväs",
     "name": {
-      "fi": "OWASP ZAP Yleinen API",
-      "en": "OWASP ZAP Generic API"
+      "fi": "OWASP ZAP - Yleinen API",
+      "en": "OWASP ZAP - Generic API"
     },
     "description": {
       "fi": "Kutsu mitä tahansa OWASP ZAP:n JSON-rajapinnan metodia vapaasti.",
@@ -106,7 +106,7 @@
     "author": "Jani Ärväs",
     "name": {
       "fi": "OWASP ZAP Kriittiset Hälytykset",
-      "en": "OWASP ZAP Critical Alerts"
+      "en": "OWASP ZAP - Critical Alerts"
     },
     "description": {
       "fi": "Hakee ZAP-raportista kriittiset (High) haavoittuvuudet ja hälytykset.",
@@ -125,8 +125,8 @@
     "version": "1.0.0",
     "author": "Jani Ärväs",
     "name": {
-      "fi": "OWASP ZAP Kaikki Hälytykset",
-      "en": "OWASP ZAP All Alerts"
+      "fi": "OWASP ZAP - Kaikki Hälytykset",
+      "en": "OWASP ZAP - All Alerts"
     },
     "description": {
       "fi": "Hakee kaikki löydetyt haavoittuvuudet ja hälytykset ZAPista.",
@@ -222,8 +222,8 @@
     "version": "1.2.0",
     "author": "Jani Ärväs",
     "name": {
-      "fi": "Kuvien EXIF Lukija",
-      "en": "Image EXIF Reader"
+      "fi": "EXIF -Kuvien Lukija",
+      "en": "EXIF - Image Reader"
     },
     "description": {
       "fi": "Lukee ja näyttää kuvatiedoston (JPG/PNG) EXIF-metatiedot suoraan selaimessa.",
@@ -251,8 +251,8 @@
   "version": "1.0.0",
   "author": "Jani Ärväs",
   "name": {
-    "fi": "Kuvien base64 muuntaja",
-    "en": "Image base64 converter"
+    "fi": "EXIF - Kuvien base64 muuntaja",
+    "en": "EXIF -Image base64 converter"
   },
   "description": {
     "fi": "Lukee ja näyttää kuvatiedoston (JPG/PNG) EXIF-metatiedot suoraan selaimessa.",
@@ -341,7 +341,7 @@
     "author": "Jani Ärväs",
     "name": {
       "fi": "OWASP ZAP OpenAPI Tuonti",
-      "en": "OWASP ZAP OpenAPI Import"
+      "en": "OWASP ZAP - OpenAPI Import"
     },
     "description": {
       "fi": "Tekee REST/openapi importin Viten proxyn kautta.",
@@ -370,8 +370,8 @@
     "version": "1.1.3",
     "author": "Jani Ärväs",
     "name": {
-      "fi": "OWASP ZAP Spider Status",
-      "en": "OWASP ZAP Spider Status"
+      "fi": "OWASP ZAP - Spider Status",
+      "en": "OWASP ZAP - Spider Status"
     },
     "description": {
       "fi": "Tarkistaa ZAP:n spider-skannauksen tilan ID:n perusteella.",

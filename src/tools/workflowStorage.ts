@@ -28,6 +28,18 @@ export const WorkflowManager = {
     return data ? JSON.parse(data) : {};
   },
 
+  // UUSI: Hae tallennettuja työnkulkuja hakutermin perusteella (nimestä tai kuvauksesta)
+  searchWorkflows(query: string): WorkflowRecipe[] {
+    const workflows = WorkflowManager.getLocalWorkflows();
+    const lowerQuery = query.toLowerCase();
+    
+    return Object.values(workflows).filter((recipe) => {
+      const nameMatch = recipe.name.toLowerCase().includes(lowerQuery);
+      const descMatch = recipe.description?.toLowerCase().includes(lowerQuery);
+      return nameMatch || descMatch;
+    });
+  },
+
   // 3. Export työnkulku levylle (.json-tiedostona)
   exportWorkflowToFile(recipe: WorkflowRecipe): void {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(recipe, null, 2));

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Play, CheckCircle, AlertCircle, Wrench, Globe, Code, Star, History, Trash2, Home, FileText, Upload, Palette, ChevronDown, ChevronRight, Layers, Plus, ShoppingBag } from 'lucide-react';
+import { Search, Play, CheckCircle, AlertCircle, Wrench, Globe, Code, Star, History, Trash2, Home, FileText, Upload, Palette, ChevronDown, ChevronRight, Layers, Plus, ShoppingBag, X, Download } from 'lucide-react';
 import { Language, getText } from './tools';
 import { WorkflowBuilder } from './WorkflowBuilder';
 import { WorkflowManager } from "./tools/workflowStorage";
@@ -125,6 +125,9 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
 
   const [selectedTool, setSelectedTool] = useState<any>(tools[0]);
   const [searchQuery, setSearchQuery] = useState('');
+
+  // TILA PLUGIN-HAULLE (Plugin Search State)
+  const [pluginSearchQuery, setPluginSearchQuery] = useState<string>('');
 
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({
     'Kehittäjän työkalut': false,
@@ -437,7 +440,6 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
     setWorkflowsList((prev) => prev.filter((wf) => wf.id !== id));
   };
 
-  // Lajiteltu ja suodatettu työkalulista (Aakkosjärjestys lisätty)[cite: 2]
   const filteredTools = tools.filter((tool) => {
     const name = getText(tool.name, lang).toLowerCase();
     const cat = getText(tool.category, lang).toLowerCase();
@@ -476,7 +478,7 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
   }));
 
   return (
-    <div className="flex h-screen w-screen bg-slate-900 text-slate-100 font-sans antialiased overflow-hidden m-0 p-0 box-border">
+    <div className="flex h-screen w-screen bg-slate-900 text-slate-100 font-sans antialiased overflow-hidden m-0 p-0 box-border relative">
       
       {/* SIVUPALKKI */}
       <div className="w-80 bg-slate-950 border-r border-slate-800 flex flex-col shrink-0 h-full">
@@ -894,40 +896,58 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
               </p>
             </div>
 
-            <div className="grid grid-cols-1 gap-4">
-              {/* Plugin-listan aakkosjärjestyslajittelu lisätty[cite: 2] */}
-              {[...AVAILABLE_PLUGINS].sort((a, b) => {
-                const nameA = getText(a.name, lang).toLowerCase();
-                const nameB = getText(b.name, lang).toLowerCase();
-                return nameA.localeCompare(nameB);
-              }).map((plugin, idx) => {
-                const isInstalled = installedPluginIds.includes(plugin.id);
-                return (
-                  <div key={plugin.id || `plugin-${idx}`} className="p-5 bg-slate-950 border border-slate-800 rounded-xl flex items-center justify-between">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-bold text-slate-100 text-base">{getText(plugin.name, lang)}</h3>
-                        <span className="text-xs bg-slate-900 border border-slate-800 px-2 py-0.5 rounded text-slate-400 font-mono">v{plugin.version}</span>
-                      </div>
-                      <p className="text-slate-400 text-xs">{getText(plugin.description, lang)}</p>
-                      <p className="text-slate-500 text-[11px]">{lang === 'fi' ? 'Tekijä' : 'Author'}: {plugin.author}</p>
-                    </div>
+            {/* HAKUKENTTÄ LISÄTTY JUURI ENNEN LISTAA YLIMPÄNÄ */}
+            <div className="relative">
+              <Search className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-500" />
+              <input
+                type="text"
+                placeholder={lang === 'fi' ? 'Hae plugineja...' : 'Search plugins...'}
+                value={pluginSearchQuery}
+                onChange={(e) => setPluginSearchQuery(e.target.value)}
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-cyan-500 text-slate-200 placeholder-slate-500 shadow-inner"
+              />
+            </div>
 
-                    <button
-                      onClick={() => toggleInstallPlugin(plugin.id)}
-                      className={`px-4 py-2 rounded-lg text-xs font-bold transition cursor-pointer ${
-                        isInstalled 
-                          ? 'bg-rose-950/40 text-rose-400 border border-rose-900/50 hover:bg-rose-900/40' 
-                          : 'bg-cyan-600 text-slate-950 hover:bg-cyan-500'
-                      }`}
-                    >
-                      {isInstalled 
-                        ? (lang === 'fi' ? 'Poista asennus' : 'Uninstall') 
-                        : (lang === 'fi' ? 'Asenna plugin 🚀' : 'Install Plugin 🚀')}
-                    </button>
-                  </div>
-                );
-              })}
+            <div className="grid grid-cols-1 gap-4">
+              {[...AVAILABLE_PLUGINS]
+                .filter((plugin) => {
+                  const q = pluginSearchQuery.toLowerCase();
+                  const name = getText(plugin.name, lang).toLowerCase();
+                  const desc = getText(plugin.description, lang).toLowerCase();
+                  return name.includes(q) || desc.includes(q);
+                })
+                .sort((a, b) => {
+                  const nameA = getText(a.name, lang).toLowerCase();
+                  const nameB = getText(b.name, lang).toLowerCase();
+                  return nameA.localeCompare(nameB);
+                }).map((plugin, idx) => {
+                  const isInstalled = installedPluginIds.includes(plugin.id);
+                  return (
+                    <div key={plugin.id || `plugin-${idx}`} className="p-5 bg-slate-950 border border-slate-800 rounded-xl flex items-center justify-between">
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-bold text-slate-100 text-base">{getText(plugin.name, lang)}</h3>
+                          <span className="text-xs bg-slate-900 border border-slate-800 px-2 py-0.5 rounded text-slate-400 font-mono">v{plugin.version}</span>
+                        </div>
+                        <p className="text-slate-400 text-xs">{getText(plugin.description, lang)}</p>
+                        <p className="text-slate-500 text-[11px]">{lang === 'fi' ? 'Tekijä' : 'Author'}: {plugin.author}</p>
+                      </div>
+
+                      <button
+                        onClick={() => toggleInstallPlugin(plugin.id)}
+                        className={`px-4 py-2 rounded-lg text-xs font-bold transition cursor-pointer ${
+                          isInstalled 
+                            ? 'bg-rose-950/40 text-rose-400 border border-rose-900/50 hover:bg-rose-900/40' 
+                            : 'bg-cyan-600 text-slate-950 hover:bg-cyan-500'
+                        }`}
+                      >
+                        {isInstalled 
+                          ? (lang === 'fi' ? 'Poista asennus' : 'Uninstall') 
+                          : (lang === 'fi' ? 'Asenna plugin 🚀' : 'Install Plugin 🚀')}
+                      </button>
+                    </div>
+                  );
+                })}
             </div>
           </div>
         ) : activeTab === 'history' ? (
@@ -1196,6 +1216,7 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
           </>
         ) : null}
       </div>
+
     </div>
   );
 }
