@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename)
 const action = process.argv[2] || 'dev'
 
 function startZap() {
-  const zapBatPath = path.resolve(__dirname, '../start-ZAP.bat')
+  const zapBatPath = path.resolve(__dirname, './start-ZAP.bat')
   const zapInstallPath = 'C:\\Program Files\\ZAP\\Zed Attack Proxy\\Zap.bat'
   const isZapAvailable = fs.existsSync(zapBatPath) || fs.existsSync(zapInstallPath)
 
