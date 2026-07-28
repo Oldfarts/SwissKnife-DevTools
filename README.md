@@ -11,15 +11,15 @@ Näillä ohjeilla saat projektin kloonattua ja käynnistettyä omalla koneellasi
    git clone <repositorion-url>
    cd SwissKnife-DevTools
 
-2. **Asenna tarvittavat riippuvuudet
+2. **Asenna tarvittavat riippuvuudet:**
    ```bash
    npm install
 
-3. **Asenna Playwright-selaimet (tarvitaan automaatiotesteille):
+3. **Asenna Playwright-selaimet (tarvitaan automaatiotesteille):**
    ```bash
    npx playwright install
 
-4. **Käynnistä kehityspalvelin (käynnistää automaattisesti myös ZAP:n ja Playwright-taustapalvelun, mikäli asennettu)
+4. **Käynnistä kehityspalvelin (käynnistää automaattisesti myös ZAP:n ja Playwright-taustapalvelun, mikäli asennettu):**
    ```bash
    npm run dev
 ---
