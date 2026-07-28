@@ -19,13 +19,16 @@ Näillä ohjeilla saat projektin kloonattua ja käynnistettyä omalla koneellasi
    ```bash
    npx playwright install
 
-4. **Käynnistä kehityspalvelin (käynnistää automaattisesti myös ZAP:n ja Playwright-taustapalvelun, mikäli asennettu):**
+4. **OWASP ZAP, lataa ja asenna se os.https://www.zaproxy.org/download/**
+
+Versio 2.17.0 on itsellä asennettuna.
+
+5. **OWASP ZAP & API Key -asetukset (No Key / Avaimeton tila):**
+
+6. **Käynnistä kehityspalvelin (käynnistää automaattisesti myös ZAP:n ja Playwright-taustapalvelun, mikäli asennettu):**
    ```bash
    npm run dev
 
-5. **OWASP ZAP, lataa ja asenna se os.https://www.zaproxy.org/download/**
-
-6. **OWASP ZAP & API Key -asetukset (No Key / Avaimeton tila):**
 
 6.1 **Intro**
 
