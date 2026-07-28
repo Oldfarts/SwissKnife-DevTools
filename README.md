@@ -32,28 +32,26 @@ Projekti pitää sisällään seuraavat kattavat työkalukategoriat:
 * Kuvatiedostojen (JPEG/PNG) metadata-analyysi.
 * Näyttää kameran tiedot, kuvausajan, resoluution ja mahdolliset sijaintitiedot.
 
-### 6. APK-analyysi (`binaryTools.ts`)
-* Androidin APK-asennuspakettien perusanalyysi ja metatietojen luku.
-
-### 7. QR-analyysi (`qrTools.ts`)
+### 6. QR-analyysi (`qrTools.ts`)
 * QR-koodien luku kuvatiedostoista ja koodien generointi tekstistä/URL-osoitteista.
 
-### 8. DNS-työkalut (`dnsTools.ts`)
+### 7. DNS-työkalut (`dnsTools.ts`)
 * Verkkotunnusten nimipalvelintietojen ja DNS-tietueiden tarkastelutyökalut.
 
-### 9. SSL-työkalut (`sslTools.ts`)
+### 8. SSL-työkalut (`sslTools.ts`)
 * Sertifikaattien voimassaolon, myöntäjien ja tietojen tarkistus.
 
-### 10. API-testaus & Testikoodigeneraattorit (`apiTools.ts`, `restUnitTestGeneratorTool.ts`, `soapUnitTestGeneratorTool.ts`, jne.)
+### 9. API-testaus & Testikoodigeneraattorit (`apiTools.ts`, `restUnitTestGeneratorTool.ts`, `soapUnitTestGeneratorTool.ts`, jne.)
 * **REST API -tester:** Kustomoidut HTTP-pyynnöt (GET, POST, PUT, PATCH, DELETE) JSON-kehikoilla.
 * **SOAP API -tester:** XML-pohjaiset SOAP-kutsut mukautetuilla otsikoilla ja `Envelope`-pohjilla.
 * **OpenAPI/Swagger -> Jest & Python Unittest Generator:** Generoi automaattisesti valmista unit-testikoodia REST- ja SOAP-rajapinnoille.
 
-### 11. Muunnokset (`converterTools.ts`)
+### 10. Muunnokset (`converterTools.ts`)
 * Reaaliaikaiset koodaukset ja dekoodaukset: `Base64`, `URL Encoding`, `Hex`, `Binary` ja merkkijonojen muunnokset.
 
-### 12. Automatisoidut Työnkulut (`WorkflowBuilder.tsx` & `WorkflowStorage.ts`)
+### 11. Automatisoidut Työnkulut (`WorkflowBuilder.tsx` & `WorkflowStorage.ts`)
 * Mahdollistaa useamman työkalun ketjuttamisen automatisoiduiksi työnkuluiksi (reseptit).
 * Sisältää tuonnin ja viennin JSON-tiedostoina (`WorkflowManager`).
+* Sisältää esimerkki tiedoston \SwissKnife-DevTools\src\example-workflows\Työnkulku.json
 
 <img width="1919" height="1033" alt="image" src="https://github.com/user-attachments/assets/098671c3-f0b4-47e1-b40c-842b2da86a4b" />
