@@ -41,7 +41,10 @@ Jos käynnistät ZAP:n manuaalisesti erillisestä .bat-tiedostosta tai komentori
    ```bash
    "C:\Program Files\ZAP\Zed Attack Proxy\Zap.bat" -daemon -port 8080 -config api.disablekey=true
 
+---
+
 6.3.**ZAP:n käyttöliittymän (GUI) kautta tehdyt asetukset**
+
 Jos avaat ZAP:n graafisen käyttöliittymän ja haluat poistaa API-avaimen pysyvästi käytöstä:
 Avaa ZAP GUI.
 Siirry ylävalikosta kohtaan: Tools -> Options.
