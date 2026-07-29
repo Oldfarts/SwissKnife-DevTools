@@ -394,5 +394,85 @@
         "default": "0"
       }
     ]
+  },
+  {
+    "id": "plugin-sqlite-server",
+    "version": "1.0.0",
+    "author": "Jani Ärväs",
+    "name": {
+      "fi": "Plugin: SQLite & Express Taustapalvelin",
+      "en": "Plugin: SQLite & Express Backend Server"
+    },
+    "description": {
+      "fi": "Käynnistää SQLite-tietokannan ja Express-API:n erilliseen komentorivi-ikkunaan.",
+      "en": "Launches SQLite database and Express API in a separate command window."
+    },
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "server-launch",
+    "command": "node server.js",
+    "execute": "async () => { try { const res = await fetch('/zap-api/api/plugins/install', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pluginId: 'plugin-sqlite-server', command: 'node server.js' }) }); return await res.json(); } catch (e) { return { success: false, error: e.message }; } }"
+  },
+  {
+    "id": "plugin-playwright-server",
+    "version": "1.0.0",
+    "author": "Jani Ärväs",
+    "name": {
+      "fi": "Plugin: Playwright Taustapalvelu",
+      "en": "Plugin: Playwright Backend Service"
+    },
+    "description": {
+      "fi": "Käynnistää Playwright-testipalvelimen taustalle erilliseen ikkunaan.",
+      "en": "Launches Playwright test server in a separate window."
+    },
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "server-launch",
+    "command": "node start-playwright.js",
+    "execute": "async () => { try { const res = await fetch('/zap-api/api/plugins/install', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pluginId: 'plugin-playwright-server', command: 'node start-playwright.js' }) }); return await res.json(); } catch (e) { return { success: false, error: e.message }; } }"
+  },
+  {
+    "id": "plugin-zap-runner",
+    "version": "1.0.0",
+    "author": "Jani Ärväs",
+    "name": {
+      "fi": "Plugin: OWASP ZAP Daemon / Manager",
+      "en": "Plugin: OWASP ZAP Daemon / Manager"
+    },
+    "description": {
+      "fi": "Käynnistää OWASP ZAP -tietoturvatyökalun paikallisen taustaprosessin.",
+      "en": "Launches local OWASP ZAP security tool process."
+    },
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "server-launch",
+    "command": "zap.bat",
+    "execute": "async () => { try { const res = await fetch('/zap-api/api/plugins/install', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pluginId: 'plugin-zap-runner', command: 'C:\\Program Files\\ZAP\\Zed Attack Proxy\\Zap.bat' }) }); return await res.json(); } catch (e) { return { success: false, error: e.message }; } }"  
+  },
+  {
+    "id": "plugin-zap-daemon",
+    "version": "1.0.0",
+    "author": "Jani Ärväs",
+    "name": {
+      "fi": "Plugin: OWASP ZAP Daemon (Taustapalvelu)",
+      "en": "Plugin: OWASP ZAP Daemon (Headless)"
+    },
+    "description": {
+      "fi": "Käynnistää OWASP ZAP:in pelkkänä taustapalveluna ilman graafista liittymää (portti 8080/8081).",
+      "en": "Launches OWASP ZAP as a background headless daemon service."
+    },
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "server-launch",
+    "command": "C:\\Program Files\\ZAP\\Zed Attack Proxy\\Zap.bat -daemon",
+    "execute": "async () => { try { const res = await fetch('/zap-api/api/plugins/install', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pluginId: 'plugin-zap-daemon', command: 'C:\\Program Files\\ZAP\\Zed Attack Proxy\\Zap.bat -daemon' }) }); return await res.json(); } catch (e) { return { success: false, error: e.message }; } }"
   }
 ]

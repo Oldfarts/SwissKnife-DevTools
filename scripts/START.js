@@ -1,4 +1,4 @@
-import { exec } from 'child_process'
+import { spawn } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -8,33 +8,29 @@ const __dirname = path.dirname(__filename)
 
 const action = process.argv[2] || 'dev'
 
-function startZap() {
-  // Korjattu polku: siirrytään scripts-kansiosta yhdestä tasosta ylöspäin juureen
-  const zapBatPath = path.resolve(__dirname, '../scripts/start-ZAP.bat')
-  const zapInstallPath = 'C:\\Program Files\\ZAP\\Zed Attack Proxy\\Zap.bat'
-  const isZapAvailable = fs.existsSync(zapBatPath) || fs.existsSync(zapInstallPath)
-
-  if (isZapAvailable) {
-    console.log('🚀 ZAP havaittu järjestelmästä. Käynnistetään...')
-    const targetZap = fs.existsSync(zapBatPath) ? zapBatPath : zapInstallPath
-    exec(`start "" cmd.exe /k "${targetZap}"`, (err) => {
-      if (err) console.error('⚠️ ZAP:n käynnistys epäonnistui:', err)
-    })
-  } else {
-    console.log('ℹ️ OWASP ZAP:ia ei löydetty koneelta.')
-  }
+// Yksinkertaistettu ja luotettava tapa avata uusi CMD-ikkuna Windowsissa
+function openInNewWindow(commandToRun) {
+  console.log(`🚀 Avataan uuteen cmd-ikkunaan: ${commandToRun}`)
+  
+  spawn('start', ['cmd.exe', '/k', commandToRun], {
+    detached: true,
+    shell: true,
+    stdio: 'ignore'
+  }).unref()
 }
 
-function startPlaywright() {
-  const playwrightBatPath = path.resolve(__dirname, '../src/tools/playwright/start-playwrightServer.bat')
-
-  if (fs.existsSync(playwrightBatPath)) {
-    console.log('🚀 Playwright-serverin .bat havaittu. Käynnistetään uuteen cmd-ikkunaan...')
-    exec(`start "" cmd.exe /k "${playwrightBatPath}"`, (err) => {
-      if (err) console.error('⚠️ Playwright-serverin käynnistys epäonnistui:', err)
-    })
+function startZap() {
+  const zapBatPath = path.resolve(__dirname, '../scripts/start-ZAP.bat')
+  const zapInstallPath = 'C:\\Program Files\\ZAP\\Zed Attack Proxy\\Zap.bat'
+  
+  if (fs.existsSync(zapBatPath)) {
+    // Lisätään -port 8081 komentoriviparametriksi bat-tiedoston perään
+    openInNewWindow(`"${zapBatPath}" -port 8081`)
+  } else if (fs.existsSync(zapInstallPath)) {
+    // Jos käynnistetään suoraan Zap.bat, annetaan portti-argumentti sille
+    openInNewWindow(`"${zapInstallPath}" -port 8081`)
   } else {
-    console.log('⚠️ Playwright-serverin .bat-tiedostoa ei löytynyt polusta:', playwrightBatPath)
+    console.log('ℹ️ OWASP ZAP:ia ei löydetty koneelta.')
   }
 }
 
@@ -42,50 +38,68 @@ function startBackendServer() {
   const serverPath = path.resolve(__dirname, '../server.js')
   if (fs.existsSync(serverPath)) {
     console.log('🚀 Käynnistetään Express-taustapalvelin uuteen cmd-ikkunaan...')
-    // Avataan node server.js omaan cmd.exe-ikkunaan (/k pitää ikkunan auki)
-    exec(`start "" cmd.exe /k "node ${serverPath}"`, (err) => {
-      if (err) console.error('⚠️ Taustapalvelimen käynnistys epäonnistui:', err)
-    })
+    // Käytetään samaa turvallista openInNewWindow-funktiota
+    openInNewWindow(`node "${serverPath}"`)
   } else {
     console.log('ℹ️ server.js -tiedostoa ei löytynyt juuresta.')
   }
 }
 
+function startPlaywright() {
+  const playwrightBatPath = path.resolve(__dirname, '../src/tools/playwright/start-playwrightServer.bat')
+
+  if (fs.existsSync(playwrightBatPath)) {
+    openInNewWindow(`"${playwrightBatPath}"`)
+  } else {
+    console.log('⚠️ Playwright-serverin .bat-tiedostoa ei löytynyt polusta:', playwrightBatPath)
+  }
+}
+
+function startSqlite() {
+  // Koska startBackendServer() tekee jo saman, estetään tuplakäynnistys tai käytetään tarvittaessa suoraan sitä
+  startBackendServer()
+}
+
 function startVite() {
   console.log('⚡ Käynnistetään Vite-kehityspalvelin...')
-  const viteProcess = exec('npx vite', (err) => {
-    if (err) console.error('⚠️ Viten käynnistys epäonnistui:', err)
+  const viteProcess = spawn('npx', ['vite'], {
+    stdio: 'inherit',
+    shell: true
   })
 
-  viteProcess.stdout.pipe(process.stdout)
-  viteProcess.stderr.pipe(process.stderr)
+  viteProcess.on('close', (code) => {
+    process.exit(code)
+  })
 }
 
 // Switch-case valinta
 switch (action) {
   case 'dev':
-    // Pelkkä Vite + Taustapalvelin (tai pelkkä Vite, miten haluat)
-    startBackendServer()
+    startBackendServer() // <-- LISÄTTY TÄHÄN, että taustapalvelin käynnistyy aina
     startVite()
     break
 
   case 'zap':
-    startZap()
     startBackendServer()
+    startZap()
     startVite()
     break
 
   case 'playwright':
-    startPlaywright()
     startBackendServer()
+    startPlaywright()
+    startVite()
+    break
+
+  case 'sqlite':
+    startSqlite()
     startVite()
     break
 
   case 'all':
-    // Käynnistää kaiken: ZAP, Playwright, Express-taustapalvelin JA Vite
+    startBackendServer()
     startZap()
     startPlaywright()
-    startBackendServer()
     startVite()
     break
 

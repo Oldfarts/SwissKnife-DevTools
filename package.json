@@ -7,6 +7,7 @@
     "dev": "node scripts/start.js dev",
     "dev:zap": "node scripts/start.js zap",
     "dev:playwright": "node scripts/start.js playwright",
+    "dev:sqlite": "node scripts/start.js sqlite",
     "dev:all": "node scripts/start.js all",
     "build": "tsc -b && vite build",
     "lint": "oxlint",

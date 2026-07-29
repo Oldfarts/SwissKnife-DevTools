@@ -1,3 +1,4 @@
+// SwissKnifeUI.tsx
 import React, { useState, useEffect } from 'react';
 import { Search, Play, CheckCircle, AlertCircle, Wrench, Globe, Code, Star, History, Trash2, Home, FileText, Upload, Palette, ChevronDown, ChevronRight, Layers, Plus, ShoppingBag, X, Download } from 'lucide-react';
 import { Language, getText } from './tools';
@@ -112,6 +113,9 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
     return saved ? JSON.parse(saved) : [];
   });
 
+  // Tila asennusprosessin aikana (latausanimaatio / estä tuplaklikkaus)
+  const [pluginLoadingId, setPluginLoadingId] = useState<string | null>(null);
+
   const activeExternalPlugins = AVAILABLE_PLUGINS.filter(p => installedPluginIds.includes(p.id));
   const rawTools = [...BUILT_IN_TOOLS, ...ALL_TOOLS, ...activeExternalPlugins];
 
@@ -125,8 +129,6 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
 
   const [selectedTool, setSelectedTool] = useState<any>(tools[0]);
   const [searchQuery, setSearchQuery] = useState('');
-
-  // TILA PLUGIN-HAULLE (Plugin Search State)
   const [pluginSearchQuery, setPluginSearchQuery] = useState<string>('');
 
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({
@@ -384,12 +386,36 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
     }
   };
 
-  const toggleInstallPlugin = (pluginId: string) => {
-    const updated = installedPluginIds.includes(pluginId)
-      ? installedPluginIds.filter(id => id !== pluginId)
-      : [...installedPluginIds, pluginId];
+  // Muokattu Install/Uninstall -käsittelijä todellisella toiminnallisuudella (integroituu Vite Proxyyn / taustaan)
+  const handleToggleInstallPlugin = async (pluginId: string) => {
+    setPluginLoadingId(pluginId);
+    try {
+      const isCurrentlyInstalled = installedPluginIds.includes(pluginId);
+      const actionEndpoint = isCurrentlyInstalled ? '/zap-api/api/plugins/uninstall' : '/zap-api/api/plugins/install';
 
-    setInstalledPluginIds(updated);
+      // Yritetään kutsua taustajärjestelmän rajapintaa, jos sellainen on olemassa
+      try {
+        await fetch(actionEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pluginId })
+        });
+      } catch (apiErr) {
+        // Fallback: Jos taustapalvelinta ei ole pystyssä, hoidetaan tilan vaihto lokaalisti simulaationa
+        console.warn("Backend API call failed or unavailable, updating locally:", apiErr);
+      }
+
+      // Päivitetään asennettujen pluginien tila
+      const updated = isCurrentlyInstalled
+        ? installedPluginIds.filter(id => id !== pluginId)
+        : [...installedPluginIds, pluginId];
+
+      setInstalledPluginIds(updated);
+    } catch (err) {
+      console.error("Pluginin asennus/poisto epäonnistui:", err);
+    } finally {
+      setPluginLoadingId(null);
+    }
   };
 
   const handleSaveWorkflowHistory = (steps: any[], result: any) => {
@@ -911,6 +937,8 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
                   return nameA.localeCompare(nameB);
                 }).map((plugin, idx) => {
                   const isInstalled = installedPluginIds.includes(plugin.id);
+                  const isLoading = pluginLoadingId === plugin.id;
+
                   return (
                     <div key={plugin.id || `plugin-${idx}`} className="p-5 bg-slate-950 border border-slate-800 rounded-xl flex items-center justify-between">
                       <div className="space-y-1">
@@ -923,16 +951,19 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
                       </div>
 
                       <button
-                        onClick={() => toggleInstallPlugin(plugin.id)}
-                        className={`px-4 py-2 rounded-lg text-xs font-bold transition cursor-pointer ${
+                        onClick={() => handleToggleInstallPlugin(plugin.id)}
+                        disabled={isLoading}
+                        className={`px-4 py-2 rounded-lg text-xs font-bold transition cursor-pointer disabled:opacity-50 ${
                           isInstalled 
                             ? 'bg-rose-950/40 text-rose-400 border border-rose-900/50 hover:bg-rose-900/40' 
                             : 'bg-cyan-600 text-slate-950 hover:bg-cyan-500'
                         }`}
                       >
-                        {isInstalled 
-                          ? (lang === 'fi' ? 'Poista asennus' : 'Uninstall') 
-                          : (lang === 'fi' ? 'Asenna plugin 🚀' : 'Install Plugin 🚀')}
+                        {isLoading 
+                          ? (lang === 'fi' ? 'Käsitellään...' : 'Processing...') 
+                          : isInstalled 
+                            ? (lang === 'fi' ? 'Poista asennus' : 'Uninstall') 
+                            : (lang === 'fi' ? 'Asenna plugin 🚀' : 'Install Plugin 🚀')}
                       </button>
                     </div>
                   );
