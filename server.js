@@ -11,7 +11,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const app = express()
-const PORT = 8080
+const PORT = 3001
 
 app.use(cors())
 app.use(express.json())
@@ -31,7 +31,7 @@ app.post('/api/plugins/install', (req, res) => {
     } else if (pluginId === 'plugin-zap-daemon') {
       command = `${ZAP_JAR_CMD} -daemon`
     } else if (pluginId === 'plugin-playwright-server') {
-      command = 'node start-playwright.js'
+      command = 'node src\\tools\\playwright\\playwrightServer.js'
     }
   }
 

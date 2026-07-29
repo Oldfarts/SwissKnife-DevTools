@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// API-reitti Playwright-testeille (hoitaa selaimen ajon taustalla)
+// API-reitti Playwright-testeille
 app.post('/api/playwright-test', async (req, res) => {
   const { url, action } = req.body;
 
@@ -16,10 +16,12 @@ app.post('/api/playwright-test', async (req, res) => {
 
   let browser;
   try {
+    // headless: false näyttää selaimen ruudulla, true ajaa sen taustalla
     browser = await chromium.launch({ headless: true });
     const page = await browser.newPage();
 
-    await page.goto(url, { waitUntil: 'networkidle' });
+    // 'domcontentloaded' on usein varmempi kuin networkidle, jos sivulla on jatkuvaa liikikennettä
+    await page.goto(url, { waitUntil: 'domcontentloaded' });
 
     const title = await page.title();
     let extraData = {};
@@ -50,8 +52,8 @@ app.post('/api/playwright-test', async (req, res) => {
   }
 });
 
-// Käynnistetään taustapalvelu oikeassa paikassa tiedoston lopussa
+// Portti 3001 tai mikä tahansa vapaa portti
 const PORT = 3001;
 app.listen(PORT, () => {
-  console.log(`Playwright taustapalvelu pyörii osoitteessa http://localhost:${PORT}`);
+  console.log(`🚀 Playwright taustapalvelu pyörii osoitteessa http://localhost:${PORT}`);
 });

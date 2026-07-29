@@ -386,20 +386,28 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
     }
   };
 
-  // Muokattu Install/Uninstall -käsittelijä todellisella toiminnallisuudella (integroituu Vite Proxyyn / taustaan)
+  // Muokattu Install/Uninstall -käsittelijä todellisella toiminnallisuudella
   const handleToggleInstallPlugin = async (pluginId: string) => {
     setPluginLoadingId(pluginId);
     try {
       const isCurrentlyInstalled = installedPluginIds.includes(pluginId);
-      const actionEndpoint = isCurrentlyInstalled ? '/zap-api/api/plugins/uninstall' : '/zap-api/api/plugins/install';
+      
+      // Kutsutaan suoraan Express-taustapalvelinta portissa 8080 (EI /zap-api kautta!)
+      const actionEndpoint = isCurrentlyInstalled 
+        ? 'http://localhost:3001/api/plugins/uninstall' 
+        : 'http://localhost:3001/api/plugins/install';
 
-      // Yritetään kutsua taustajärjestelmän rajapintaa, jos sellainen on olemassa
+      // Yritetään kutsua taustajärjestelmän rajapintaa
       try {
-        await fetch(actionEndpoint, {
+        const response = await fetch(actionEndpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ pluginId })
         });
+
+        if (!response.ok) {
+          throw new Error(`Server returned status ${response.status}`);
+        }
       } catch (apiErr) {
         // Fallback: Jos taustapalvelinta ei ole pystyssä, hoidetaan tilan vaihto lokaalisti simulaationa
         console.warn("Backend API call failed or unavailable, updating locally:", apiErr);
