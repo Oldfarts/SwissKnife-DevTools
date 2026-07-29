@@ -33,9 +33,8 @@ export const fetchSwaggerTool: SwissTool = {
         };
       }
 
-      // Korjattu URL-enkoodaus proxylle
-      const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(encodeURIComponent(inputs.url))}`;
-      const res = await fetch(proxyUrl);
+      // Haetaan suoraan annetusta URL-osoitteesta ilman ulkoista proxya
+      const res = await fetch(inputs.url);
       
       if (!res.ok) {
         return {

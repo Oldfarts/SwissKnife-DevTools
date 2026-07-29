@@ -16,15 +16,44 @@ const PORT = 3001
 app.use(cors())
 app.use(express.json())
 
+// --- ALUSTETAAN SOAP-TESTIDATA TIETOKANTAAN ---
+db.serialize(() => {
+  db.run(`CREATE TABLE IF NOT EXISTS soap_items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    item_code TEXT,
+    description TEXT,
+    status TEXT,
+    amount REAL,
+    category TEXT
+  )`, (err) => {
+    if (!err) {
+      db.get(`SELECT COUNT(*) as count FROM soap_items`, (err, row) => {
+        if (!err && row && row.count === 0) {
+          const stmt = db.prepare(`INSERT INTO soap_items (item_code, description, status, amount, category) VALUES (?, ?, ?, ?, ?)`)
+          
+          const testItems = [
+            ['SOAP-001', 'Perustilaus - Lelu', 'PENDING', 49.99, 'Retail'],
+            ['SOAP-002', 'Premium-tilaus - Elektroniikka', 'APPROVED', 599.00, 'Tech'],
+            ['SOAP-003', 'Hylätty tilaus - Vanhentunut', 'REJECTED', 12.50, 'Misc'],
+            ['SOAP-004', 'Yrityslisenssi - Ohjelmisto', 'APPROVED', 1250.00, 'B2B'],
+            ['SOAP-005', 'Varastontarkistus pyyntö', 'PROCESSING', 0.00, 'Logistics']
+          ];
+
+          testItems.forEach(item => stmt.run(item))
+          stmt.finalize()
+          console.log('✅ Lisätty monipuolinen SOAP-testidata SQLite-tietokantaan!')
+        }
+      })
+    }
+  })
+})
+
 // --- PLUGINIEN HALLINTA (Install / Uninstall / Launch) ---
 app.post('/api/plugins/install', (req, res) => {
   let { pluginId, command } = req.body
 
-  // Määritetään suoraan Javan käynnistyskomento jar-tiedostolle ZAP:n kansiossa
-  // Tämä kiertää täysin kaikki Zap.bat-tiedoston ja polkujen välilyönti-ongelmat!
   const ZAP_JAR_CMD = 'java -Xmx512m -jar zap-2.17.0.jar'
 
-  // Varakorjaus, jos komento puuttuu tai siinä on vanhoja polkuja
   if (!command || command === 'undefined' || command.includes('Program Files') || command.includes('PROGRA~1')) {
     if (pluginId === 'plugin-zap-runner') {
       command = ZAP_JAR_CMD
@@ -32,6 +61,10 @@ app.post('/api/plugins/install', (req, res) => {
       command = `${ZAP_JAR_CMD} -daemon`
     } else if (pluginId === 'plugin-playwright-server') {
       command = 'node src\\tools\\playwright\\playwrightServer.js'
+    }
+    if (!command && pluginId === 'soap-start-scan-fixed') {
+    console.log(`ℹ️ Plugin ${pluginId} on paikallinen skriptikomponentti eikä vaadi erillistä asennusta.`)
+    return res.json({ success: true, message: `Plugin ${pluginId} valmis käytettäväksi.` })
     }
   }
 
@@ -42,13 +75,11 @@ app.post('/api/plugins/install', (req, res) => {
       return res.status(400).json({ success: false, error: 'Komento puuttuu!' })
     }
 
-    // Asetetaan aina työkansioksi ZAP:n varsinainen asennuskansio, josta löydetään jar-tiedosto
     let cwdOption = 'F:\\REACT-ohjelmat\\SwissKnife-DevTools'
     if (pluginId === 'plugin-zap-runner' || pluginId === 'plugin-zap-daemon') {
       cwdOption = 'C:\\Program Files\\ZAP\\Zed Attack Proxy'
     }
 
-    // Avataan uuteen komentorivi-ikkunaan kiltisti
     spawn('cmd.exe', ['/k', command], {
       detached: true,
       shell: true,
@@ -69,7 +100,6 @@ app.post('/api/plugins/uninstall', (req, res) => {
   console.log(`🗑️ Poistetaan / Sammutetaan plugin: ${pluginId}`)
 
   try {
-    // Suljetaan oikea prosessi pluginin tyypin mukaan turvallisesti
     if (pluginId && pluginId.includes('zap')) {
       spawn('taskkill', ['/f', '/im', 'java.exe'], { shell: true, stdio: 'ignore' })
     } else if (pluginId && pluginId.includes('playwright')) {
@@ -151,6 +181,91 @@ app.post('/api/products', (req, res) => {
   db.run(query, [title, price, category || 'Yleinen'], function (err) {
     if (err) return res.status(500).json({ error: err.message })
     res.json({ success: true, data: { id: this.lastID, title, price, category: category || 'Yleinen' } })
+  })
+})
+
+// Laajennettu SOAP-reitti Expressissä
+app.post('/ws/myservice', express.text({ type: '*/*' }), (req, res) => {
+  console.log('📥 Vastaanotettu SOAP-pyyntö:', req.body)
+
+  db.all(`SELECT * FROM soap_items`, [], (err, rows) => {
+    if (err) {
+      res.status(500).send('<soap:Envelope><soap:Body><Error>Tietokantavirhe</Error></soap:Body></soap:Envelope>')
+      return
+    }
+
+    const itemsXml = rows.map(r => `
+      <Item id="${r.id}">
+        <code>${r.item_code}</code>
+        <description>${r.description}</description>
+        <status>${r.status}</status>
+        <amount>${r.amount}</amount>
+        <category>${r.category}</category>
+      </Item>`).join('')
+    
+    const xmlResponse = `<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <GetInfoResponse>
+         <TotalItems>${rows.length}</TotalItems>
+         <Items>
+            ${itemsXml}
+         </Items>
+      </GetInfoResponse>
+   </soapenv:Body>
+</soapenv:Envelope>`
+
+    res.setHeader('Content-Type', 'text/xml; charset=utf-8')
+    res.send(xmlResponse)
+  })
+})
+
+// Laajempi SOAP-metodi / reitti (Esim. GetProductDetails)
+app.post('/ws/productservice', express.text({ type: '*/*' }), (req, res) => {
+  console.log('📥 Vastaanotettu SOAP Product -pyyntö:', req.body)
+
+  // Yksinkertainen regex-haku XML:stä, jolla napataan pyydetty tuotekoodi (esim. <itemCode>SOAP-002</itemCode>)
+  const match = req.body.match(/<itemCode>(.*?)<\/itemCode>/)
+  const itemCode = match ? match[1] : 'SOAP-001'
+
+  // Haetaan kyseinen tuote SQLite-kannasta
+  db.get(`SELECT * FROM soap_items WHERE item_code = ?`, [itemCode], (err, row) => {
+    if (err || !row) {
+      // Jos tuotetta ei löydy, palautetaan SOAP Fault tai virheviesti XML:nä
+      const errorResponse = `<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+   <soapenv:Body>
+      <soapenv:Fault>
+         <faultcode>Server</faultcode>
+         <faultstring>Tuotetta koodilla '${itemCode}' ei löytynyt.</faultstring>
+      </soapenv:Fault>
+   </soapenv:Body>
+</soapenv:Envelope>`
+      res.setHeader('Content-Type', 'text/xml; charset=utf-8')
+      res.status(404).send(errorResponse)
+      return
+    }
+
+    // Jos tuote löytyy, palautetaan onnistunut SOAP-vastaus
+    const xmlResponse = `<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <GetProductDetailsResponse xmlns="http://example.com/">
+         <Product>
+            <Code>${row.item_code}</Code>
+            <Description>${row.description}</Description>
+            <Status>${row.status}</Status>
+            <Amount>${row.amount}</Amount>
+            <Category>${row.category}</Category>
+         </Product>
+      </GetProductDetailsResponse>
+   </soapenv:Body>
+</soapenv:Envelope>`
+
+    res.setHeader('Content-Type', 'text/xml; charset=utf-8')
+    res.send(xmlResponse)
   })
 })
 

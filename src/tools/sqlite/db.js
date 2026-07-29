@@ -23,7 +23,7 @@ db.serialize(() => {
     role TEXT DEFAULT 'user'
   )`)
 
-  // 2. REST-testidatataulu (esim. tuotteet tai kohteet)
+  // 2. REST-testidatataulu (tuotteet)
   db.run(`CREATE TABLE IF NOT EXISTS products (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
@@ -32,9 +32,17 @@ db.serialize(() => {
     in_stock INTEGER DEFAULT 1
   )`)
 
+  // 3. SOAP-testidatataulu
+  db.run(`CREATE TABLE IF NOT EXISTS soap_items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    item_code TEXT NOT NULL,
+    description TEXT,
+    status TEXT DEFAULT 'ACTIVE'
+  )`)
+
   // Lisätään oletustestidataa automaattisesti, jos taulut ovat tyhjiä
   db.get(`SELECT COUNT(*) as count FROM users`, (err, row) => {
-    if (row.count === 0) {
+    if (row && row.count === 0) {
       db.run(`INSERT INTO users (username, password, role) VALUES ('admin', 'salasana123', 'admin')`)
       db.run(`INSERT INTO users (username, password, role) VALUES ('testi_kayttaja', 'testi123', 'user')`)
       console.log('👤 Testikäyttäjät lisätty kantaan (admin / salasana123)')
@@ -42,10 +50,18 @@ db.serialize(() => {
   })
 
   db.get(`SELECT COUNT(*) as count FROM products`, (err, row) => {
-    if (row.count === 0) {
+    if (row && row.count === 0) {
       db.run(`INSERT INTO products (title, price, category) VALUES ('Testituote A', 19.99, 'Elektroniikka')`)
       db.run(`INSERT INTO products (title, price, category) VALUES ('Testituote B', 9.50, 'Kirjat')`)
       console.log('📦 REST-testidata lisätty kantaan (products)')
+    }
+  })
+
+  db.get(`SELECT COUNT(*) as count FROM soap_items`, (err, row) => {
+    if (row && row.count === 0) {
+      db.run(`INSERT INTO soap_items (item_code, description, status) VALUES ('SOAP-001', 'Esimerkki SOAP-tilaus', 'PENDING')`)
+      db.run(`INSERT INTO soap_items (item_code, description, status) VALUES ('SOAP-002', 'Toinen SOAP-tilaus', 'APPROVED')`)
+      console.log('📜 SOAP-testidata lisätty kantaan (soap_items)')
     }
   })
 })

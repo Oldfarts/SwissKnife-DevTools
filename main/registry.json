@@ -62,13 +62,61 @@
       }
     ]
   },
+  {
+    "id": "soap-generic-api",
+    "version": "1.2.0",
+    "author": "Jani Ärväs",
+    "name": {
+      "fi": "OWASP ZAP - SOAP-Yleinen API",
+      "en": "OWASP ZAP - SOAP-Generic API"
+    },
+    "description": {
+      "fi": "Kutsu mitä tahansa SOAP-webbisalvelua vapaasti lähettämällä räätälöity XML-sanoma.",
+      "en": "Call any SOAP web service freely by sending a custom XML envelope."
+    },
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "local",
+    "inputs": [
+      {
+        "key": "endpoint",
+        "type": "text",
+        "label": {
+          "fi": "Palvelun osoite (Endpoint URL)",
+          "en": "Service Endpoint URL"
+        },
+        "default": "http://localhost:3001/ws/myservice"
+      },
+      {
+        "key": "soapAction",
+        "type": "text",
+        "label": {
+          "fi": "SOAPAction (valinnainen)",
+          "en": "SOAPAction (optional)"
+        },
+        "default": ""
+      },
+      {
+        "key": "soapEnvelope",
+        "type": "textarea",
+        "label": {
+          "fi": "SOAP Envelope (XML)",
+          "en": "SOAP Envelope (XML)"
+        },
+        "default": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:loc=\"http://example.com/\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <loc:GetInfo/>\n   </soapenv:Body>\n</soapenv:Envelope>"
+      }
+    ],
+    "execute": "async (inputs) => { const endpoint = inputs?.endpoint || 'http://localhost:3001/ws/myservice'; const soapAction = inputs?.soapAction || ''; const body = inputs?.soapEnvelope || ''; try { const headers = { 'Content-Type': 'text/xml; charset=utf-8' }; if (soapAction) headers['SOAPAction'] = '\"' + soapAction + '\"'; const res = await fetch(endpoint, { method: 'POST', headers, body }); const text = await res.text(); return { success: res.ok, data: { status: res.status, rawXml: text } }; } catch (e) { return { success: false, error: e.message }; } }"
+  },
   { 
     "id": "owasp-zap-generic-api",
     "version": "1.1.0",
     "author": "Jani Ärväs",
     "name": {
-      "fi": "OWASP ZAP - Yleinen API",
-      "en": "OWASP ZAP - Generic API"
+      "fi": "OWASP ZAP - Yleinen REST API",
+      "en": "OWASP ZAP - Generic REST API"
     },
     "description": {
       "fi": "Kutsu mitä tahansa OWASP ZAP:n JSON-rajapinnan metodia vapaasti.",
@@ -145,8 +193,8 @@
     "version": "2.1.0",
     "author": "Jani Ärväs",
     "name": {
-      "fi": "OWASP ZAP - Käynnistä ZAP Skannaus Politiikalla",
-      "en": "OWASP ZAP - Start ZAP Scan with Policy"
+      "fi": "OWASP ZAP - Käynnistä REST ZAP Skannaus Politiikalla",
+      "en": "OWASP ZAP - Start REST ZAP Scan with Policy"
     },
     "description": {
       "fi": "Käynnistää aktiivisen skannauksen.",
@@ -189,6 +237,63 @@
         "default": "Default Policy"
       }
     ]
+  },
+  {
+  "id": "soap-start-scan-fixed",
+  "version": "2.2.0",
+  "author": "Jani Ärväs",
+  "name": {
+    "fi": "OWASP ZAP - SOAP ZAP Skannaus Politiikalla",
+    "en": "OWASP ZAP - SOAP ZAP Scan with Policy"
+  },
+  "description": {
+    "fi": "Suorittaa SOAP-pyynnön ZAP-proxyn kautta, jotta ZAP tallentaa sen skannattavaksi.",
+    "en": "Executes a SOAP request through the ZAP proxy so ZAP records it for scanning."
+  },
+  "category": {
+    "fi": "ULKOPUOLISET PLUGINIT",
+    "en": "OUT PLUGINS"
+  },
+  "type": "local",
+  "inputs": [
+    {
+      "key": "endpoint",
+      "type": "text",
+      "label": {
+        "fi": "Kohde Endpoint URL (Taustapalvelin)",
+        "en": "Target Endpoint URL (Backend)"
+      },
+      "default": "http://localhost:3001/ws/myservice"
+    },
+    {
+      "key": "zapProxy",
+      "type": "text",
+      "label": {
+        "fi": "ZAP Proxy URL",
+        "en": "ZAP Proxy URL"
+      },
+      "default": "http://localhost:8080"
+    },
+    {
+      "key": "soapAction",
+      "type": "text",
+      "label": {
+        "fi": "SOAPAction (valinnainen)",
+        "en": "SOAPAction (optional)"
+      },
+      "default": ""
+    },
+    {
+      "key": "soapEnvelope",
+      "type": "textarea",
+      "label": {
+        "fi": "SOAP Envelope (XML)",
+        "en": "SOAP Envelope (XML)"
+      },
+      "default": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:loc=\"http://example.com/\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <loc:GetInfo/>\n   </soapenv:Body>\n</soapenv:Envelope>"
+    }
+  ],
+  "execute": "async (inputs) => { const targetEndpoint = inputs?.endpoint || 'http://localhost:3001/ws/productservice'; try { const accessUrl = 'http://localhost:8080/JSON/core/action/accessUrl/?url=' + encodeURIComponent(targetEndpoint); await fetch(accessUrl, { mode: 'no-cors' }); const scanUrl = 'http://localhost:8080/JSON/ascan/action/scan/?url=' + encodeURIComponent(targetEndpoint); await fetch(scanUrl, { mode: 'no-cors' }); return { success: true, data: { note: 'Osoite lähetetty ZAPille ja aktiivinen skannaus käynnistetty!' } }; } catch (e) { return { success: false, error: 'ZAP yhteysvirhe: ' + e.message }; } }"
   },
   {
     "id": "zap-generate-html-report",
@@ -340,8 +445,8 @@
     "version": "1.0.2",
     "author": "Jani Ärväs",
     "name": {
-      "fi": "OWASP ZAP OpenAPI Tuonti",
-      "en": "OWASP ZAP - OpenAPI Import"
+      "fi": "OWASP ZAP - OpenAPI REST Tuonti",
+      "en": "OWASP ZAP - OpenAPI REST Import"
     },
     "description": {
       "fi": "Tekee REST/openapi importin Viten proxyn kautta.",
@@ -364,6 +469,54 @@
         "default": "http://localhost:5173/mini-api.json"
       }
     ]
+  },
+  {
+    "id": "soap-wsdl-import-or-test",
+    "version": "1.0.3",
+    "author": "Jani Ärväs",
+    "name": {
+      "fi": "OWASP ZAP - SOAP WSDL Sanoman Tuonti",
+      "en": "OWASP ZAP - SOAP WSDL Message Import"
+    },
+    "description": {
+      "fi": "Testaa SOAP-palvelua tai WSDL-osoitetta räätälöidyllä XML-sanomalla.",
+      "en": "Tests a SOAP service or WSDL endpoint with a custom XML message."
+    },
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "local",
+    "inputs": [
+      {
+        "key": "endpoint",
+        "type": "text",
+        "label": {
+          "fi": "SOAP Endpoint URL",
+          "en": "SOAP Endpoint URL"
+        },
+        "default": "http://localhost:3001/ws/myservice"
+      },
+      {
+        "key": "soapAction",
+        "type": "text",
+        "label": {
+          "fi": "SOAPAction (valinnainen)",
+          "en": "SOAPAction (optional)"
+        },
+        "default": ""
+      },
+      {
+        "key": "soapEnvelope",
+        "type": "textarea",
+        "label": {
+          "fi": "SOAP Envelope (XML)",
+          "en": "SOAP Envelope (XML)"
+        },
+        "default": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:loc=\"http://example.com/\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <loc:GetInfo/>\n   </soapenv:Body>\n</soapenv:Envelope>"
+      }
+    ],
+    "execute": "async (inputs) => { const endpoint = inputs?.endpoint || 'http://localhost:3001/ws/myservice'; const soapAction = inputs?.soapAction || ''; const body = inputs?.soapEnvelope || ''; try { const headers = { 'Content-Type': 'text/xml; charset=utf-8' }; if (soapAction) headers['SOAPAction'] = '\"' + soapAction + '\"'; const res = await fetch(endpoint, { method: 'POST', headers, body }); const text = await res.text(); return { success: res.ok, data: { status: res.status, rawXml: text } }; } catch (e) { return { success: false, error: e.message }; } }"
   },
   { 
     "id": "owasp-zap-proxy-status",
