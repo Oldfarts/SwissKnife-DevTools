@@ -9,7 +9,8 @@ const __dirname = path.dirname(__filename)
 const action = process.argv[2] || 'dev'
 
 function startZap() {
-  const zapBatPath = path.resolve(__dirname, './start-ZAP.bat')
+  // Korjattu polku: siirrytään scripts-kansiosta yhdestä tasosta ylöspäin juureen
+  const zapBatPath = path.resolve(__dirname, '../scripts/start-ZAP.bat')
   const zapInstallPath = 'C:\\Program Files\\ZAP\\Zed Attack Proxy\\Zap.bat'
   const isZapAvailable = fs.existsSync(zapBatPath) || fs.existsSync(zapInstallPath)
 
@@ -37,9 +38,21 @@ function startPlaywright() {
   }
 }
 
+function startBackendServer() {
+  const serverPath = path.resolve(__dirname, '../server.js')
+  if (fs.existsSync(serverPath)) {
+    console.log('🚀 Käynnistetään Express-taustapalvelin uuteen cmd-ikkunaan...')
+    // Avataan node server.js omaan cmd.exe-ikkunaan (/k pitää ikkunan auki)
+    exec(`start "" cmd.exe /k "node ${serverPath}"`, (err) => {
+      if (err) console.error('⚠️ Taustapalvelimen käynnistys epäonnistui:', err)
+    })
+  } else {
+    console.log('ℹ️ server.js -tiedostoa ei löytynyt juuresta.')
+  }
+}
+
 function startVite() {
   console.log('⚡ Käynnistetään Vite-kehityspalvelin...')
-  // Käynnistetään vite nykyiseen terminaali-ikkunaan
   const viteProcess = exec('npx vite', (err) => {
     if (err) console.error('⚠️ Viten käynnistys epäonnistui:', err)
   })
@@ -51,26 +64,28 @@ function startVite() {
 // Switch-case valinta
 switch (action) {
   case 'dev':
-    // Pelkkä Vite (kuten ennen vanhaan npm run dev)
+    // Pelkkä Vite + Taustapalvelin (tai pelkkä Vite, miten haluat)
+    startBackendServer()
     startVite()
     break
 
   case 'zap':
-    // Käynnistää ZAP:n JA Viten
     startZap()
+    startBackendServer()
     startVite()
     break
 
   case 'playwright':
-    // Käynnistää Playwrightin JA Viten
     startPlaywright()
+    startBackendServer()
     startVite()
     break
 
   case 'all':
-    // Käynnistää ZAP:n, Playwrightin JA Viten
+    // Käynnistää kaiken: ZAP, Playwright, Express-taustapalvelin JA Vite
     startZap()
     startPlaywright()
+    startBackendServer()
     startVite()
     break
 

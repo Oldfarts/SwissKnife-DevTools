@@ -809,17 +809,6 @@ export function SwissKnifeUI({ initialLang = 'en', onSaveData, loadData }: Swiss
               >
                 📥 {lang === 'fi' ? 'Avaa viimeisin ZAP Raportti':'Open latest ZAP Report' }
               </a>
-              <button
-                  onClick={() => {
-                    fetch('http://localhost:3000/api/run-playwright-bat', { method: 'POST' })
-                      .then(res => res.json())
-                      .then(data => alert(lang === 'fi' ? 'Playwright-serveri käynnistetty!' : 'Playwright server started!'))
-                      .catch(err => alert(lang === 'fi' ? 'Virhe: Varmista että taustapalvelu on päällä.' : 'Error: Ensure background service is running.'));
-                  }}
-                  className="bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold px-6 py-3 rounded-xl transition duration-200 shadow-lg cursor-pointer flex items-center gap-2 text-base inline-flex"
-                >
-                  🚀 {lang === 'fi' ? 'Käynnistä Playwright Server .bat' : 'Start Playwright Server .bat'}
-                </button>
               <p className="text-slate-400 text-base max-w-2xl mx-auto mb-6 leading-relaxed">
                 {lang === 'fi' 
                   ? 'Monipuolinen sveitsiläinen linkkuveitsi kehittäjille ja ylläpitäjille. Analysoi värejä, QR-koodeja, JSON/XML-muotoiluja ja automatisoituja työnkulkuja.'

@@ -51,7 +51,7 @@ app.post('/api/playwright-test', async (req, res) => {
 });
 
 // Käynnistetään taustapalvelu oikeassa paikassa tiedoston lopussa
-const PORT = 3000;
+const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`Playwright taustapalvelu pyörii osoitteessa http://localhost:${PORT}`);
 });
