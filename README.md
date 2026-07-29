@@ -73,26 +73,8 @@ Paina OK.
 
 Kaikki ohjelman työkalut noudattavat yhtenäistä `SwissTool`-rajapintaa (`types.ts`). Jokainen työkalu on itsenäinen moduuli, joka määrittelee omat syötteensä, kategoriansa, kielitukensa (FI/EN) ja suorituslogiikkansa (`execute`).
 
-+-----------------------------------------------------------------------------------+
-|  SELAIN (Frontend / React + Vite)                                                 |
-|  - Käyttöliittymä (SwissKnifeUI) ja työkaluworkflow't (Portti 5173)               |
-+-----------------------------------------------------------------------------------+
-       |                                             |
-       | (ZAP-API-kutsut: OpenAPI-tuonti & skannaus) | (UI-toiminnot, pluginien asennus,
-       v                                             |  Playwright-testit & prosessit)
-+---------------------------------------+            v
-|  VITE PROXY (Portti 5173)             |     +-------------------------------------+
-|  - Ohjaa `/zap-api`-liikenteen        |     |  EXPRESS-TAUSTAPALVELIN             |
-|    turvallisesti eteenpäin            |     |  (Portti 3001)                      |
-+---------------------------------------+     |  - Hallinnoi plugineja              |
-       |                                      |  - Suorittaa Playwright-selain-     |
-       v                                      |    automaatiot Node.js:llä          |
-+---------------------------------------+     +-------------------------------------+
-|  OWASP ZAP -DAEMON                    |
-|  (Portti 8080)                        |
-|  - Hoitaa tietoturvaskannaukset       |
-|    (x-www-form-urlencoded -muodossa)  |
-+---------------------------------------+
+<img width="716" height="369" alt="image" src="https://github.com/user-attachments/assets/1fbd3ef9-0529-410b-94c2-2b9249c84c3c" />
+
 
 ---
 
