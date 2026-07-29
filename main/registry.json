@@ -400,8 +400,8 @@
     "version": "1.0.0",
     "author": "Jani Ärväs",
     "name": {
-      "fi": "Plugin: SQLite & Express Taustapalvelin",
-      "en": "Plugin: SQLite & Express Backend Server"
+      "fi": "PROGRAM Plugin: SQLite & Express Taustapalvelin",
+      "en": "PROGRAM Plugin: SQLite & Express Backend Server"
     },
     "description": {
       "fi": "Käynnistää SQLite-tietokannan ja Express-API:n erilliseen komentorivi-ikkunaan.",
@@ -420,8 +420,8 @@
     "version": "1.0.0",
     "author": "Jani Ärväs",
     "name": {
-      "fi": "Plugin: Playwright Taustapalvelu",
-      "en": "Plugin: Playwright Backend Service"
+      "fi": "PROGRAM Plugin: Playwright Taustapalvelu",
+      "en": "PROGRAM Plugin: Playwright Backend Service"
     },
     "description": {
       "fi": "Käynnistää Playwright-testipalvelimen taustalle erilliseen ikkunaan.",
@@ -440,8 +440,8 @@
     "version": "1.0.0",
     "author": "Jani Ärväs",
     "name": {
-      "fi": "Plugin: OWASP ZAP Daemon / Manager",
-      "en": "Plugin: OWASP ZAP Daemon / Manager"
+      "fi": "PROGRAM Plugin: OWASP ZAP Daemon / Manager",
+      "en": "PROGRAM Plugin: OWASP ZAP Daemon / Manager"
     },
     "description": {
       "fi": "Käynnistää OWASP ZAP -tietoturvatyökalun paikallisen taustaprosessin.",
@@ -460,8 +460,8 @@
     "version": "1.0.0",
     "author": "Jani Ärväs",
     "name": {
-      "fi": "Plugin: OWASP ZAP Daemon (Taustapalvelu)",
-      "en": "Plugin: OWASP ZAP Daemon (Headless)"
+      "fi": "PROGRAM Plugin: OWASP ZAP Daemon (Taustapalvelu)",
+      "en": "PROGRAM Plugin: OWASP ZAP Daemon (Headless)"
     },
     "description": {
       "fi": "Käynnistää OWASP ZAP:in pelkkänä taustapalveluna ilman graafista liittymää (portti 8080/8081).",

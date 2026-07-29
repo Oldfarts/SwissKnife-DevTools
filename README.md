@@ -75,7 +75,7 @@ Kaikki ohjelman työkalut noudattavat yhtenäistä `SwissTool`-rajapintaa (`type
 
 +-----------------------------------------------------------------------------------+
 |  SELAIN (Frontend / React + Vite)                                                 |
-|  - Käyttöliittymä (SwissKnifeUI) ja työkaluworkflow't (Portti 5173)                |
+|  - Käyttöliittymä (SwissKnifeUI) ja työkaluworkflow't (Portti 5173)               |
 +-----------------------------------------------------------------------------------+
        |                                             |
        | (ZAP-API-kutsut: OpenAPI-tuonti & skannaus) | (UI-toiminnot, pluginien asennus,
