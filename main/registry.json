@@ -115,8 +115,8 @@
     "version": "1.1.0",
     "author": "Jani Ärväs",
     "name": {
-      "fi": "OWASP ZAP - Yleinen-REST API",
-      "en": "OWASP ZAP - Generic-REST API"
+      "fi": "OWASP ZAP - REST- Yleinen API",
+      "en": "OWASP ZAP - REST- Generic API"
     },
     "description": {
       "fi": "Kutsu mitä tahansa OWASP ZAP:n JSON-rajapinnan metodia vapaasti.",
@@ -193,8 +193,8 @@
     "version": "2.1.0",
     "author": "Jani Ärväs",
     "name": {
-      "fi": "OWASP ZAP - Käynnistä REST ZAP Skannaus Politiikalla",
-      "en": "OWASP ZAP - Start REST ZAP Scan with Policy"
+      "fi": "OWASP ZAP - REST Käynnistä ZAP Skannaus Politiikalla",
+      "en": "OWASP ZAP - REST Start ZAP Scan with Policy"
     },
     "description": {
       "fi": "Käynnistää aktiivisen skannauksen.",
@@ -243,8 +243,8 @@
   "version": "2.2.0",
   "author": "Jani Ärväs",
   "name": {
-    "fi": "OWASP ZAP - Käynnistä SOAP ZAP Skannaus Politiikalla",
-    "en": "OWASP ZAP - Start SOAP ZAP Scan with Policy"
+    "fi": "OWASP ZAP - SOAP Käynnistä ZAP Skannaus Politiikalla",
+    "en": "OWASP ZAP - SOAP Start ZAP Scan with Policy"
   },
   "description": {
     "fi": "Suorittaa SOAP-pyynnön ZAP-proxyn kautta, jotta ZAP tallentaa sen skannattavaksi.",
