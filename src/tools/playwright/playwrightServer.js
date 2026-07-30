@@ -52,8 +52,8 @@ app.post('/api/playwright-test', async (req, res) => {
   }
 });
 
-// Portti 3001 tai mikä tahansa vapaa portti
-const PORT = 3001;
+// Portti 3002 tai mikä tahansa vapaa portti
+const PORT = 3002;
 app.listen(PORT, () => {
   console.log(`🚀 Playwright taustapalvelu pyörii osoitteessa http://localhost:${PORT}`);
 });

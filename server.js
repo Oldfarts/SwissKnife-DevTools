@@ -49,43 +49,75 @@ db.serialize(() => {
 })
 
 // --- PLUGINIEN HALLINTA (Install / Uninstall / Launch) ---
+// Muuttujat prosessien seurantaan muistissa
+let playwrightProcess = null;
+
+// 1. ASENNUS / KÄYNNISTYS
 app.post('/api/plugins/install', (req, res) => {
   let { pluginId, command } = req.body
 
   const ZAP_JAR_CMD = 'java -Xmx512m -jar zap-2.17.0.jar'
 
-  if (!command || command === 'undefined' || command.includes('Program Files') || command.includes('PROGRA~1')) {
+  if (!command || command === 'undefined' || command.includes('Program Files' ) || command.includes('PROGRA~1')) {
     if (pluginId === 'plugin-zap-runner') {
       command = ZAP_JAR_CMD
     } else if (pluginId === 'plugin-zap-daemon') {
       command = `${ZAP_JAR_CMD} -daemon`
     } else if (pluginId === 'plugin-playwright-server') {
       command = 'node src\\tools\\playwright\\playwrightServer.js'
+    } else if (pluginId === 'plugin-sqlite-server') {
+      command = 'node server.js'
     }
-    if (!command && pluginId === 'soap-start-scan-fixed') {
-    console.log(`ℹ️ Plugin ${pluginId} on paikallinen skriptikomponentti eikä vaadi erillistä asennusta.`)
-    return res.json({ success: true, message: `Plugin ${pluginId} valmis käytettäväksi.` })
-    }
+  }
+
+  const localOrRestPlugins = [
+    'utility-wait', 'aws-s3-checker', 'soap-generic-api', 'owasp-zap-generic-api',
+    'owasp-zap-critical-alerts', 'owasp-zap-all-alerts', 'zap-start-scan-fixed-v2',
+    'soap-start-scan-fixed', 'zap-generate-html-report', 'image-exif-reader',
+    'image-exif-reader2', 'playwright-visual-regression', 'playwright-html-reporter',
+    'owasp-zap-openapi-import', 'soap-wsdl-import-or-test', 'owasp-zap-proxy-status'
+  ];
+
+  if (!command && localOrRestPlugins.includes(pluginId)) {
+    console.log(`ℹ️ Plugin ${pluginId} on paikallinen tai REST-pohjainen komponentti eikä vaadi erillistä palvelinprosessia.`);
+    return res.json({ success: true, message: `Plugin ${pluginId} valmis käytettäväksi.` });
+  }
+
+  if (!command) {
+    return res.status(400).json({ success: false, error: 'Komento puuttuu!' });
   }
 
   console.log(`📥 Asennetaan / Käynnistetään plugin: ${pluginId} komennolla: ${command}`)
 
   try {
-    if (!command) {
-      return res.status(400).json({ success: false, error: 'Komento puuttuu!' })
-    }
-
     let cwdOption = 'F:\\REACT-ohjelmat\\SwissKnife-DevTools'
     if (pluginId === 'plugin-zap-runner' || pluginId === 'plugin-zap-daemon') {
       cwdOption = 'C:\\Program Files\\ZAP\\Zed Attack Proxy'
     }
 
-    spawn('cmd.exe', ['/k', command], {
-      detached: true,
-      shell: true,
-      cwd: cwdOption,
-      stdio: 'ignore'
-    }).unref()
+    // Jos kyseessä on Playwright, otetaan käynnistyvästä prosessista viite talteen
+    if (pluginId === 'plugin-playwright-server') {
+      if (playwrightProcess) {
+        try { spawn(`taskkill /pid ${playwrightProcess.pid} /f /t`, { shell: true, stdio: 'ignore' }); } catch (e) {}
+      }
+
+      playwrightProcess = spawn('cmd.exe', ['/c', command], {
+        detached: true,
+        shell: true,
+        cwd: cwdOption,
+        stdio: 'ignore'
+      });
+      playwrightProcess.unref();
+      console.log(`🚀 Playwright käynnistetty PID:llä ${playwrightProcess.pid}`);
+    } else {
+      // Muut (kuten ZAP) käynnistyvät normaalisti
+      spawn('cmd.exe', ['/c', command], {
+        detached: true,
+        shell: true,
+        cwd: cwdOption,
+        stdio: 'ignore'
+      }).unref();
+    }
 
     res.json({ success: true, message: `Plugin ${pluginId} käynnistetty uuteen ikkunaan.` })
   } catch (err) {
@@ -94,24 +126,33 @@ app.post('/api/plugins/install', (req, res) => {
   }
 })
 
-// 2. Poista / Sammuta plugin napista
+// 2. SAMMUTUS / UNINSTALL
 app.post('/api/plugins/uninstall', (req, res) => {
-  const { pluginId } = req.body
-  console.log(`🗑️ Poistetaan / Sammutetaan plugin: ${pluginId}`)
+  const { pluginId } = req.body;
+  console.log(`🗑️ Poistetaan / Sammutetaan plugin: ${pluginId}`);
 
   try {
     if (pluginId && pluginId.includes('zap')) {
-      spawn('taskkill', ['/f', '/im', 'java.exe'], { shell: true, stdio: 'ignore' })
+      spawn('taskkill', ['/f', '/im', 'java.exe'], { shell: true, stdio: 'ignore' });
     } else if (pluginId && pluginId.includes('playwright')) {
-      console.log('ℹ️ Playwright-taustapalvelu pysäytetty.')
+      console.log('ℹ️ Pysäytetään Playwright-taustapalvelu tallennetun PID:n kautta...');
+
+      // Käytetään sitä samaa toimivaa logiikkaa: tapetaan suoraan PID ja sen aliprosessit (/t)
+      if (playwrightProcess && playwrightProcess.pid) {
+        spawn(`taskkill /pid ${playwrightProcess.pid} /f /t`, { shell: true, stdio: 'ignore' });
+        playwrightProcess = null;
+      } else {
+        // Varakarminaattori, jos muuttuja on ehtinyt nollautua
+        spawn('taskkill', ['/f', '/im', 'node.exe', '/fi', 'WINDOWTITLE eq *playwright*'], { shell: true, stdio: 'ignore' });
+      }
     }
 
-    res.json({ success: true, message: `Plugin ${pluginId} poistettu / sammutettu.` })
+    res.json({ success: true, message: `Plugin ${pluginId} poistettu / sammutettu.` });
   } catch (err) {
-    console.error('❌ Virhe pluginin poistossa:', err)
+    console.error('❌ Virhe pluginin poistossa:', err);
     res.status(500).json({ success: false, error: err.message })
   }
-})
+});
 
 // Vanha launch-reitti yhteensopivuuden vuoksi
 app.post('/api/plugins/launch-server', (req, res) => {
