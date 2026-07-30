@@ -617,8 +617,8 @@
       "en": "PLAYWRIGHT TEST1: REST- Run Workflow Test"
     },
     "description": {
-      "fi": "Suorittaa Playwright-automaatiotestin käyttöliittymän työnkululle. Playwright server pitää käynnistää ensin ennen ajoa.",
-      "en": "Runs Playwright automation test for the workflow. Playwright server must be started before the run."
+      "fi": "Suorittaa Playwright-automaatiotestin käyttöliittymän REST-työnkululle. Playwright server pitää käynnistää ensin ennen ajoa.",
+      "en": "Runs Playwright automation test for the REST-workflow. Playwright server must be started before the run."
     },
     "category": {
       "fi": "ULKOPUOLISET PLUGINIT",
