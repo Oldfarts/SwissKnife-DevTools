@@ -59,15 +59,17 @@ app.post('/api/plugins/install', (req, res) => {
   const ZAP_JAR_CMD = 'java -Xmx512m -jar zap-2.17.0.jar'
 
   if (!command || command === 'undefined' || command.includes('Program Files' ) || command.includes('PROGRA~1')) {
-    if (pluginId === 'plugin-zap-runner') {
-      command = ZAP_JAR_CMD
-    } else if (pluginId === 'plugin-zap-daemon') {
-      command = `${ZAP_JAR_CMD} -daemon`
-    } else if (pluginId === 'plugin-playwright-server') {
-      command = 'node src\\tools\\playwright\\playwrightServer.js'
-    } else if (pluginId === 'plugin-sqlite-server') {
-      command = 'node server.js'
-    }
+      if (pluginId === 'plugin-zap-runner') {
+        command = ZAP_JAR_CMD
+      } else if (pluginId === 'plugin-zap-daemon') {
+        command = `${ZAP_JAR_CMD} -daemon`
+      } else if (pluginId === 'plugin-playwright-server') {
+        command = 'node start-playwright.js' // tai 'node src\\tools\\playwright\\playwrightServer.js' riippuen polustasi
+      } else if (pluginId === 'plugin-sqlite-server') {
+        command = 'node server.js'
+      } else if (pluginId === 'plugin-workflow-test') {
+      command = 'node src\\tools\\playwright\\testExecution1.spec.js'
+    }    
   }
 
   const localOrRestPlugins = [

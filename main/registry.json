@@ -609,6 +609,26 @@
     "execute": "async () => { try { const res = await fetch('/zap-api/api/plugins/install', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pluginId: 'plugin-zap-runner', command: 'C:\\Program Files\\ZAP\\Zed Attack Proxy\\Zap.bat' }) }); return await res.json(); } catch (e) { return { success: false, error: e.message }; } }"  
   },
   {
+    "id": "plugin-workflow-test",
+    "version": "1.0.0",
+    "author": "Jani Ärväs",
+    "name": {
+      "fi": "PLAYWRIGHT TEST1: REST- Työnkulun Testi",
+      "en": "PLAYWRIGHT TEST1: REST- Run Workflow Test"
+    },
+    "description": {
+      "fi": "Suorittaa Playwright-automaatiotestin käyttöliittymän työnkululle.",
+      "en": "Runs Playwright automation test for the workflow."
+    },
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "server-launch",
+    "command": "node src\\tools\\playwright\\testExecution1.spec.js",
+    "execute": "async () => { try { const res = await fetch('http://localhost:3001/api/plugins/install', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pluginId: 'plugin-workflow-test', command: 'node src\\tools\\playwright\\testExecution.spec.js' }) }); return await res.json(); } catch (e) { return { success: false, error: e.message }; } }"
+  },
+  {
     "id": "plugin-zap-daemon",
     "version": "1.0.0",
     "author": "Jani Ärväs",
