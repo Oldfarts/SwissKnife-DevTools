@@ -67,8 +67,10 @@ app.post('/api/plugins/install', (req, res) => {
         command = 'node start-playwright.js' // tai 'node src\\tools\\playwright\\playwrightServer.js' riippuen polustasi
       } else if (pluginId === 'plugin-sqlite-server') {
         command = 'node server.js'
-      } else if (pluginId === 'plugin-workflow-test') {
+      } else if (pluginId === 'plugin-workflow-test-rest') {
       command = 'node src\\tools\\playwright\\testExecution1.spec.js'
+      } else if (pluginId === 'plugin-workflow-test-soap') {
+      command = 'node src\\tools\\playwright\\testExecution2.spec.js'
     }    
   }
 

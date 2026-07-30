@@ -12,7 +12,7 @@ function logToFile(message) {
   const timestamp = new Date().toISOString();
   const logLine = `[${timestamp}] ${message}\n`;
   try {
-    fs.appendFileSync('suoritus-loki.txt', logLine);
+    fs.appendFileSync('suoritus-loki-rest.txt', logLine);
   } catch (err) {
     console.error('❌ Virhe lokitiedostoon kirjoituksessa:', err);
   }

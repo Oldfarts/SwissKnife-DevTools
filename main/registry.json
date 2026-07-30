@@ -609,7 +609,7 @@
     "execute": "async () => { try { const res = await fetch('/zap-api/api/plugins/install', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pluginId: 'plugin-zap-runner', command: 'C:\\Program Files\\ZAP\\Zed Attack Proxy\\Zap.bat' }) }); return await res.json(); } catch (e) { return { success: false, error: e.message }; } }"  
   },
   {
-    "id": "plugin-workflow-test",
+    "id": "plugin-workflow-test-rest",
     "version": "1.0.0",
     "author": "Jani Ärväs",
     "name": {
@@ -617,8 +617,8 @@
       "en": "PLAYWRIGHT TEST1: REST- Run Workflow Test"
     },
     "description": {
-      "fi": "Suorittaa Playwright-automaatiotestin käyttöliittymän työnkululle.",
-      "en": "Runs Playwright automation test for the workflow."
+      "fi": "Suorittaa Playwright-automaatiotestin käyttöliittymän työnkululle. Playwright server pitää käynnistää ensin ennen ajoa.",
+      "en": "Runs Playwright automation test for the workflow. Playwright server must be started before the run."
     },
     "category": {
       "fi": "ULKOPUOLISET PLUGINIT",
@@ -627,6 +627,26 @@
     "type": "server-launch",
     "command": "node src\\tools\\playwright\\testExecution1.spec.js",
     "execute": "async () => { try { const res = await fetch('http://localhost:3001/api/plugins/install', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pluginId: 'plugin-workflow-test', command: 'node src\\tools\\playwright\\testExecution.spec.js' }) }); return await res.json(); } catch (e) { return { success: false, error: e.message }; } }"
+  },
+  {
+    "id": "plugin-workflow-test-soap",
+    "version": "1.0.0",
+    "author": "Jani Ärväs",
+    "name": {
+      "fi": "PLAYWRIGHT TEST2: SOAP- Työnkulun Testi",
+      "en": "PLAYWRIGHT TEST2: SOAP- Run Workflow Test"
+    },
+    "description": {
+      "fi": "Suorittaa Playwright-automaatiotestin SOAP-työnkululle. Playwright server pitää käynnistää ensin ennen ajoa.",
+      "en": "Runs Playwright automation test for the SOAP workflow. Playwright server must be started before the run."
+    },
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "server-launch",
+    "command": "node src\\tools\\playwright\\testExecutionSoap.spec.js",
+    "execute": "async () => { try { const res = await fetch('http://localhost:3001/api/plugins/install', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pluginId: 'plugin-workflow-test-soap', command: 'node src\\tools\\playwright\\testExecutionSoap.spec.js' }) }); return await res.json(); } catch (e) { return { success: false, error: e.message }; } }"
   },
   {
     "id": "plugin-zap-daemon",
