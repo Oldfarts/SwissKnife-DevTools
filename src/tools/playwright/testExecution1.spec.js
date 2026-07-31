@@ -31,9 +31,9 @@ function logToFile(message) {
     await page.goto('http://localhost:5173/');
     await page.waitForTimeout(2500);
 
-    // 2. Klikataan nappia '21'
-    logToFile('👉 Klikataan nappia "21"...');
-    await page.getByRole('button', { name: '21' }).click();
+    // 2. Klikataan nappia '22'
+    logToFile('👉 Klikataan nappia "Plugins"...');
+    await page.getByRole('button', { name: '22' }).click();
     await page.waitForTimeout(2000);
 
     // 3. Klikataan elementtiä (div:nth-child(16))
@@ -107,7 +107,7 @@ function logToFile(message) {
 
     // 14. Siivotaan ja poistetaan asennukset
     logToFile('🧹 Siivotaan ja poistetaan asennukset...');
-    await page.getByRole('button', { name: '21' }).click();
+    await page.getByRole('button', { name: '22' }).click();
     await page.waitForTimeout(2000);
 
     logToFile('🗑️ Poistetaan ensimmäinen plugin...');

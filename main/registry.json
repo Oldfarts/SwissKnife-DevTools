@@ -645,7 +645,7 @@
       "en": "OUT PLUGINS"
     },
     "type": "server-launch",
-    "command": "node src\\tools\\playwright\\testExecutionSoap.spec.js",
+    "command": "node src\\tools\\playwright\\testExecution2.spec.js",
     "execute": "async () => { try { const res = await fetch('http://localhost:3001/api/plugins/install', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pluginId: 'plugin-workflow-test-soap', command: 'node src\\tools\\playwright\\testExecutionSoap.spec.js' }) }); return await res.json(); } catch (e) { return { success: false, error: e.message }; } }"
   },
   {
