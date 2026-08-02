@@ -1,5 +1,5 @@
-import { WorkflowStep, WorkflowProgress } from '../types';
-import { executeSwissTool, hydratePlugin } from '../index';
+import { WorkflowStep, WorkflowProgress } from '../types.ts';
+import { executeSwissTool, hydratePlugin } from '../index.ts';
 
 export async function runWorkflow(
   steps: WorkflowStep[],

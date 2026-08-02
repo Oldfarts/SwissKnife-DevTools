@@ -1,4 +1,4 @@
-import { SwissTool } from '../tools/types';
+import type { SwissTool, Language } from './types.ts';
 
 export const jwtPlaygroundTool: SwissTool = {
   id: 'jwt-attack-playground',

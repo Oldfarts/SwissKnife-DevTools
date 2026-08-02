@@ -1,4 +1,5 @@
-import { SwissTool, Language } from './types';
+import type { SwissTool, Language } from './types.ts';
+
 
 function parseToHex(colorInput: string): string | null {
   if (!colorInput) return null;

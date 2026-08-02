@@ -1,4 +1,4 @@
-import { SwissTool } from '../tools/types';
+import type { SwissTool, Language } from './types.ts';
 
 export const soapPythonUnitTestGeneratorTool: SwissTool = {
   id: 'soap-python-unit-test-generator',

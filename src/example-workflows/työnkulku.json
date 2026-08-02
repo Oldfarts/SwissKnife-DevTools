@@ -2,25 +2,47 @@
   "name": "Työnkulku",
   "steps": [
     {
-      "id": "step-1785157691226-mznh",
-      "toolId": "owasp-zap-openapi-import",
+      "id": "step-1785649458919-3ona",
+      "toolId": "plugin-timer-interval",
       "inputs": {
-        "url": "http://localhost:5173/mini-api.json"
+        "initOptions": {
+        "autoInstall": true,
+        "timeout": 5000
+        }
       }
     },
     {
-      "id": "step-1785157695399-jv3r",
+      "id": "step-1785649465690-vsjr",
+      "toolId": "owasp-zap-openapi-import",
+      "inputs": {
+        "url": "http://localhost:5173/mini-api.json",
+        "initOptions": {
+        "autoInstall": true,
+        "timeout": 5000
+        }
+      }
+    },
+    {
+      "id": "step-1785649472088-gmbg",
       "toolId": "zap-start-scan-fixed-v2",
       "inputs": {
         "url": "http://localhost:5173/mini-api.json",
-        "scanPolicyName": "Default Policy"
+        "scanPolicyName": "Default Policy",
+        "initOptions": {
+        "autoInstall": true,
+        "timeout": 5000
+        }
       }
     },
     {
-      "id": "step-1785157712477-g1y0",
+      "id": "step-1785649520185-ydnb",
       "toolId": "zap-generate-html-report",
       "inputs": {
-        "reportTitle": "mini-api.json"
+        "reportTitle": "Test-report",
+        "initOptions": {
+        "autoInstall": true,
+        "timeout": 5000
+        }
       }
     }
   ]

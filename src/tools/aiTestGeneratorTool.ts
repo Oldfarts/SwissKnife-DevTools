@@ -1,4 +1,4 @@
-import { SwissTool } from './types';
+import type { SwissTool, Language } from './types.ts';
 
 export const aiTestGeneratorTool: SwissTool = {
   id: 'ai-swagger-test-generator',

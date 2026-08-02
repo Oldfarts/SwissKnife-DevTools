@@ -1,6 +1,6 @@
-import { SwissTool } from "../types";
-import { callRest } from "./restExecutor";
-import { sleep } from "./sleep";
+import type { SwissTool, Language } from '../types.ts';
+import { callRest } from "./restExecutor.ts";
+import { sleep } from "./sleep.ts";
 
 export async function executePolling(
   tool: SwissTool,

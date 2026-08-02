@@ -1,4 +1,4 @@
-import { SwissTool, getText } from '../tools/types';
+import type { SwissTool, Language } from './types.ts';
 
 export const jsonSchemaTool: SwissTool = {
   id: 'json-schema-generator',

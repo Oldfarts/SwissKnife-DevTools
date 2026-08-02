@@ -58,5 +58,11 @@ export const WorkflowManager = {
       throw new Error('Virheellinen reseptitiedosto: nimi ja steps-taulukko vaaditaan.');
     }
     return recipe as WorkflowRecipe;
-  }
+  },
+
+  // 6. UUSI: Hae yksittäinen työnkulku nimellä
+  getWorkflowByName(name: string): WorkflowRecipe | null {
+    const workflows = WorkflowManager.getLocalWorkflows();
+    return workflows[name] || null;
+  },
 };

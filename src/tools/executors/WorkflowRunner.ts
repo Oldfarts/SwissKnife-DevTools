@@ -1,6 +1,6 @@
-import { WorkflowRecipe } from './workflow';
-import { executeSwissTool } from '../index'; // tai mistä tiedostosta executeSwissTool löytyykään
-import { Language } from '../types';
+import { WorkflowRecipe } from './workflow.ts';
+import { executeSwissTool } from '../index.ts'; // tai mistä tiedostosta executeSwissTool löytyykään
+import type { SwissTool, Language } from '../types.ts';
 
 export async function executeWorkflow(
   recipe: WorkflowRecipe, 

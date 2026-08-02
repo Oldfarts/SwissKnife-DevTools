@@ -1,38 +1,39 @@
-import { SwissTool, Language, getText } from './types';
-import { regexTesterTool } from './regexTester';
-import { colorConverterTool } from './colorConverter';
-import { jsonTools } from './jsonTools';
-import { xmlTools } from './xmlTools';
-import { jwtTools } from './jwtTools';
-import { hashTools } from './hashTools';
-import { encoderTools } from './encoderTools';
-import { apiTools } from './apiTools';
-import { dnsTools } from './dnsTools';
-import { fileTools } from './fileTools';
-import { sslTools } from './sslTools';
-import { qrAnalyzerTool } from './qrAnalyzer';
-import { requestReplayTool } from './requestReplayTool';
-import { jwtPlaygroundTool } from './jwtPlaygroundTool';
-import { apiDiffTool } from './apiDiffTool';
-import { logAnalyzerTool } from './logAnalyzerTool';
-import { jsonSchemaTool } from './jsonSchemaTool';
-import { aiTestGeneratorTool } from './aiTestGeneratorTool';
-import { fetchSwaggerTool } from './fetchSwaggerTool';
-import { fetchSoapTool } from './fetchSoapTool';
-import { aiSoapTestGeneratorTool } from './aiSoapTestGeneratorTool';
-import { restUnitTestGeneratorTool } from './restUnitTestGeneratorTool';
-import { soapUnitTestGeneratorTool } from './soapUnitTestGeneratorTool';
-import { restPythonUnitTestGeneratorTool } from './restPythonUnitTestGeneratorTool';
-import { soapPythonUnitTestGeneratorTool } from './soapPythonUnitTestGeneratorTool';
-import { WorkflowManager } from './workflowStorage';
-import registryData from "../../main/registry.json";
-import { executePolling } from "./executors/pollingExecutor";
-import { callRest } from "./executors/restExecutor";
-import { restDnsTool } from './restDnsTool';
-import { jsonFormatterTool } from './jsonFormatterTool';
-import { playwrightTestTool } from '../tools/playwright/playwrightTestTool';
+import type { SwissTool, Language } from './types.ts';
+import { regexTesterTool } from './regexTester.ts';
+import { colorConverterTool } from './colorConverter.ts';
+import { jsonTools } from './jsonTools.ts';
+import { xmlTools } from './xmlTools.ts';
+import { jwtTools } from './jwtTools.ts';
+import { hashTools } from './hashTools.ts';
+import { encoderTools } from './encoderTools.ts';
+import { apiTools } from './apiTools.ts';
+import { dnsTools } from './dnsTools.ts';
+import { fileTools } from './fileTools.ts';
+import { sslTools } from './sslTools.ts';
+import { qrAnalyzerTool } from './qrAnalyzer.ts';
+import { requestReplayTool } from './requestReplayTool.ts';
+import { jwtPlaygroundTool } from './jwtPlaygroundTool.ts';
+import { apiDiffTool } from './apiDiffTool.ts';
+import { logAnalyzerTool } from './logAnalyzerTool.ts';
+import { jsonSchemaTool } from './jsonSchemaTool.ts';
+import { aiTestGeneratorTool } from './aiTestGeneratorTool.ts';
+import { fetchSwaggerTool } from './fetchSwaggerTool.ts';
+import { fetchSoapTool } from './fetchSoapTool.ts';
+import { aiSoapTestGeneratorTool } from './aiSoapTestGeneratorTool.ts';
+import { restUnitTestGeneratorTool } from './restUnitTestGeneratorTool.ts';
+import { soapUnitTestGeneratorTool } from './soapUnitTestGeneratorTool.ts';
+import { restPythonUnitTestGeneratorTool } from './restPythonUnitTestGeneratorTool.ts';
+import { soapPythonUnitTestGeneratorTool } from './soapPythonUnitTestGeneratorTool.ts';
+import { WorkflowManager } from './workflowStorage.ts';
+// Tähän (käytetään with { type: "json" } tai assert { type: "json" }):
+import registryData from "../../main/registry.json" with { type: "json" };
+import { executePolling } from "./executors/pollingExecutor.ts";
+import { callRest } from "./executors/restExecutor.ts";
+import { restDnsTool } from './restDnsTool.ts';
+import { jsonFormatterTool } from './jsonFormatterTool.ts';
+import { playwrightTestTool } from '../tools/playwright/playwrightTestTool.ts';
 
-export * from './types';
+export * from './types.ts';
 
 // Varmistetaan että AVAILABLE_PLUGINS on varmasti taulukko
 export const AVAILABLE_PLUGINS: any[] = Array.isArray(registryData) 
@@ -63,11 +64,20 @@ export const executeSwissTool = async (
     lang: Language = "fi",
     onProgress?: (progress: number, message?: string) => void
 ) => {
+    // Haetaan työkalu rekisteristä, jos sille on annettu vain ID tai siitä puuttuu suoritustapa
+    let resolvedTool = tool;
+    const toolId = typeof tool === "string" ? tool : tool?.id;
+    if (toolId) {
+        const found = AVAILABLE_PLUGINS.find((p: any) => p.id === toolId);
+        if (found) {
+            resolvedTool = { ...found, ...(typeof tool === "object" ? tool : {}) };
+        }
+    }
 
     let executableTool =
-        tool && typeof tool.execute === "string"
-            ? hydratePlugin(tool)
-            : tool;
+        resolvedTool && typeof resolvedTool.execute === "string"
+            ? hydratePlugin(resolvedTool)
+            : resolvedTool;
 
     // --- PAKOTETAAN POLLING ZAP-TYÖKALULLE, JOS SITÄ EI LÖYDY ---
     if (executableTool && executableTool.id === "zap-start-scan-fixed-v2") {

@@ -25,15 +25,11 @@ export async function callRest(
   let targetEndpoint = endpoint;
 
   // Ohjataan localhost -> Vite proxy
-  if (targetEndpoint.startsWith("http://localhost:8080")) {
-    targetEndpoint = targetEndpoint.replace(
-      "http://localhost:8080",
-      "/zap-api"
-    );
-  }
-  else if (!targetEndpoint.startsWith("/zap-api")) {
-    targetEndpoint =
-      `/zap-api${targetEndpoint.startsWith("/") ? "" : "/"}${targetEndpoint}`;
+// Ohjataan proxy-osoitteet suoraan ZAP:lle, jos ollaan Node-ympäristössä tai jos halutaan suora yhteys
+  if (targetEndpoint.startsWith("/zap-api")) {
+    targetEndpoint = targetEndpoint.replace("/zap-api", "http://localhost:8080");
+  } else if (!targetEndpoint.startsWith("http")) {
+    targetEndpoint = `http://localhost:8080${targetEndpoint.startsWith("/") ? "" : "/"}${targetEndpoint}`;
   }
 
   let httpMethod = method.toUpperCase();

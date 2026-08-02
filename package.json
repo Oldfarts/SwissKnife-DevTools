@@ -8,6 +8,8 @@
     "dev:zap": "node scripts/start.js zap",
     "dev:playwright": "node scripts/start.js playwright",
     "dev:sqlite": "node scripts/start.js sqlite",
+    "dev:timer:nightly": "node scripts/start.js timer cron \"0 22 * * *\"",
+    "dev:timer:custom-workflow": "node scripts/start.js timer interval 1 \"F:\\REACT-ohjelmat\\SwissKnife-DevTools\\src\\example-workflows\\työnkulku.json\"",
     "dev:all": "node scripts/start.js all",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
@@ -19,6 +21,7 @@
     "fast-xml-parser": "^5.10.1",
     "jsqr": "^1.4.0",
     "lucide-react": "^1.25.0",
+    "node-cron": "^4.6.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "sqlite3": "^6.0.1"

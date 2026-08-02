@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Play, Plus, Trash2, CheckCircle, AlertCircle, History, Clock } from 'lucide-react';
-import { executeSwissTool } from '../src/tools/index';
+import { executeSwissTool } from '../src/tools/index.ts';
 
 interface ToolInputDef {
   key: string;

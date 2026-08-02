@@ -7,6 +7,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const action = process.argv[2] || 'dev'
+const subMode = process.argv[3] || 'interval' // Valittavissa: interval tai cron
 
 // Yksinkertaistettu ja luotettava tapa avata uusi CMD-ikkuna Windowsissa
 function openInNewWindow(commandToRun) {
@@ -24,10 +25,8 @@ function startZap() {
   const zapInstallPath = 'C:\\Program Files\\ZAP\\Zed Attack Proxy\\Zap.bat'
   
   if (fs.existsSync(zapBatPath)) {
-    // Lisätään -port 8081 komentoriviparametriksi bat-tiedoston perään
     openInNewWindow(`"${zapBatPath}" -port 8081`)
   } else if (fs.existsSync(zapInstallPath)) {
-    // Jos käynnistetään suoraan Zap.bat, annetaan portti-argumentti sille
     openInNewWindow(`"${zapInstallPath}" -port 8081`)
   } else {
     console.log('ℹ️ OWASP ZAP:ia ei löydetty koneelta.')
@@ -38,7 +37,6 @@ function startBackendServer() {
   const serverPath = path.resolve(__dirname, '../server.js')
   if (fs.existsSync(serverPath)) {
     console.log('🚀 Käynnistetään Express-taustapalvelin uuteen cmd-ikkunaan...')
-    // Käytetään samaa turvallista openInNewWindow-funktiota
     openInNewWindow(`node "${serverPath}"`)
   } else {
     console.log('ℹ️ server.js -tiedostoa ei löytynyt juuresta.')
@@ -56,14 +54,32 @@ function startPlaywright() {
 }
 
 function startSqlite() {
-  // Koska startBackendServer() tekee jo saman, estetään tuplakäynnistys tai käytetään tarvittaessa suoraan sitä
   startBackendServer()
+}
+
+// UUSI FUNKTIO: Käynnistää tausta-ajastimen uuteen ikkunaan
+function startTimer() {
+  // Varmista että tämä polku osoittaa oikeasti timerService.js -tiedostoosi!
+  const timerScriptPath = path.resolve(__dirname, '../src/tools/timerService.js')
+  
+  // Koska ajo on tyyliä: npm run dev:timer:custom-workflow (eli timer interval 5 polku...)
+  const customMode = process.argv[3] || 'interval';
+  const customTime = process.argv[4] || '5';
+  const customWorkflow = process.argv[5] || 'F:\\REACT-ohjelmat\\SwissKnife-DevTools\\src\\example-workflows\\työnkulku.json';
+  
+  if (fs.existsSync(timerScriptPath)) {
+    console.log(`⏰ Käynnistetään tausta-ajastin työnkululla: [${customWorkflow}]...`)
+    // Välitetään parametrit eteenpäin timerService.js:lle
+    openInNewWindow(`node "${timerScriptPath}" --mode=${customMode} --time="${customTime}" --workflow="${customWorkflow}"`)
+  } else {
+    console.log(`⚠️ Ajastimen skriptiä ei löytynyt polusta: ${timerScriptPath}`)
+  }
 }
 
 function startVite() {
   console.log('⚡ Käynnistetään Vite-kehityspalvelin...')
   const viteProcess = spawn('npx', ['vite'], {
-    stdio: 'inherit',
+    stdIO: 'inherit',
     shell: true
   })
 
@@ -75,7 +91,7 @@ function startVite() {
 // Switch-case valinta
 switch (action) {
   case 'dev':
-    startBackendServer() // <-- LISÄTTY TÄHÄN, että taustapalvelin käynnistyy aina
+    startBackendServer()
     startVite()
     break
 
@@ -96,10 +112,18 @@ switch (action) {
     startVite()
     break
 
+  case 'timer':
+    startBackendServer()
+    startZap()  // testi!!!
+    startTimer() // Käynnistää ajastinpalvelun (tukee --mode=interval tai --mode=cron)
+    startVite()
+    break
+
   case 'all':
     startBackendServer()
     startZap()
     startPlaywright()
+    startTimer()
     startVite()
     break
 

@@ -305,7 +305,7 @@
       "fi": "Hakee tietoturvaskannauksen tulokset OWASP ZAP:lta ja muodostaa niistä HTML-raportin.", 
       "en": "Fetches security scan results from OWASP ZAP and generates an HTML report." 
     },
-    "version": "1.0.1",
+    "version": "1.0.3",
     "author": "Jani Ärväs",
     "category": {
       "fi": "ULKOPUOLISET PLUGINIT",
@@ -320,7 +320,7 @@
         "default": "SwissKnife Security Audit Report"
       }
     ],
-    "execute": "async (inputs) => { try { const res = await fetch('/zap-api/OTHER/core/other/htmlreport/'); const html = await res.text(); const blob = new Blob([html], { type: 'text/html' }); const url = window.URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'zap-security-report.html'; document.body.appendChild(a); a.click(); window.URL.revokeObjectURL(url); document.body.removeChild(a); return { success: true, data: { message: 'HTML-raportti haettu ja tallennettu tiedostona onnistuneesti', length: html.length } }; } catch (e) { return { success: false, error: e.message }; } }"
+    "execute": "async (inputs) => { try { const reportUrl = 'http://localhost:8080/OTHER/core/other/htmlreport/'; const res = await fetch(reportUrl); if (!res.ok) { throw new Error('ZAP vastasi virhekoodilla: ' + res.status); } const html = await res.text(); if (typeof window !== 'undefined' && typeof document !== 'undefined') { const blob = new Blob([html], { type: 'text/html' }); const url = window.URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'zap-security-report.html'; document.body.appendChild(a); a.click(); window.URL.revokeObjectURL(url); document.body.removeChild(a); } else { const fs = await import('fs'); fs.writeFileSync('zap-security-report.html', html, 'utf8'); } return { success: true, data: { message: 'HTML-raportti haettu ja tallennettu onnistuneesti', length: html.length } }; } catch (e) { return { success: false, error: e.message }; } }"
   },
   {
     "id": "image-exif-reader",
@@ -667,5 +667,45 @@
     "type": "server-launch",
     "command": "C:\\Program Files\\ZAP\\Zed Attack Proxy\\Zap.bat -daemon",
     "execute": "async () => { try { const res = await fetch('/zap-api/api/plugins/install', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pluginId: 'plugin-zap-daemon', command: 'C:\\Program Files\\ZAP\\Zed Attack Proxy\\Zap.bat -daemon' }) }); return await res.json(); } catch (e) { return { success: false, error: e.message }; } }"
+  },
+  {
+    "id": "plugin-timer-interval",
+    "version": "1.0.0",
+    "author": "Jani Ärväs",
+    "name": {
+      "fi": "PROGRAM PLUGIN - WINDOWS- Ajastin (Tasavälein)",
+      "en": "PROGRAM PLUGIN - WINDOWS - Timer (Interval)"
+    },
+    "description": {
+      "fi": "Ajoittaa työnkulun tasavälein taustalla.",
+      "en": "Schedules workflow execution at regular intervals in the background."
+    },
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "server-launch",
+    "command": "node src\\tools\\timer\\timerService.js --mode=interval",
+    "execute": "async () => { try { const res = await fetch('http://localhost:3001/api/plugins/install', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pluginId: 'plugin-timer-interval', command: 'node src\\tools\\timer\\timerService.js --mode=interval' }) }); return await res.json(); } catch (e) { return { success: false, error: e.message }; } }"
+  },
+  {
+    "id": "plugin-timer-cron",
+    "version": "1.0.0",
+    "author": "Jani Ärväs",
+    "name": {
+      "fi": "PROGRAM PLUGIN - LINUX - Ajastin (Kellonaika / Cron)",
+      "en": "PROGRAM PLUGIN - LINUX - Timer (Cron)"
+    },
+    "description": {
+      "fi": "Ajoittaa työnkulun järjestelmäkellon mukaan tiettyinä kellonaikoina.",
+      "en": "Schedules workflow execution based on the system clock at specific times."
+    },
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "server-launch",
+    "command": "node src\\tools\\timer\\timerService.js --mode=cron",
+    "execute": "async () => { try { const res = await fetch('http://localhost:3001/api/plugins/install', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pluginId: 'plugin-timer-cron', command: 'node src\\tools\\timer\\timerService.js --mode=cron' }) }); return await res.json(); } catch (e) { return { success: false, error: e.message }; } }"
   }
 ]
