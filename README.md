@@ -79,8 +79,7 @@ Paina OK.
 
 Kaikki ohjelman työkalut noudattavat yhtenäistä `SwissTool`-rajapintaa (`types.ts`). Jokainen työkalu on itsenäinen moduuli, joka määrittelee omat syötteensä, kategoriansa, kielitukensa (FI/EN) ja suorituslogiikkansa (`execute`).
 
-<img width="716" height="369" alt="image" src="https://github.com/user-attachments/assets/1fbd3ef9-0529-410b-94c2-2b9249c84c3c" />
-
+<img width="642" height="368" alt="suroitus" src="https://github.com/user-attachments/assets/4aac238b-8006-4c3f-a69f-03bf00017cb6" />
 
 ---
 
