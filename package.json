@@ -9,7 +9,7 @@
     "dev:playwright": "node scripts/start.js playwright",
     "dev:sqlite": "node scripts/start.js sqlite",
     "dev:timer:nightly": "node scripts/start.js timer cron \"0 22 * * *\"",
-    "dev:timer:custom-workflow": "node scripts/start.js timer interval 1 \"F:\\REACT-ohjelmat\\SwissKnife-DevTools\\src\\example-workflows\\työnkulku.json\"",
+    "dev:timer:custom-workflow": "node scripts/start.js timer interval 5 \"F:\\REACT-ohjelmat\\SwissKnife-DevTools\\src\\example-workflows\\työnkulku.json\"",
     "dev:all": "node scripts/start.js all",
     "build": "tsc -b && vite build",
     "lint": "oxlint",

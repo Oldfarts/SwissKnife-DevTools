@@ -305,7 +305,7 @@
       "fi": "Hakee tietoturvaskannauksen tulokset OWASP ZAP:lta ja muodostaa niistä HTML-raportin.", 
       "en": "Fetches security scan results from OWASP ZAP and generates an HTML report." 
     },
-    "version": "1.0.3",
+    "version": "1.0.4",
     "author": "Jani Ärväs",
     "category": {
       "fi": "ULKOPUOLISET PLUGINIT",
@@ -320,7 +320,7 @@
         "default": "SwissKnife Security Audit Report"
       }
     ],
-    "execute": "async (inputs) => { try { const reportUrl = 'http://localhost:8080/OTHER/core/other/htmlreport/'; const res = await fetch(reportUrl); if (!res.ok) { throw new Error('ZAP vastasi virhekoodilla: ' + res.status); } const html = await res.text(); if (typeof window !== 'undefined' && typeof document !== 'undefined') { const blob = new Blob([html], { type: 'text/html' }); const url = window.URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'zap-security-report.html'; document.body.appendChild(a); a.click(); window.URL.revokeObjectURL(url); document.body.removeChild(a); } else { const fs = await import('fs'); fs.writeFileSync('zap-security-report.html', html, 'utf8'); } return { success: true, data: { message: 'HTML-raportti haettu ja tallennettu onnistuneesti', length: html.length } }; } catch (e) { return { success: false, error: e.message }; } }"
+    "execute": "async (inputs) => { try { const isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined'; const reportUrl = isBrowser ? '/zap-api/OTHER/core/other/htmlreport/' : 'http://localhost:8080/OTHER/core/other/htmlreport/'; const res = await fetch(reportUrl); if (!res.ok) { throw new Error('ZAP vastasi virhekoodilla: ' + res.status); } const html = await res.text(); if (isBrowser) { const blob = new Blob([html], { type: 'text/html' }); const url = window.URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'zap-security-report.html'; document.body.appendChild(a); a.click(); window.URL.revokeObjectURL(url); document.body.removeChild(a); } else { const fs = await import('fs'); fs.writeFileSync('zap-security-report.html', html, 'utf8'); } return { success: true, data: { message: 'HTML-raportti haettu ja tallennettu onnistuneesti', length: html.length } }; } catch (e) { return { success: false, error: e.message }; } }"
   },
   {
     "id": "image-exif-reader",
@@ -440,7 +440,7 @@
     ],
     "execute": "async (inputs) => { const url = inputs?.targetUrl || 'http://localhost:5173'; try { const res = await fetch('http://localhost:3000/api/playwright-test', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url, action: 'extract_links' }) }); const json = await res.json(); if (!json.success) return json; const linksHtml = json.data.links.map(l => `<li><a href=\"${l}\" target=\"_blank\">${l}</a></li>`).join(''); const html = `<!DOCTYPE html><html><head><meta charset=\"utf-8\"><title>Playwright Raportti</title></head><body style=\"font-family:sans-serif;padding:20px;\"><h1>Playwright Testiraportti</h1><p><strong>URL:</strong> ${json.data.url}</p><p><strong>Otsikko:</strong> ${json.data.title}</p><h3>Löydetyt linkit (${json.data.links.length} kpl):</h3><ul>${linksHtml}</ul></body></html>`; const blob = new Blob([html], { type: 'text/html' }); const blobUrl = window.URL.createObjectURL(blob); const a = document.createElement('a'); a.href = blobUrl; a.download = 'playwright-test-report.html'; document.body.appendChild(a); a.click(); window.URL.revokeObjectURL(blobUrl); document.body.removeChild(a); return { success: true, data: { message: 'Playwright HTML-raportti luotu ja ladattu onnistuneesti', linksCount: json.data.links.length } }; } catch (e) { return { success: false, error: e.message }; } }"
   },
-{ 
+  { 
     "id": "owasp-zap-openapi-import",
     "version": "1.0.2",
     "author": "Jani Ärväs",

@@ -1,5 +1,7 @@
 // executors/restExecutor.ts
 
+// executors/restExecutor.ts
+
 export interface RestResult {
   ok: boolean;
   status: number;
@@ -23,15 +25,18 @@ export async function callRest(
   );
 
   let targetEndpoint = endpoint;
+  const isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
 
-  // Ohjataan localhost -> Vite proxy
-// Ohjataan proxy-osoitteet suoraan ZAP:lle, jos ollaan Node-ympäristössä tai jos halutaan suora yhteys
-  if (targetEndpoint.startsWith("/zap-api")) {
-    targetEndpoint = targetEndpoint.replace("/zap-api", "http://localhost:8080");
-  } else if (!targetEndpoint.startsWith("http")) {
-    targetEndpoint = `http://localhost:8080${targetEndpoint.startsWith("/") ? "" : "/"}${targetEndpoint}`;
+  // Jos EI olla selaimessa (vaan Node-tausta-ajossa), ohjataan /zap-api suoraan ZAP:lle
+  if (!isBrowser) {
+    if (targetEndpoint.startsWith("/zap-api")) {
+      targetEndpoint = targetEndpoint.replace("/zap-api", "http://localhost:8080");
+    } else if (!targetEndpoint.startsWith("http")) {
+      targetEndpoint = `http://localhost:8080${targetEndpoint.startsWith("/") ? "" : "/"}${targetEndpoint}`;
+    }
   }
 
+  // Määritellään HTTP-metodi heti alussa, jotta se on varmasti käytettävissä
   let httpMethod = method.toUpperCase();
   if (method === 'GET' && targetEndpoint.includes('/action/')) {
     httpMethod = 'POST';
@@ -39,32 +44,21 @@ export async function callRest(
 
   const query = new URLSearchParams(filtered).toString();
 
-  // Jos kyseessä on GET, parametrit laitetaan URL:iin. 
-  // Jos kyseessä on POST, ZAP ottaa action-reiteissä parametrit vastaan joko URL:ssa tai body-muodossa. 
-  // Turvallisin tapa ZAP:lle on lähettää POST-pyynnössä parametrit URL-parametreina ja oikea Content-Type.
-  const fetchUrl =
-    query.length > 0 && httpMethod === 'GET' && !targetEndpoint.includes('?')
+  const finalFetchUrl = 
+    httpMethod === 'POST' && query.length > 0 && !targetEndpoint.includes('?')
       ? `${targetEndpoint}?${query}`
-      : targetEndpoint;
+      : (query.length > 0 && httpMethod === 'GET' && !targetEndpoint.includes('?') ? `${targetEndpoint}?${query}` : targetEndpoint);
 
   const postBody = 
     httpMethod === 'POST' && query.length > 0 
       ? query 
       : undefined;
 
-  // Jos POST käytetään, voimme laittaa parametrit myös queryyn tai bodysiin. 
-  // ZAP:n /action/-reitit hyväksyvät ne query-stringinä, kunhan Content-Type on x-www-form-urlencoded tai puuttuu.
-  const finalFetchUrl = 
-    httpMethod === 'POST' && query.length > 0 && !targetEndpoint.includes('?')
-      ? `${targetEndpoint}?${query}`
-      : targetEndpoint;
-
   try {
     const options: RequestInit = {
       method: httpMethod,
     };
 
-    // Jos kyseessä on POST, annetaan ZAP:lle sen vaatima form-urlencoded tyyppi tai ei mitään
     if (httpMethod === 'POST') {
       options.headers = {
         'Content-Type': 'application/x-www-form-urlencoded'
