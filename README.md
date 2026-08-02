@@ -23,15 +23,19 @@ Näillä ohjeilla saat projektin kloonattua ja käynnistettyä omalla koneellasi
    ```bash
    npm install sqlite3
 
-5. **OWASP ZAP, lataa ja asenna se os.https://www.zaproxy.org/download/**
+5. **Asenna CRON (timer):**
+   ```bash
+   npm install node-cron
+
+6. **OWASP ZAP, lataa ja asenna se os.https://www.zaproxy.org/download/**
 
 Versio 2.17.0 on itsellä asennettuna.
 
-6. **OWASP ZAP & API Key -asetukset (No Key / Avaimeton tila):**
+7. **OWASP ZAP & API Key -asetukset (No Key / Avaimeton tila):**
 
-katso kohta 7.1-7.3 ohjeet.
+katso kohta 8.1-8.3 ohjeet.
 
-7. **Käynnistä kehityspalvelin (käynnistää automaattisesti myös ZAP:n ja Playwright-taustapalvelun, mikäli asennettu):**
+8. **Käynnistä kehityspalvelin (käynnistää automaattisesti myös ZAP:n ja Playwright-taustapalvelun, mikäli asennettu):**
    ```bash
    npm run dev  (vite ainoastaan)
    tai
@@ -40,23 +44,25 @@ katso kohta 7.1-7.3 ohjeet.
    npm run dev:playwright (vite+playwright)
    tai
    npm run dev:all (vite+all)
+   tai
+   npm run dev:timer:custom.workflow (vite+timer+ZAP+backend+workflow - test example with timer)
 
 
-7.1 **Intro**
+8.1 **Intro**
 
 Oletuksena OWASP ZAP vaatii API-avaimen (API key) kaikkien skriptien, proxyn ja API-kutsujen yhteydessä turvallisuussyistä. Kun kehitetään paikallisesti (esim. SwissKnife DevTools -projektin sisällä tai automaatiotesteissä), API-avaimen kysely tai sen puuttumisesta johtuvat `401 Unauthorized` -virheet halutaan usein kytkeä pois päältä.
 
 Tässä ovat tavat, miten OWASP ZAP saadaan ajettua ilman API-avainta (**No Key**):
 -config api.disablekey=true: Tämä parametri kertoo ZAP:lle, että API-kutsuja voi tehdä vapaasti ilman apikey-muuttujaa.
 
-7.2.**Manuaalinen käynnistys komentoriviltä ilman avainta**
+8.2.**Manuaalinen käynnistys komentoriviltä ilman avainta**
 
 Jos käynnistät ZAP:n manuaalisesti erillisestä .bat-tiedostosta tai komentoriviltä daemon-tilassa, lisää komennon perään sama konfiguraatiolipuke:
 
 "C:\Program Files\ZAP\Zed Attack Proxy\Zap.bat" -daemon -port 8080 -config api.disablekey=true
 
 
-7.3.**ZAP:n käyttöliittymän (GUI) kautta tehdyt asetukset**
+8.3.**ZAP:n käyttöliittymän (GUI) kautta tehdyt asetukset**
 
 Jos avaat ZAP:n graafisen käyttöliittymän ja haluat poistaa API-avaimen pysyvästi käytöstä:
 Avaa ZAP GUI.
