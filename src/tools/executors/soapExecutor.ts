@@ -13,17 +13,23 @@ export async function callSoap(
 ): Promise<SoapResult> {
 
   let targetEndpoint = endpoint;
+  const isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
 
-  // Ohjataan localhost -> Vite proxy (jos pyyntö menee ZAP:lle tai lokaalille SOAP-palvelulle)
-  if (targetEndpoint.startsWith("http://localhost:8080")) {
-    targetEndpoint = targetEndpoint.replace(
-      "http://localhost:8080",
-      "/zap-api"
-    );
-  }
-  else if (!targetEndpoint.startsWith("/zap-api") && targetEndpoint.startsWith("http")) {
-    // Jos halutaan ohjata ulkoisetkin SOAP-pyynnöt tarvittaessa proxyn kautta, 
-    // mutta yleensä SOAP voi mennä suoraan tai Vite-proxyn läpi.
+  // Jos ollaan SELAIMESSA, ohjataan http://localhost:8080 -> /zap-api (Viten proxy)
+  if (isBrowser) {
+    if (targetEndpoint.startsWith("http://localhost:8080")) {
+      targetEndpoint = targetEndpoint.replace(
+        "http://localhost:8080",
+        "/zap-api"
+      );
+    }
+  } else {
+    // Jos ollaan NODE-TAUSTA-AJOSSA, varmistetaan että käytetään suoraan porttia 8080
+    if (targetEndpoint.startsWith("/zap-api")) {
+      targetEndpoint = targetEndpoint.replace("/zap-api", "http://localhost:8080");
+    } else if (!targetEndpoint.startsWith("http")) {
+      targetEndpoint = `http://localhost:8080${targetEndpoint.startsWith("/") ? "" : "/"}${targetEndpoint}`;
+    }
   }
 
   try {
