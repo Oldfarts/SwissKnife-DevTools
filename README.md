@@ -45,7 +45,7 @@ katso kohta 8.1-8.3 ohjeet.
    tai
    npm run dev:all (vite+all)
    tai
-   npm run dev:timer:custom.workflow (vite+timer+ZAP+backend+workflow - test example with timer)
+   npm run dev:timer:custom-workflow (vite+timer+ZAP+backend+workflow - test example with timer)
 
 
 8.1 **Intro**
