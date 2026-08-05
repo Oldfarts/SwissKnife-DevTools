@@ -707,5 +707,18 @@
     "type": "server-launch",
     "command": "node src\\tools\\timer\\timerService.js --mode=cron",
     "execute": "async () => { try { const res = await fetch('http://localhost:3001/api/plugins/install', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pluginId: 'plugin-timer-cron', command: 'node src\\tools\\timer\\timerService.js --mode=cron' }) }); return await res.json(); } catch (e) { return { success: false, error: e.message }; } }"
+  },
+  {
+  "id": "plugin-selenium-runner",
+  "name": {
+    "fi": "Selenium - kaikki automaatiotestit",
+    "en": "Selenium - Batch Automation Tests"
+  },
+  "description": {
+    "fi": "Suorittaa kaikki automaatiotestit Seleniumilla.",
+    "en": "Runs batch automation tests with Selenium."
+  },
+  "type": "server-launch",
+  "execute": "async (inputs) => { const { runSeleniumAutomation } = await import('./executors/seleniumExecutor.js'); return await runSeleniumAutomation(); }"
   }
 ]

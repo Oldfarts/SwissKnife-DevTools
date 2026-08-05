@@ -71,7 +71,9 @@ app.post('/api/plugins/install', (req, res) => {
       command = 'node src\\tools\\playwright\\testExecution1.spec.js'
       } else if (pluginId === 'plugin-workflow-test-soap') {
       command = 'node src\\tools\\playwright\\testExecution2.spec.js'
-    }    
+      } else if (pluginId === 'plugin-selenium-runner') {
+      command = 'npx tsx src\\tools\\selenium\\testRunner.ts'
+      }
   }
 
   const localOrRestPlugins = [
@@ -79,7 +81,8 @@ app.post('/api/plugins/install', (req, res) => {
     'owasp-zap-critical-alerts', 'owasp-zap-all-alerts', 'zap-start-scan-fixed-v2',
     'soap-start-scan-fixed', 'zap-generate-html-report', 'image-exif-reader',
     'image-exif-reader2', 'playwright-visual-regression', 'playwright-html-reporter',
-    'owasp-zap-openapi-import', 'soap-wsdl-import-or-test', 'owasp-zap-proxy-status'
+    'owasp-zap-openapi-import', 'soap-wsdl-import-or-test', 'owasp-zap-proxy-status',
+    'plugin-selenium-runner',
   ];
 
   if (!command && localOrRestPlugins.includes(pluginId)) {
@@ -114,13 +117,14 @@ app.post('/api/plugins/install', (req, res) => {
       playwrightProcess.unref();
       console.log(`🚀 Playwright käynnistetty PID:llä ${playwrightProcess.pid}`);
     } else {
-      // Muut (kuten ZAP) käynnistyvät normaalisti
-      spawn('cmd.exe', ['/c', command], {
+      // Muut käynnistyvät näyttäen tulosteet ja virheet suoraan server.js-ikkunassa
+      const child =spawn('cmd.exe', ['/c', command], {
         detached: true,
         shell: true,
         cwd: cwdOption,
-        stdio: 'ignore'
-      }).unref();
+        stdio: 'inherit' // Näyttää virheet ja lokit suoraan server.js-ikkunassa
+      }).unref();;
+    
     }
 
     res.json({ success: true, message: `Plugin ${pluginId} käynnistetty uuteen ikkunaan.` })
