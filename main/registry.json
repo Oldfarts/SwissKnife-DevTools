@@ -165,7 +165,7 @@
       "en": "OUT PLUGINS"
     },
     "type": "rest-api",
-    "endpoint": "http://localhost:8080/JSON/core/view/alerts/",
+    "endpoint": "/zap-api/JSON/core/view/alerts/",
     "inputs": []
   },
   {
@@ -185,7 +185,7 @@
       "en": "OUT PLUGINS"
     },
     "type": "rest-api",
-    "endpoint": "http://localhost:8080/JSON/core/view/alerts/",
+    "endpoint": "/zap-api/JSON/core/view/alerts/",
     "inputs": []
   },
   {

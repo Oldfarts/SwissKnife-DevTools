@@ -157,3 +157,16 @@ Sijainti: start-ZAP.bat / C:\Program Files\ZAP\Zed Attack Proxy\Zap.bat
 Käynnistys: ZAP voidaan käynnistää automaattisesti taustalle (Daemon-tilassa portissa 8080 ilman API-avainrajoituksia) suoraan vite.config.ts-tiedoston kautta kehitysympäristön käynnistyessä (npm run dev).
 
 Proxy-tuki: Vite-kehityspalvelin välittää automaattisesti pyynnöt osoitteesta /zap-api suoraan paikalliselle ZAP-rajapinnalle.
+
+### Playwright (Agents & Testit niillä)
+Sijainti: `src\tools\playwright\`
+* **Käynnistys:** Tarvitsee taustapalvelut:
+  ```bash
+  cd "Projektin juurikansio"
+  npm run dev
+
+* **Testien ajaminen UI-tilassa:**
+  ```bash
+  cd src\tools\playwright
+  npx tsx securityAgent.ts
+
