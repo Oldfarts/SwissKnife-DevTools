@@ -159,6 +159,8 @@ Käynnistys: ZAP voidaan käynnistää automaattisesti taustalle (Daemon-tilassa
 Proxy-tuki: Vite-kehityspalvelin välittää automaattisesti pyynnöt osoitteesta /zap-api suoraan paikalliselle ZAP-rajapinnalle.
 
 ### Playwright (Agents & Testit niillä)
+Projektiin on nyt lisätty suppeahko agentti palvelu, jota voi ruveta tarkentamaan. Vaatii taustapalveluna noden.
+
 Sijainti: `src\tools\playwright\`
 * **Käynnistys:** Tarvitsee taustapalvelut:
   ```bash
