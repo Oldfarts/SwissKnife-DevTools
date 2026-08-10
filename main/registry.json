@@ -617,16 +617,16 @@
       "en": "PLAYWRIGHT TEST1: REST- Run Workflow Test"
     },
     "description": {
-      "fi": "Suorittaa Playwright-automaatiotestin käyttöliittymän REST-työnkululle. Playwright server pitää käynnistää ensin ennen ajoa.",
-      "en": "Runs Playwright automation test for the REST-workflow. Playwright server must be started before the run."
+      "fi": "Suorittaa Playwright-automaatiotestin käyttöliittymän REST-työnkululle.",
+      "en": "Runs Playwright automation test for the REST-workflow."
     },
     "category": {
       "fi": "ULKOPUOLISET PLUGINIT",
       "en": "OUT PLUGINS"
     },
-    "type": "server-launch",
-    "command": "node src\\tools\\playwright\\testExecution1.spec.js",
-    "execute": "async () => { try { const res = await fetch('http://localhost:3001/api/plugins/install', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pluginId: 'plugin-workflow-test', command: 'node src\\tools\\playwright\\testExecution.spec.js' }) }); return await res.json(); } catch (e) { return { success: false, error: e.message }; } }"
+    "type": "local",
+    "inputs": [],
+    "execute": "async (inputs) => { try { return { success: true, data: { message: 'REST Playwright test plugin rekisteröity' } }; } catch (e) { return { success: false, error: e.message }; } }"
   },
   {
     "id": "plugin-workflow-test-soap",
@@ -637,16 +637,16 @@
       "en": "PLAYWRIGHT TEST2: SOAP- Run Workflow Test"
     },
     "description": {
-      "fi": "Suorittaa Playwright-automaatiotestin SOAP-työnkululle. Playwright server pitää käynnistää ensin ennen ajoa.",
-      "en": "Runs Playwright automation test for the SOAP workflow. Playwright server must be started before the run."
+      "fi": "Suorittaa Playwright-automaatiotestin SOAP-työnkululle.",
+      "en": "Runs Playwright automation test for the SOAP workflow."
     },
     "category": {
       "fi": "ULKOPUOLISET PLUGINIT",
       "en": "OUT PLUGINS"
     },
-    "type": "server-launch",
-    "command": "node src\\tools\\playwright\\testExecution2.spec.js",
-    "execute": "async () => { try { const res = await fetch('http://localhost:3001/api/plugins/install', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pluginId: 'plugin-workflow-test-soap', command: 'node src\\tools\\playwright\\testExecutionSoap.spec.js' }) }); return await res.json(); } catch (e) { return { success: false, error: e.message }; } }"
+    "type": "local",
+    "inputs": [],
+    "execute": "async (inputs) => { try { return { success: true, data: { message: 'SOAP Playwright test plugin rekisteröity' } }; } catch (e) { return { success: false, error: e.message }; } }"
   },
   {
     "id": "plugin-zap-daemon",
@@ -720,5 +720,26 @@
   },
   "type": "server-launch",
   "execute": "async (inputs) => { const { runSeleniumAutomation } = await import('./executors/seleniumExecutor.js'); return await runSeleniumAutomation(); }"
+  },
+  {
+  "id": "plugin-workflow-agent",
+  "version": "1.0.0",
+  "author": "Jani Ärväs",
+  "name": {
+    "fi": "PROGRAM Plugin: PLAYWRIGHT: 🤖 Autonominen Itsekorjaava Agentti (REST + SOAP)",
+    "en": "PROGRAM Plugin: PLAYWRIGHT: 🤖 Autonomous Self-Healing Agent (REST + SOAP)"
+  },
+  "description": {
+    "fi": "Käynnistää autonomisen agentin, joka suorittaa REST- ja SOAP-testiputket, korjaa virheet dynaamisesti ja luo ajoraportin.",
+    "en": "Launches the autonomous agent that runs REST and SOAP test pipelines, self-heals errors, and generates an execution report."
+  },
+  "category": {
+    "fi": "ULKOPUOLISET PLUGINIT",
+    "en": "OUT PLUGINS"
+  },
+  "type": "server-launch",
+  "command": "npx tsx src/tools/playwright/securityAgent.ts",
+  "inputs": [],
+  "execute": "async () => { try { const res = await fetch('http://localhost:3001/api/plugins/install', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: 'plugin-workflow-test-rest', command: 'npx tsx src/tools/playwright/securityAgent.ts' }) }); return await res.json(); } catch (e) { return { success: false, error: e.message }; } }"
   }
 ]

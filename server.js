@@ -68,11 +68,13 @@ app.post('/api/plugins/install', (req, res) => {
       } else if (pluginId === 'plugin-sqlite-server') {
         command = 'node server.js'
       } else if (pluginId === 'plugin-workflow-test-rest') {
-      command = 'node src\\tools\\playwright\\testExecution1.spec.js'
+      command = 'node src\\tools\\playwright\\testExecution1.spec.ts'
       } else if (pluginId === 'plugin-workflow-test-soap') {
-      command = 'node src\\tools\\playwright\\testExecution2.spec.js'
+      command = 'node src\\tools\\playwright\\testExecution2.spec.ts'
       } else if (pluginId === 'plugin-selenium-runner') {
       command = 'npx tsx src\\tools\\selenium\\testRunner.ts'
+      } else if (pluginId === 'plugin-workflow-agent') {
+        command = 'npx tsx ./src/tools/playwright/securityAgent.ts'
       }
   }
 
@@ -116,15 +118,14 @@ app.post('/api/plugins/install', (req, res) => {
       });
       playwrightProcess.unref();
       console.log(`🚀 Playwright käynnistetty PID:llä ${playwrightProcess.pid}`);
-    } else {
-      // Muut käynnistyvät näyttäen tulosteet ja virheet suoraan server.js-ikkunassa
-      const child =spawn('cmd.exe', ['/c', command], {
+    }  else {
+      // Käynnistetään erillisessä uudessa komentorivi-ikkunassa ('start cmd /k ...')
+      const child = spawn('cmd.exe', ['/c', `start cmd.exe /k "${command}"`], {
         detached: true,
         shell: true,
         cwd: cwdOption,
-        stdio: 'inherit' // Näyttää virheet ja lokit suoraan server.js-ikkunassa
-      }).unref();;
-    
+        stdio: 'ignore'
+      }).unref();
     }
 
     res.json({ success: true, message: `Plugin ${pluginId} käynnistetty uuteen ikkunaan.` })
