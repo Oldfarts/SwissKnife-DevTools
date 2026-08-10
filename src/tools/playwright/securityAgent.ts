@@ -1,14 +1,56 @@
 import { runRestPlaywrightTest } from './testExecution1.spec.ts';
 import { runSoapPlaywrightTest } from './testExecution2.spec.ts';
-import { analyzeFailure, DEFAULT_AGENT_STRATEGY, inspectUi } from './agentHelpers.ts';
+import { analyzeFailure, DEFAULT_AGENT_STRATEGY } from './agentHelpers.ts';
 import fs from 'fs/promises';
+
+const capturedLogLines: string[] = [];
+const originalConsoleLog = console.log.bind(console);
+const originalConsoleError = console.error.bind(console);
+let isCapturing = false;
+
+function installLogCapture() {
+  if (isCapturing) {
+    return;
+  }
+
+  console.log = (...args: unknown[]) => {
+    const message = args.map((arg) => String(arg)).join(' ');
+    capturedLogLines.push(message);
+    originalConsoleLog(message);
+  };
+
+  console.error = (...args: unknown[]) => {
+    const message = args.map((arg) => String(arg)).join(' ');
+    capturedLogLines.push(message);
+    originalConsoleError(message);
+  };
+
+  isCapturing = true;
+}
+
+function restoreLogCapture() {
+  if (!isCapturing) {
+    return;
+  }
+
+  console.log = originalConsoleLog;
+  console.error = originalConsoleError;
+  isCapturing = false;
+}
 
 function logAgent(message: string) {
   const timestamp = new Date().toISOString();
-  console.log(`[🤖 ITSEKORJAUTUVA AGENTTI ${timestamp}] ${message}`);
+  const entry = `[🤖 ITSEKORJAUTUVA AGENTTI ${timestamp}] ${message}`;
+  capturedLogLines.push(entry);
+  console.log(entry);
+}
+
+function logAgentSummary(message: string) {
+  capturedLogLines.push(message);
 }
 
 async function runAgentPipeline() {
+  installLogCapture();
   logAgent('Käynnistetään autonominen ja dynaaminen agenttiputki (REST + SOAP)...');
 
   const startTime = new Date();
@@ -88,6 +130,9 @@ async function runAgentPipeline() {
   const endTime = new Date();
   const durationSec = Math.round((endTime.getTime() - startTime.getTime()) / 1000);
   const allSuccess = restSuccess && soapSuccess;
+  const logSection = capturedLogLines.length > 0
+    ? capturedLogLines.map((entry) => `- ${entry}`).join('\n')
+    : '- Ei lokiviestejä tallennettu.';
 
   const reportContent = `
 =========================================
@@ -104,14 +149,19 @@ ${lastRestError ? `  Viimeisin REST-virhe: ${lastRestError}` : ''}
 ${lastSoapError ? `  Viimeisin SOAP-virhe: ${lastSoapError}` : ''}
 
 LOPPUTULOS: ${allSuccess ? 'KAIKKI AJOT ONNISTUIVAT ✨' : 'AJOPUTKI KESKEYTYI VIRHEISIIN ❌'}
+
+=========================================
+AJO LOKI:
+=========================================
+${logSection}
 =========================================
 `.trim();
 
   try {
     await fs.writeFile('ajon-yhteenveto.txt', reportContent);
-    logAgent('📄 Yhteenveto kirjoitettu onnistuneesti tiedostoon: ajon-yhteenveto.txt');
+    logAgentSummary('📄 Yhteenveto kirjoitettu onnistuneesti tiedostoon: ajon-yhteenveto.txt');
   } catch (err) {
-    console.error('❌ Yhteenvedon kirjoitus epäonnistui:', err);
+    logAgentSummary(`❌ Yhteenvedon kirjoitus epäonnistui: ${err}`);
   }
 
   if (allSuccess) {
