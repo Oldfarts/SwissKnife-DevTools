@@ -1,8 +1,6 @@
 import { chromium } from 'playwright';
-import { DEFAULT_AGENT_STRATEGY, inspectUi, type AgentStrategy } from './agentHelpers.ts';
 
-export async function runSoapPlaywrightTest(strategy: Partial<AgentStrategy> = {}) {
-  const effectiveStrategy = { ...DEFAULT_AGENT_STRATEGY, ...strategy };
+export async function runSoapPlaywrightTest() {
   console.log('🚀 Käynnistetään SOAP-työnkulun testaus Playwrightilla...');
 
   const browser = await chromium.launch({ headless: false });
@@ -12,14 +10,6 @@ export async function runSoapPlaywrightTest(strategy: Partial<AgentStrategy> = {
     console.log('🌐 Siirrytään osoitteeseen http://localhost:5173/');
     await page.goto('http://localhost:5173/');
     await page.waitForTimeout(2500);
-
-    if (effectiveStrategy.inspectDom) {
-      const snapshot = await inspectUi(page, 'soap-entry');
-      console.log(`🧠 SOAP UI-inspektio: löytyi ${snapshot.count} näkyvää elementtiä`);
-      snapshot.elements.slice(0, 5).forEach((element) => {
-        console.log(`   - ${element.role}: ${element.text || element.name || element.value}`);
-      });
-    }
 
     // Apufunktio valikon varmaan avaamiseen
     async function openPluginsMenu() {
@@ -38,6 +28,7 @@ export async function runSoapPlaywrightTest(strategy: Partial<AgentStrategy> = {
     await page.waitForTimeout(2000);
 
     // 2. Avataan valikko uudelleen ja valitaan toinen SOAP-plugin
+    await openPluginsMenu();
     console.log('📦 Valitaan elementti (div:nth-child(12))...');
     const elem12 = page.locator('div:nth-child(12) > .px-4').first();
     await elem12.waitFor({ state: 'visible', timeout: 10000 });
@@ -126,17 +117,11 @@ export async function runSoapPlaywrightTest(strategy: Partial<AgentStrategy> = {
 
   } catch (err: any) {
     console.log(`❌ SOAP-testi epäonnistui: ${err.message}`);
-    if (effectiveStrategy.inspectDom) {
-      try {
-        const snapshot = await inspectUi(page, 'soap-failure');
-        console.log(`🧠 SOAP UI-inspektio epäonnistumisen jälkeen: ${snapshot.count} elementtiä`);
-      } catch (inspectionError) {
-        console.log(`🧠 SOAP UI-inspektio epäonnistui: ${inspectionError}`);
-      }
-    }
     return { success: false, error: err.message };
   } finally {
     console.log('🔒 Suljetaan selain...');
     await browser.close();
   }
 }
+// Suoritetaan funktio automaattisesti, kun tiedosto ajetaan komentoriviltä
+runSoapPlaywrightTest().catch(console.error);

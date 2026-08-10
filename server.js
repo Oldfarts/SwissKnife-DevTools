@@ -68,9 +68,9 @@ app.post('/api/plugins/install', (req, res) => {
       } else if (pluginId === 'plugin-sqlite-server') {
         command = 'node server.js'
       } else if (pluginId === 'plugin-workflow-test-rest') {
-      command = 'node src\\tools\\playwright\\testExecution1.spec.ts'
+        command = 'npx tsx src/tools/playwright/testExecution1OnlyPlaywright.spec.ts'
       } else if (pluginId === 'plugin-workflow-test-soap') {
-      command = 'node src\\tools\\playwright\\testExecution2.spec.ts'
+        command = 'npx tsx src/tools/playwright/testExecution2OnlyPlaywright.spec.ts'
       } else if (pluginId === 'plugin-selenium-runner') {
       command = 'npx tsx src\\tools\\selenium\\testRunner.ts'
       } else if (pluginId === 'plugin-workflow-agent') {

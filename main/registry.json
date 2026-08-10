@@ -624,9 +624,10 @@
       "fi": "ULKOPUOLISET PLUGINIT",
       "en": "OUT PLUGINS"
     },
-    "type": "local",
+    "type": "server-launch",
+    "command": "npx playwright test src/tools/playwright/testExecution1OnlyPlaywright.spec.ts --headed",
     "inputs": [],
-    "execute": "async (inputs) => { try { return { success: true, data: { message: 'REST Playwright test plugin rekisteröity' } }; } catch (e) { return { success: false, error: e.message }; } }"
+    "execute": "async () => { try { const res = await fetch('http://localhost:3001/api/plugins/install', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pluginId: 'plugin-workflow-test-rest', command: 'npx playwright test src/tools/playwright/testExecution1OnlyPlaywright.spec.ts --headed' }) }); return await res.json(); } catch (e) { return { success: false, error: e.message }; } }"
   },
   {
     "id": "plugin-workflow-test-soap",
@@ -644,9 +645,10 @@
       "fi": "ULKOPUOLISET PLUGINIT",
       "en": "OUT PLUGINS"
     },
-    "type": "local",
+    "type": "server-launch",
+    "command": "npx playwright test src/tools/playwright/testExecution2OnlyPlaywright.spec.ts --headed",
     "inputs": [],
-    "execute": "async (inputs) => { try { return { success: true, data: { message: 'SOAP Playwright test plugin rekisteröity' } }; } catch (e) { return { success: false, error: e.message }; } }"
+    "execute": "async () => { try { const res = await fetch('http://localhost:3001/api/plugins/install', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pluginId: 'plugin-workflow-test-soap', command: 'npx playwright test src/tools/playwright/testExecution2OnlyPlaywright.spec.ts --headed' }) }); return await res.json(); } catch (e) { return { success: false, error: e.message }; } }"
   },
   {
     "id": "plugin-zap-daemon",

@@ -1,8 +1,6 @@
 import { chromium } from 'playwright';
-import { DEFAULT_AGENT_STRATEGY, inspectUi, type AgentStrategy } from './agentHelpers.ts';
 
-export async function runRestPlaywrightTest(strategy: Partial<AgentStrategy> = {}) {
-  const effectiveStrategy = { ...DEFAULT_AGENT_STRATEGY, ...strategy };
+export async function runRestPlaywrightTest() {
   console.log('🚀 Käynnistetään REST-työnkulun testaus Playwrightilla...');
 
   const browser = await chromium.launch({ headless: false });
@@ -12,14 +10,6 @@ export async function runRestPlaywrightTest(strategy: Partial<AgentStrategy> = {
     console.log('🌐 Siirrytään osoitteeseen http://localhost:5173/');
     await page.goto('http://localhost:5173/');
     await page.waitForTimeout(3000);
-
-    if (effectiveStrategy.inspectDom) {
-      const snapshot = await inspectUi(page, 'rest-entry');
-      console.log(`🧠 REST UI-inspektio: löytyi ${snapshot.count} näkyvää elementtiä`);
-      snapshot.elements.slice(0, 5).forEach((element) => {
-        console.log(`   - ${element.role}: ${element.text || element.name || element.value}`);
-      });
-    }
 
     // 0. SIVUN RIVIMÄÄRÄ / ASETUS (jos tarpeen)
     console.log('⚙️ Asetetaan näkymän asetukset (nappi "25")...');
@@ -52,6 +42,7 @@ export async function runRestPlaywrightTest(strategy: Partial<AgentStrategy> = {
     await page.waitForTimeout(5000);
 
     // 2. ASENNETAAN TOINEN PLUGIN (Install Plugin 5 / nth(5))
+    await openPluginsMenu();
     console.log('📦 Asennetaan toinen plugin (Install Plugin 🚀 nth(5))...');
     const installBtn5 = page.getByRole('button', { name: 'Install Plugin 🚀' }).nth(5);
     await installBtn5.waitFor({ state: 'visible', timeout: 10000 });
@@ -60,18 +51,21 @@ export async function runRestPlaywrightTest(strategy: Partial<AgentStrategy> = {
     await page.waitForTimeout(5000);
 
     // 3. VALITAAN ELEMENTIT JÄRJESTYKSESSÄ (9 -> 11 -> 20)
+    await openPluginsMenu();
     console.log('📦 Valitaan elementti (div:nth-child(9))...');
     const elem9 = page.locator('div:nth-child(9) > .px-4').first();
     await elem9.waitFor({ state: 'visible', timeout: 10000 });
     await elem9.click();
     await page.waitForTimeout(2000);
 
+    await openPluginsMenu();
     console.log('📦 Valitaan elementti (div:nth-child(11))...');
     const elem11 = page.locator('div:nth-child(11) > .px-4').first();
     await elem11.waitFor({ state: 'visible', timeout: 10000 });
     await elem11.click();
     await page.waitForTimeout(2000);
 
+    await openPluginsMenu();
     console.log('📦 Valitaan elementti (div:nth-child(20))...');
     const elem20 = page.locator('div:nth-child(20) > .px-4').first();
     await elem20.waitFor({ state: 'visible', timeout: 10000 });
@@ -173,17 +167,11 @@ export async function runRestPlaywrightTest(strategy: Partial<AgentStrategy> = {
 
   } catch (err: any) {
     console.log(`❌ REST-testi epäonnistui: ${err.message}`);
-    if (effectiveStrategy.inspectDom) {
-      try {
-        const snapshot = await inspectUi(page, 'rest-failure');
-        console.log(`🧠 REST UI-inspektio epäonnistumisen jälkeen: ${snapshot.count} elementtiä`);
-      } catch (inspectionError) {
-        console.log(`🧠 REST UI-inspektio epäonnistui: ${inspectionError}`);
-      }
-    }
     return { success: false, error: err.message };
   } finally {
     console.log('🔒 Suljetaan selain...');
     await browser.close();
   }
 }
+// Suoritetaan funktio automaattisesti, kun tiedosto ajetaan komentoriviltä
+runRestPlaywrightTest().catch(console.error);

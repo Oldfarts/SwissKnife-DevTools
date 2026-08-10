@@ -1,6 +1,6 @@
 import { runRestPlaywrightTest } from './testExecution1.spec.ts';
 import { runSoapPlaywrightTest } from './testExecution2.spec.ts';
-import { analyzeFailure, DEFAULT_AGENT_STRATEGY, inspectUi } from './agentHelpers';
+import { analyzeFailure, DEFAULT_AGENT_STRATEGY, inspectUi } from './agentHelpers.ts';
 import fs from 'fs/promises';
 
 function logAgent(message: string) {
