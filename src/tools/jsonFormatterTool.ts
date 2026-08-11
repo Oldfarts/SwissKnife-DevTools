@@ -1,6 +1,3 @@
-import type { SwissTool, Language } from './types.ts';
-
-// Yksittäiset työkalut määriteltynä
 export const jsonFormatterTool: SwissTool = {
   id: 'json-formatter1',
   name: { fi: 'JSON Pretty Printer', en: 'JSON Pretty Printer' },
@@ -11,12 +8,20 @@ export const jsonFormatterTool: SwissTool = {
   },
   type: 'local',
   inputs: [
-    { key: 'rawJson', label: { fi: 'Raaka JSON-syöte', en: 'Raw JSON Input' }, type: 'textarea', placeholder: '{"hello":"world"}' },
+    { 
+      key: 'rawJson', 
+      label: { fi: 'Raaka JSON-syöte', en: 'Raw JSON Input' }, 
+      type: 'textarea', 
+      placeholder: '{"hello":"world"}',
+      default: '{"hello":"world"}' // <-- LISÄTÄÄN TÄMÄ OLETUSARVOKSI
+    },
     { key: 'indent', label: { fi: 'Sisennyksen välilyönnit', en: 'Indent Spaces' }, type: 'select', options: ['2', '4'], default: '2' }
   ],
   execute: async (inputs, lang = 'fi') => {
     try {
-      const parsed = JSON.parse(inputs.rawJson);
+      // Varmistetaan vielä koodin puolella turvaverkko: jos syöte on tyhjä, käytetään oletusta
+      const rawInput = inputs.rawJson || '{"hello":"world"}';
+      const parsed = JSON.parse(rawInput);
       const indentSpaces = parseInt(inputs.indent || '2', 10);
       return { success: true, data: JSON.stringify(parsed, null, indentSpaces) };
     } catch (err: any) {

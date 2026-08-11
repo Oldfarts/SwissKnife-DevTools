@@ -12,7 +12,8 @@ export const dnsTools: SwissTool[] = [
         key: 'domain',
         label: { fi: 'Verkkotunnus (Domain)', en: 'Domain' },
         type: 'text',
-        placeholder: { fi: 'google.com', en: 'google.com' }
+        placeholder: { fi: 'google.com', en: 'google.com' },
+        default: 'google.com'
       },
       {
         key: 'type',

@@ -10,7 +10,7 @@ export const jwtDecoderTool: SwissTool = {
   },
   type: 'local',
   inputs: [
-    { key: 'token', label: { fi: 'JWT Token', en: 'JWT Token' }, type: 'textarea', placeholder: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' }
+    { key: 'token', label: { fi: 'JWT Token', en: 'JWT Token' }, type: 'textarea', placeholder: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...', default: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9' }
   ],
   execute: async (inputs, lang = 'fi') => {
     try {

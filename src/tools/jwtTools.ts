@@ -13,7 +13,8 @@ export const jwtTools: SwissTool[] = [
         key: 'token',
         label: { fi: 'Syötä JWT Token', en: 'Input JWT Token' },
         type: 'textarea',
-        placeholder: { fi: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...', en: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' }
+        placeholder: { fi: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...', en: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' },
+        default: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE1MTYyNDI2MjJ9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
       }
     ],
     execute: async (inputs) => {

@@ -25,7 +25,8 @@ export const encoderTools: SwissTool[] = [
       {
         key: 'text',
         label: { fi: 'Teksti', en: 'Text' },
-        type: 'textarea'
+        type: 'textarea',
+        default: 'text here...'
       }
     ],
     execute: async (inputs) => {

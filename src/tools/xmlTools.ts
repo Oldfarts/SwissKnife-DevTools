@@ -12,7 +12,8 @@ export const xmlTools: SwissTool[] = [
         key: 'xmlInput',
         label: { fi: 'Syötä XML-teksti', en: 'Input XML Text' },
         type: 'textarea',
-        placeholder: { fi: '<root><item>Arvo</item></root>', en: '<root><item>Value</item></root>' }
+        placeholder: { fi: '<root><item>Arvo</item></root>', en: '<root><item>Value</item></root>' },
+        default: '<root><item>Value</item></root>',
       }
     ],
     execute: async (inputs) => {

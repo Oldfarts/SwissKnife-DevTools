@@ -12,7 +12,8 @@ export const jsonTools: SwissTool[] = [
         key: 'jsonInput',
         label: { fi: 'Syötä JSON-teksti', en: 'Input JSON Text' },
         type: 'textarea',
-        placeholder: { fi: '{"foo":"bar"}', en: '{"foo":"bar"}' }
+        placeholder: { fi: '{"foo":"bar"}', en: '{"foo":"bar"}' },
+        default: '{"foo":"bar"}' // <-- LISÄTÄÄN TÄMÄ OLETUSARVOKSI
       }
     ],
     execute: async (inputs) => {

@@ -10,7 +10,8 @@ export const hashTools: SwissTool[] = [
       {
         key: 'text',
         label: { fi: 'Syöteteksti', en: 'Input Text' },
-        type: 'textarea'
+        type: 'textarea',
+        default: 'Hello, SwissKnife!',
       },
       {
         key: 'algo',

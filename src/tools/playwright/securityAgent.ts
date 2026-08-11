@@ -19,6 +19,7 @@ type TestCasePlan = {
 };
 
 type ExecutionMode = 'all' | 'dynamic' | 'fixed';
+const selectedMode = 'dynamic';
 
 function parseExecutionMode(argv: string[]): ExecutionMode {
   const modeFlagIndex = argv.findIndex((arg) => arg === '--mode' || arg.startsWith('--mode='));
@@ -271,7 +272,7 @@ async function findAndOpenToolInUi(page: any, toolNames: string | string[], cate
 
 async function runLocalToolPlaywrightTest(plan: TestCasePlan, strategy: typeof DEFAULT_AGENT_STRATEGY) {
   const effectiveStrategy = { ...DEFAULT_AGENT_STRATEGY, ...strategy };
-  logAgent('🚀 Käynnistetään sisäisen työkalun Playwright-testaus ilman pluginien asennusta...');
+  logAgent('🚀 Käynnistetään sisäisen työkalun Playwright-testaus (etsitään suorituspainiketta ja tarkistetaan tulos)...');
 
   const browser = await chromium.launch({ headless: false });
   const page = await browser.newPage();
@@ -302,12 +303,44 @@ async function runLocalToolPlaywrightTest(plan: TestCasePlan, strategy: typeof D
       return { success: false, error: `Tool not found in UI: ${toolName}` };
     }
 
-    if (effectiveStrategy.inspectDom) {
-      const visibleText = await page.locator('body').textContent();
-      logAgent(`🧠 Sisäisen työkalun UI:n näkyvä sisältö sisältyy: ${String(visibleText).slice(0, 160)}`);
+    // --- KLIKATAAN "Run Tool" TAI "Suorita työkalu" ---
+    const runToolButton = page.getByRole('button', { name: /Run Tool|Suorita työkalu/i }).first();
+    if (await runToolButton.isVisible({ timeout: 3000 }).catch(() => false)) {
+      logAgent(`🔘 Löydettiin suorituspainike. Klikataan sitä...`);
+      await runToolButton.click();
+      
+      // --- DYNAAMINEN ODOTUS (Älykäs odotus) ---
+      // Odotetaan enintään 15 sekuntia, mutta edetään heti, kun teksti ilmestyy ruudulle.
+      try {
+        await page.waitForFunction(
+          () => {
+            const text = document.body.innerText || '';
+            return /execution succeed|onnistui|success/i.test(text);
+          },
+          { timeout: 15000 } // Maksimiaika pitkille ajoille (esim. 15s)
+        );
+        logAgent(`⚡ Ajo valmistui ja onnistumisilmoitus havaittiin.`);
+      } catch (e) {
+        logAgent(`⚠️ Ajo kesti kauan tai onnistumisilmoitusta ei ehtinyt tulla annetussa ajassa.`);
+      }
+
+    } else {
+      logAgent(`⚠️ Vakiomuotoista "Run Tool" / "Suorita työkalu" -painiketta ei löytynyt.`);
+      return { success: false, error: 'Run Tool / Suorita työkalu button not found' };
     }
 
-    return { success: true };
+    // --- TULOKSEN ANALYLOINTI ---
+    const pageText = await page.locator('body').textContent() || '';
+    const isSuccess = /execution succeed|onnistui|success/i.test(pageText);
+
+    if (isSuccess) {
+      logAgent(`✅ Tulosanalyysi: Löydettiin onnistumisilmoitus ruudulta.`);
+      return { success: true };
+    } else {
+      logAgent(`❌ Tulosanalyysi: "Execution succeed" -ilmoitusta ei havaittu ruudulla.`);
+      return { success: false, error: 'Execution succeed message not found in UI output' };
+    }
+
   } catch (error) {
     return { success: false, error: String(error) };
   } finally {

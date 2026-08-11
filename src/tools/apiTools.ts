@@ -6,7 +6,7 @@ import type { SwissTool, Language } from './types.ts';
 export const apiTools: SwissTool[] = [
   {
     id: 'api-tester',
-    name: { fi: 'REST API-tester', en: 'REST API Tester' },
+    name: { fi: 'REST API-tester', en: 'REST API -tester' },
     category: { fi: 'Verkko & API', en: 'Network & API' },
     description: { fi: 'Lähetä kustomoituja HTTP-pyyntöjä REST API -rajapintoihin.', en: 'Send custom HTTP requests to REST APIs.' },
     type: 'local',
@@ -16,14 +16,14 @@ export const apiTools: SwissTool[] = [
         label: { fi: 'URL-osoite', en: 'URL Endpoint' },
         type: 'text',
         placeholder: { fi: 'https://httpbin.org/post', en: 'https://httpbin.org/post' },
-        default: 'https://httpbin.org/post'
+        default: 'http://localhost:5173/mini-api.json'
       },
       {
         key: 'method',
         label: { fi: 'Metodi', en: 'Method' },
         type: 'select',
         options: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-        default: 'POST'
+        default: 'GET'
       },
       {
         key: 'body',
@@ -75,7 +75,7 @@ export const apiTools: SwissTool[] = [
   },
   {
     id: 'soap-tester',
-    name: { fi: 'SOAP API -tester', en: 'SOAP API Tester' },
+    name: { fi: 'SOAP API -tester', en: 'SOAP API -tester' },
     category: { fi: 'Verkko & API', en: 'Network & API' },
     description: { fi: 'Lähetä SOAP XML -kutsuja vanhemmille rajapinnoille.', en: 'Send SOAP XML requests to legacy APIs.' },
     type: 'local',

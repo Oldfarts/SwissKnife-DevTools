@@ -15,7 +15,8 @@ export const fileTools: SwissTool[] = [
         key: 'fileText',
         label: { fi: 'Syötä teksti / Base64 / Raakadata', en: 'Input Text / Base64 / Raw' },
         type: 'textarea',
-        placeholder: { fi: 'Syötä analysoitava teksti tai koodi...', en: 'Enter text to analyze...' }
+        placeholder: { fi: 'Syötä analysoitava teksti tai koodi...', en: 'Enter text to analyze...' },
+        default: 'Enter text to analyze...'
       }
     ],
     execute: async (inputs) => {

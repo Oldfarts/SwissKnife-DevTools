@@ -31,7 +31,7 @@ export const requestReplayTool: SwissTool = {
         fi: 'Esim. curl -X POST https://httpbin.org/post -H "Content-Type: application/json" -d \'{"test":true}\'', 
         en: 'E.g. curl -X POST https://httpbin.org/post -H "Content-Type: application/json" -d \'{"test":true}\'' 
       },
-      default: 'curl -X GET https://httpbin.org/get'
+      default: 'curl -X GET http://localhost:5173/mini-api.json'
     },
     {
       key: 'action',
