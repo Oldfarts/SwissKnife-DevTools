@@ -51,6 +51,7 @@ db.serialize(() => {
 // --- PLUGINIEN HALLINTA (Install / Uninstall / Launch) ---
 // Muuttujat prosessien seurantaan muistissa
 let playwrightProcess = null;
+let zapProcess = null;
 
 // 1. ASENNUS / KÄYNNISTYS
 app.post('/api/plugins/install', (req, res) => {
@@ -100,8 +101,43 @@ app.post('/api/plugins/install', (req, res) => {
 
   try {
     let cwdOption = 'F:\\REACT-ohjelmat\\SwissKnife-DevTools'
-    if (pluginId === 'plugin-zap-runner' || pluginId === 'plugin-zap-daemon') {
-      cwdOption = 'C:\\Program Files\\ZAP\\Zed Attack Proxy'
+    if (pluginId === 'plugin-zap-runner' ||
+        pluginId === 'plugin-zap-daemon') {
+
+      // Jos vanha ZAP on vielä olemassa, suljetaan se ensin
+      if (zapProcess?.pid) {
+        spawn('taskkill', [
+          '/PID',
+          String(zapProcess.pid),
+          '/T',
+          '/F'
+        ], {
+          windowsHide: false
+        });
+
+        zapProcess = null;
+      }
+
+      const zapCommand =
+        pluginId === 'plugin-zap-daemon'
+          ? 'java -Xmx512m -jar zap-2.17.0.jar -daemon'
+          : 'java -Xmx512m -jar zap-2.17.0.jar';
+
+      zapProcess = spawn('cmd.exe', ['/k', zapCommand], {
+        cwd: 'C:\\Program Files\\ZAP\\Zed Attack Proxy',
+        detached: true,
+        windowsHide: false,
+        stdio: 'inherit'
+      });
+
+      zapProcess.unref();
+
+      console.log(`🚀 ZAP CMD käynnistetty PID: ${zapProcess.pid}`);
+
+      return res.json({
+        success: true,
+        message: `ZAP käynnistetty CMD-ikkunaan PID:llä ${zapProcess.pid}.`
+      });
     }
 
     // Jos kyseessä on Playwright, otetaan käynnistyvästä prosessista viite talteen
@@ -141,8 +177,25 @@ app.post('/api/plugins/uninstall', (req, res) => {
   console.log(`🗑️ Poistetaan / Sammutetaan plugin: ${pluginId}`);
 
   try {
-    if (pluginId && pluginId.includes('zap')) {
-      spawn('taskkill', ['/f', '/im', 'java.exe'], { shell: true, stdio: 'ignore' });
+    if (pluginId?.includes('zap')) {
+
+      if (zapProcess?.pid) {
+
+        console.log(
+          `🛑 Suljetaan ZAP CMD-prosessipuu PID ${zapProcess.pid}`
+        );
+
+        spawn('taskkill', [
+          '/PID',
+          String(zapProcess.pid),
+          '/T',
+          '/F'
+        ], {
+          windowsHide: false
+        });
+
+        zapProcess = null;
+      }
     } else if (pluginId && pluginId.includes('playwright')) {
       console.log('ℹ️ Pysäytetään Playwright-taustapalvelu tallennetun PID:n kautta...');
 
