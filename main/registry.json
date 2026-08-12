@@ -31,7 +31,7 @@
         }
       }
     ],
-      "execute": "async (inputs) => { const waitTimeSec = Number(inputs?.seconds ?? inputs?.inputContent ?? 10) || 10; await new Promise((resolve) => setTimeout(resolve, waitTimeSec * 1000)); return { success: true, data: inputs?.inputContent ?? 'Odotettu ' + waitTimeSec + ' sekuntia' }; }"  
+    "execute": "async (inputs) => { const waitTimeSec = Number(inputs?.seconds ?? inputs?.inputContent ?? 10) || 10; await new Promise((resolve) => setTimeout(resolve, waitTimeSec * 1000)); return { success: true, data: inputs?.inputContent ?? 'Odotettu ' + waitTimeSec + ' sekuntia' }; }"  
   },
   {
     "id": "aws-s3-checker",
@@ -58,7 +58,8 @@
         "label": {
           "fi": "Bucket nimi",
           "en": "Bucket Name"
-        }
+        },
+        "default": "swissknife-test-bucket"
       }
     ]
   },
@@ -144,7 +145,8 @@
         "label": {
           "fi": "Kohde URL tai lisäparametri (tarvittaessa)",
           "en": "Target URL or extra parameter (if needed)"
-        }
+        },
+        "default": "http://localhost:5173/mini-api.json"
       }
     ]
   },
@@ -166,7 +168,17 @@
     },
     "type": "rest-api",
     "endpoint": "/zap-api/JSON/core/view/alerts/",
-    "inputs": []
+    "inputs": [
+      {
+        "key": "baseurl",
+        "type": "text",
+        "label": {
+          "fi": "Kohde URL (valinnainen)",
+          "en": "Base URL (optional)"
+        },
+        "default": "http://localhost:5173/"
+      }
+    ]
   },
   {
     "id": "owasp-zap-all-alerts",
@@ -186,7 +198,17 @@
     },
     "type": "rest-api",
     "endpoint": "/zap-api/JSON/core/view/alerts/",
-    "inputs": []
+    "inputs": [
+      {
+        "key": "baseurl",
+        "type": "text",
+        "label": {
+          "fi": "Kohde URL (valinnainen)",
+          "en": "Base URL (optional)"
+        },
+        "default": "http://localhost:5173/"
+      }
+    ]
   },
   {
     "id": "zap-start-scan-fixed-v2",
@@ -239,61 +261,61 @@
     ]
   },
   {
-  "id": "soap-start-scan-fixed",
-  "version": "2.2.0",
-  "author": "Jani Ärväs",
-  "name": {
-    "fi": "OWASP ZAP - SOAP Käynnistä ZAP Skannaus Politiikalla",
-    "en": "OWASP ZAP - SOAP Start ZAP Scan with Policy"
-  },
-  "description": {
-    "fi": "Suorittaa SOAP-pyynnön ZAP-proxyn kautta, jotta ZAP tallentaa sen skannattavaksi.",
-    "en": "Executes a SOAP request through the ZAP proxy so ZAP records it for scanning."
-  },
-  "category": {
-    "fi": "ULKOPUOLISET PLUGINIT",
-    "en": "OUT PLUGINS"
-  },
-  "type": "local",
-  "inputs": [
-    {
-      "key": "endpoint",
-      "type": "text",
-      "label": {
-        "fi": "Kohde Endpoint URL (Taustapalvelin)",
-        "en": "Target Endpoint URL (Backend)"
-      },
-      "default": "http://localhost:3001/ws/myservice"
+    "id": "soap-start-scan-fixed",
+    "version": "2.2.0",
+    "author": "Jani Ärväs",
+    "name": {
+      "fi": "OWASP ZAP - SOAP Käynnistä ZAP Skannaus Politiikalla",
+      "en": "OWASP ZAP - SOAP Start ZAP Scan with Policy"
     },
-    {
-      "key": "zapProxy",
-      "type": "text",
-      "label": {
-        "fi": "ZAP Proxy URL",
-        "en": "ZAP Proxy URL"
-      },
-      "default": "http://localhost:8080"
+    "description": {
+      "fi": "Suorittaa SOAP-pyynnön ZAP-proxyn kautta, jotta ZAP tallentaa sen skannattavaksi.",
+      "en": "Executes a SOAP request through the ZAP proxy so ZAP records it for scanning."
     },
-    {
-      "key": "soapAction",
-      "type": "text",
-      "label": {
-        "fi": "SOAPAction (valinnainen)",
-        "en": "SOAPAction (optional)"
-      },
-      "default": ""
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
     },
-    {
-      "key": "soapEnvelope",
-      "type": "textarea",
-      "label": {
-        "fi": "SOAP Envelope (XML)",
-        "en": "SOAP Envelope (XML)"
+    "type": "local",
+    "inputs": [
+      {
+        "key": "endpoint",
+        "type": "text",
+        "label": {
+          "fi": "Kohde Endpoint URL (Taustapalvelin)",
+          "en": "Target Endpoint URL (Backend)"
+        },
+        "default": "http://localhost:3001/ws/myservice"
       },
-      "default": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:loc=\"http://example.com/\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <loc:GetInfo/>\n   </soapenv:Body>\n</soapenv:Envelope>"
-    }
-  ],
-  "execute": "async (inputs) => { const targetEndpoint = inputs?.endpoint || 'http://localhost:3001/ws/productservice'; try { const accessUrl = 'http://localhost:8080/JSON/core/action/accessUrl/?url=' + encodeURIComponent(targetEndpoint); await fetch(accessUrl, { mode: 'no-cors' }); const scanUrl = 'http://localhost:8080/JSON/ascan/action/scan/?url=' + encodeURIComponent(targetEndpoint); await fetch(scanUrl, { mode: 'no-cors' }); return { success: true, data: { note: 'Osoite lähetetty ZAPille ja aktiivinen skannaus käynnistetty!' } }; } catch (e) { return { success: false, error: 'ZAP yhteysvirhe: ' + e.message }; } }"
+      {
+        "key": "zapProxy",
+        "type": "text",
+        "label": {
+          "fi": "ZAP Proxy URL",
+          "en": "ZAP Proxy URL"
+        },
+        "default": "http://localhost:8080"
+      },
+      {
+        "key": "soapAction",
+        "type": "text",
+        "label": {
+          "fi": "SOAPAction (valinnainen)",
+          "en": "SOAPAction (optional)"
+        },
+        "default": ""
+      },
+      {
+        "key": "soapEnvelope",
+        "type": "textarea",
+        "label": {
+          "fi": "SOAP Envelope (XML)",
+          "en": "SOAP Envelope (XML)"
+        },
+        "default": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:loc=\"http://example.com/\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <loc:GetInfo/>\n   </soapenv:Body>\n</soapenv:Envelope>"
+      }
+    ],
+    "execute": "async (inputs) => { const targetEndpoint = inputs?.endpoint || 'http://localhost:3001/ws/productservice'; try { const accessUrl = 'http://localhost:8080/JSON/core/action/accessUrl/?url=' + encodeURIComponent(targetEndpoint); await fetch(accessUrl, { mode: 'no-cors' }); const scanUrl = 'http://localhost:8080/JSON/ascan/action/scan/?url=' + encodeURIComponent(targetEndpoint); await fetch(scanUrl, { mode: 'no-cors' }); return { success: true, data: { note: 'Osoite lähetetty ZAPille ja aktiivinen skannaus käynnistetty!' } }; } catch (e) { return { success: false, error: 'ZAP yhteysvirhe: ' + e.message }; } }"
   },
   {
     "id": "zap-generate-html-report",
@@ -346,39 +368,41 @@
         "label": {
           "fi": "Valitse kuvatiedosto työpöydältä",
           "en": "Select image file"
-        }
+        },
+        "default": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
       }
     ],
     "execute": "async (inputs) => { const raw = inputs.imageFile; if (!raw) { return { success: false, error: 'Tiedostoa ei valittu.' }; } let base64Data = typeof raw === 'string' ? raw : (raw.data || JSON.stringify(raw)); let approxBytes = Math.round((base64Data.length * 3) / 4); return { success: true, data: { format: 'Base64 / Data URL', estimatedSizeKb: Math.round(approxBytes / 1024), previewLength: base64Data.length, base64Snippet: base64Data.substring(0, 50) + '...', message: 'Kuva muunnettu ja vastaanotettu Base64-muodossa.' } }; }"
   },
   {
-  "id": "image-exif-reader2",
-  "version": "1.0.0",
-  "author": "Jani Ärväs",
-  "name": {
-    "fi": "EXIF - Kuvien base64 muuntaja",
-    "en": "EXIF -Image base64 converter"
-  },
-  "description": {
-    "fi": "Lukee ja näyttää kuvatiedoston (JPG/PNG) EXIF-metatiedot suoraan selaimessa.",
-    "en": "Reads and displays EXIF metadata from an image file directly in the browser."
-  },
-  "category": {
-    "fi": "ULKOPUOLISET PLUGINIT",
-    "en": "OUT PLUGINS"
-  },
-  "type": "local",
-  "inputs": [
-    {
-      "key": "imageFile",
-      "type": "file",
-      "label": {
-        "fi": "Valitse kuvatiedosto työpöydältä",
-        "en": "Select image file"
+    "id": "image-exif-reader2",
+    "version": "1.0.0",
+    "author": "Jani Ärväs",
+    "name": {
+      "fi": "EXIF - Kuvien base64 muuntaja",
+      "en": "EXIF -Image base64 converter"
+    },
+    "description": {
+      "fi": "Lukee ja näyttää kuvatiedoston (JPG/PNG) EXIF-metatiedot suoraan selaimessa.",
+      "en": "Reads and displays EXIF metadata from an image file directly in the browser."
+    },
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "local",
+    "inputs": [
+      {
+        "key": "imageFile",
+        "type": "file",
+        "label": {
+          "fi": "Valitse kuvatiedosto työpöydältä",
+          "en": "Select image file"
+        },
+        "default": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
       }
-    }
-  ],
-  "execute": "async (inputs) => { const raw = inputs.imageFile; if (!raw) { return { success: false, error: 'Tiedostoa ei valittu.' }; } let base64Data = typeof raw === 'string' ? raw : (raw.data || JSON.stringify(raw)); let approxBytes = Math.round((base64Data.length * 3) / 4); return { success: true, data: { format: 'Base64 / Data URL', estimatedSizeKb: Math.round(approxBytes / 1024), previewLength: base64Data.length, base64Snippet: base64Data.substring(0, 50) + '...', message: 'Kuva muunnettu ja vastaanotettu Base64-muodossa.' } }; }"
+    ],
+    "execute": "async (inputs) => { const raw = inputs.imageFile; if (!raw) { return { success: false, error: 'Tiedostoa ei valittu.' }; } let base64Data = typeof raw === 'string' ? raw : (raw.data || JSON.stringify(raw)); let approxBytes = Math.round((base64Data.length * 3) / 4); return { success: true, data: { format: 'Base64 / Data URL', estimatedSizeKb: Math.round(approxBytes / 1024), previewLength: base64Data.length, base64Snippet: base64Data.substring(0, 50) + '...', message: 'Kuva muunnettu ja vastaanotettu Base64-muodossa.' } }; }"
   },
   {
     "id": "playwright-visual-regression",
@@ -711,37 +735,37 @@
     "execute": "async () => { try { const res = await fetch('http://localhost:3001/api/plugins/install', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pluginId: 'plugin-timer-cron', command: 'node src\\tools\\timer\\timerService.js --mode=cron' }) }); return await res.json(); } catch (e) { return { success: false, error: e.message }; } }"
   },
   {
-  "id": "plugin-selenium-runner",
-  "name": {
-    "fi": "Selenium - kaikki automaatiotestit",
-    "en": "Selenium - Batch Automation Tests"
-  },
-  "description": {
-    "fi": "Suorittaa kaikki automaatiotestit Seleniumilla.",
-    "en": "Runs batch automation tests with Selenium."
-  },
-  "type": "server-launch",
-  "execute": "async (inputs) => { const { runSeleniumAutomation } = await import('./executors/seleniumExecutor.js'); return await runSeleniumAutomation(); }"
+    "id": "plugin-selenium-runner",
+    "name": {
+      "fi": "Selenium - kaikki automaatiotestit",
+      "en": "Selenium - Batch Automation Tests"
+    },
+    "description": {
+      "fi": "Suorittaa kaikki automaatiotestit Seleniumilla.",
+      "en": "Runs batch automation tests with Selenium."
+    },
+    "type": "server-launch",
+    "execute": "async (inputs) => { const { runSeleniumAutomation } = await import('./executors/seleniumExecutor.js'); return await runSeleniumAutomation(); }"
   },
   {
-  "id": "plugin-workflow-agent",
-  "version": "1.0.0",
-  "author": "Jani Ärväs",
-  "name": {
-    "fi": "PROGRAM Plugin: PLAYWRIGHT: 🤖 Autonominen Itsekorjaava Agentti (REST + SOAP)",
-    "en": "PROGRAM Plugin: PLAYWRIGHT: 🤖 Autonomous Self-Healing Agent (REST + SOAP)"
-  },
-  "description": {
-    "fi": "Käynnistää autonomisen agentin, joka suorittaa REST- ja SOAP-testiputket, korjaa virheet dynaamisesti ja luo ajoraportin.",
-    "en": "Launches the autonomous agent that runs REST and SOAP test pipelines, self-heals errors, and generates an execution report."
-  },
-  "category": {
-    "fi": "ULKOPUOLISET PLUGINIT",
-    "en": "OUT PLUGINS"
-  },
-  "type": "server-launch",
-  "command": "npx tsx src/tools/playwright/securityAgent.ts",
-  "inputs": [],
-  "execute": "async () => { try { const res = await fetch('http://localhost:3001/api/plugins/install', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: 'plugin-workflow-test-rest', command: 'npx tsx src/tools/playwright/securityAgent.ts' }) }); return await res.json(); } catch (e) { return { success: false, error: e.message }; } }"
+    "id": "plugin-workflow-agent",
+    "version": "1.0.0",
+    "author": "Jani Ärväs",
+    "name": {
+      "fi": "PROGRAM Plugin: PLAYWRIGHT: 🤖 Autonominen Itsekorjaava Agentti (REST + SOAP)",
+      "en": "PROGRAM Plugin: PLAYWRIGHT: 🤖 Autonomous Self-Healing Agent (REST + SOAP)"
+    },
+    "description": {
+      "fi": "Käynnistää autonomisen agentin, joka suorittaa REST- ja SOAP-testiputket, korjaa virheet dynaamisesti ja luo ajoraportin.",
+      "en": "Launches the autonomous agent that runs REST and SOAP test pipelines, self-heals errors, and generates an execution report."
+    },
+    "category": {
+      "fi": "ULKOPUOLISET PLUGINIT",
+      "en": "OUT PLUGINS"
+    },
+    "type": "server-launch",
+    "command": "npx tsx src/tools/playwright/securityAgent.ts",
+    "inputs": [],
+    "execute": "async () => { try { const res = await fetch('http://localhost:3001/api/plugins/install', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: 'plugin-workflow-test-rest', command: 'npx tsx src/tools/playwright/securityAgent.ts' }) }); return await res.json(); } catch (e) { return { success: false, error: e.message }; } }"
   }
 ]
