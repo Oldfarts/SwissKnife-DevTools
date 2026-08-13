@@ -173,26 +173,33 @@ Sijainti: `src\tools\playwright\`
   npx tsx securityAgent.ts
 
 ## 🧠 LLM-pohjaisen kehityksen ja agenttien käyttöohjeet
+
 Tässä osiossa kuvataan, miten tekoälypohjaisia (LLM) agentteja ja työkaluja hyödynnetään projektissa dynaamiseen testaukseen ja turvallisuusanalyysiin.
 
-1. Asennus mitä tarvitaan
-Node.js (v18 tai uudempi) sekä ollama qwen
-
-"curl -fsSL https://ollama.com/install.sh | sh"
+### 1. Asennus mitä tarvitaan
+* **Node.js** (v18 tai uudempi) sekä Ollama ja Qwen-malli:
+  ```bash
+  curl -fsSL https://ollama.com/install.sh | sh
 
 ja sitten 
 
-```bash
+Käynnistä malli komennolla:
+
+Bash
 ollama run qwen
 
 ja sitten
 
-```bash
+Asenna Ollaman Node.js-kirjasto:
+
+Bash
 npm install ollama
 
 TypeScript & tsx (skriptien suorittamiseen suoraan ilman erillistä käännösvaihetta):
 
-```bash
+TypeScript & tsx (skriptien suorittamiseen suoraan ilman erillistä käännösvaihetta):
+
+Bash
 npm install -D tsx typescript
 Playwright-riippuvuudet ja selaimet asennettuna (katso yleiset asennusohjeet yltä).
 
@@ -204,11 +211,12 @@ Agenttien ja dynaamisten testien ajo tapahtuu suoraan komentoriviltä.
 Varmista, että kehityspalvelin tai tarvittavat taustapalvelut ovat päällä (esim. Express-serveri portissa 3001):
 
 ```bash
-node server.js
+npn run dev
 Siirry agenttikansioon tai aja komento projektin juuresta:
 
 ```bash
 npx tsx src/tools/LLM/securityAgent.ts --mode dynamic
+
 3. Tulokset ja niiden tulkinta
 Konsolitulosteet: Agentti tulostaa suorituksen aikana reaaliaikaisesti lokia siitä, mitä sivuja tai rajapintoja testataan, mitä arvoja syötetään ja mitä vasteita palvelimelta saadaan.
 
