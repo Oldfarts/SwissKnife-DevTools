@@ -202,6 +202,7 @@ TypeScript & tsx (skriptien suorittamiseen suoraan ilman erillistä käännösva
 Bash
 
 npm install -D tsx typescript
+
 Playwright-riippuvuudet ja selaimet asennettuna (katso yleiset asennusohjeet yltä).
 
 Paikallinen taustapalvelin (server.js) käynnistettynä tarvittaessa testidataa varten.
@@ -214,6 +215,7 @@ Varmista, että kehityspalvelin tai tarvittavat taustapalvelut ovat päällä (e
 Bash
 
 npn run dev
+
 Siirry agenttikansioon tai aja komento projektin juuresta:
 
 Bash
