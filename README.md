@@ -177,11 +177,16 @@ Tässä osiossa kuvataan, miten tekoälypohjaisia (LLM) agentteja ja työkaluja 
 
 1. Asennus mitä tarvitaan
 Node.js (v18 tai uudempi) sekä ollama qwen
+
 "curl -fsSL https://ollama.com/install.sh | sh"
+
 ja sitten 
+
 ```bash
 ollama run qwen
+
 ja sitten
+
 ```bash
 npm install ollama
 
