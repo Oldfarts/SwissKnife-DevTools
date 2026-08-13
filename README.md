@@ -210,11 +210,11 @@ Agenttien ja dynaamisten testien ajo tapahtuu suoraan komentoriviltä.
 
 Varmista, että kehityspalvelin tai tarvittavat taustapalvelut ovat päällä (esim. Express-serveri portissa 3001):
 
-```bash
+Bash
 npn run dev
 Siirry agenttikansioon tai aja komento projektin juuresta:
 
-```bash
+Bash
 npx tsx src/tools/LLM/securityAgent.ts --mode dynamic
 
 3. Tulokset ja niiden tulkinta
