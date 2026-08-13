@@ -199,8 +199,6 @@ npm install ollama
 
 TypeScript & tsx (skriptien suorittamiseen suoraan ilman erillistä käännösvaihetta):
 
-TypeScript & tsx (skriptien suorittamiseen suoraan ilman erillistä käännösvaihetta):
-
 Bash
 
 npm install -D tsx typescript
