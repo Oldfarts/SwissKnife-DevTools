@@ -172,3 +172,47 @@ Sijainti: `src\tools\playwright\`
   cd src\tools\playwright
   npx tsx securityAgent.ts
 
+## 🧠 LLM-pohjaisen kehityksen ja agenttien käyttöohjeet
+Tässä osiossa kuvataan, miten tekoälypohjaisia (LLM) agentteja ja työkaluja hyödynnetään projektissa dynaamiseen testaukseen ja turvallisuusanalyysiin.
+
+1. Asennus mitä tarvitaan
+Node.js (v18 tai uudempi) sekä ollama qwen
+"curl -fsSL https://ollama.com/install.sh | sh"
+ja sitten 
+```bash
+ollama run qwen
+ja sitten
+```bash
+npm install ollama
+
+TypeScript & tsx (skriptien suorittamiseen suoraan ilman erillistä käännösvaihetta):
+
+```bash
+npm install -D tsx typescript
+Playwright-riippuvuudet ja selaimet asennettuna (katso yleiset asennusohjeet yltä).
+
+Paikallinen taustapalvelin (server.js) käynnistettynä tarvittaessa testidataa varten.
+
+2. Käynnistys
+Agenttien ja dynaamisten testien ajo tapahtuu suoraan komentoriviltä.
+
+Varmista, että kehityspalvelin tai tarvittavat taustapalvelut ovat päällä (esim. Express-serveri portissa 3001):
+
+```bash
+node server.js
+Siirry agenttikansioon tai aja komento projektin juuresta:
+
+```bash
+npx tsx src/tools/LLM/securityAgent.ts --mode dynamic
+3. Tulokset ja niiden tulkinta
+Konsolitulosteet: Agentti tulostaa suorituksen aikana reaaliaikaisesti lokia siitä, mitä sivuja tai rajapintoja testataan, mitä arvoja syötetään ja mitä vasteita palvelimelta saadaan.
+
+Onnistumiset ja virheet: Raportti näyttää selkeästi, jos jokin testitapauksista laukaisee virheen (esim. 404, 500 tai turvallisuuspuute).
+
+Raporttitiedostot: Mahdolliset testitulokset ja agentin generoimat tarkistuslistat tallentuvat automaattisesti projektin raporttihakemistoihin (esim. Playwrightin HTML-raportit tai ZAP:n tuottamat output-tiedostot).
+
+4. Muuta yleistä tietoa
+Lokaali testidata: Järjestelmä käyttää oletuksena SQLite-tietokantaan automaattisesti alustettua testidataa (kuten soap_items-taulun tuotteita SOAP-001, SOAP-002 jne.), joten agentit ja testit voivat ajaa turvallisesti ilman ulkoisia riippuvuuksia tai tuotantoympäristön tietoja[cite: 3].
+
+Laajennettavuus: Agenttitiedostoja (securityAgent.ts jne.) on helppo muokata ja opettaa tunnistamaan uusia skenaarioita, lisäämällä uusia tarkistussääntöjä tai ketjuttamalla niitä olemassa oleviin työnkulkuihin (Workflows).
+

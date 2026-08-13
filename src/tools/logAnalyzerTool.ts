@@ -1,6 +1,6 @@
 import type { SwissTool, Language } from './types.ts';
 
-export const logAnalyzerTool: SwissTool = {
+export const logAnalyzerTool: SwissTool[] = [{
   id: 'log-analyzer',
   name: { 
     fi: 'Älykäs Log Analyzer', 
@@ -132,4 +132,4 @@ export const logAnalyzerTool: SwissTool = {
       };
     }
   }
-};
+}];

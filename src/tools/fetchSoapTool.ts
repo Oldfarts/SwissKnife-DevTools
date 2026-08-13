@@ -1,6 +1,6 @@
 import type { SwissTool, Language } from './types.ts';
 
-export const fetchSoapTool: SwissTool = {
+export const fetchSoapTool: SwissTool[] = [{
   id: 'fetch-soap-wsdl',
   name: { 
     fi: 'Hae SOAP WSDL / Metodit URL:stä', 
@@ -20,8 +20,8 @@ export const fetchSoapTool: SwissTool = {
       key: 'url',
       label: { fi: 'SOAP WSDL URL-osoite', en: 'SOAP WSDL URL' },
       type: 'text',
-      placeholder: { fi: 'https://www.dneonline.com/calculator.asmx?WSDL', en: 'https://www.dneonline.com/calculator.asmx?WSDL' },
-      default: 'https://www.dneonline.com/calculator.asmx?WSDL'
+      placeholder: { fi: 'http://localhost:3001/ws/myservice?wsdl', en: 'http://localhost:3001/ws/myservice?wsdl' },
+      default: 'http://localhost:3001/ws/myservice?wsdl'
     }
   ],
   execute: async (inputs, lang = 'fi') => {
@@ -33,22 +33,39 @@ export const fetchSoapTool: SwissTool = {
         };
       }
 
-      // Kierretään CORS-rajoitukset samalla proxylogiikalla kuin Swaggerissa
-      const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(inputs.url)}`;
-      const res = await fetch(proxyUrl);
-      
-      if (!res.ok) {
-        return {
-          success: false,
-          error: (lang === 'fi' ? 'HTTP-virhe WSDL-haussa: ' : 'HTTP error fetching WSDL: ') + res.status
-        };
+      let wsdlText = '';
+
+      // Tarkistetaan onko kyseessä lokaali osoite (localhost / 127.0.0.1)
+      const isLocalhost = inputs.url.includes('localhost') || inputs.url.includes('127.0.0.1');
+
+      if (isLocalhost) {
+        // Tehdään suora pyyntö ilman ulkoista proxya
+        const res = await fetch(inputs.url);
+        if (!res.ok) {
+          return {
+            success: false,
+            error: (lang === 'fi' ? 'HTTP-virhe WSDL-haussa: ' : 'HTTP error fetching WSDL: ') + res.status
+          };
+        }
+        wsdlText = await res.text();
+      } else {
+        // Ulkoisille osoitteille käytetään CORS-proxya
+        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(inputs.url)}`;
+        const res = await fetch(proxyUrl);
+        
+        if (!res.ok) {
+          return {
+            success: false,
+            error: (lang === 'fi' ? 'HTTP-virhe WSDL-haussa: ' : 'HTTP error fetching WSDL: ') + res.status
+          };
+        }
+
+        const wrapper = await res.json();
+        wsdlText = wrapper && wrapper.contents ? wrapper.contents : '';
       }
 
-      const wrapper = await res.json();
-      const wsdlText = wrapper && wrapper.contents ? wrapper.contents : '';
-
       // Yksinkertainen tarkistus, että kyseessä on XML/WSDL
-      if (!wsdlText.includes('<definitions') && !wsdlText.includes('<wsdl:definitions') && !wsdlText.includes('xml')) {
+      if (!wsdlText.includes('<definitions') && !wsdlText.includes('<wsdl:definitions') && !wsdlText.includes('xml') && !wsdlText.includes('<soap')) {
         return {
           success: false,
           error: lang === 'fi' ? 'Annettu osoite ei vaikuta kelvolliselta WSDL/XML-tiedostolta.' : 'The provided URL does not appear to be a valid WSDL/XML file.'
@@ -66,4 +83,4 @@ export const fetchSoapTool: SwissTool = {
       };
     }
   }
-};
+}];

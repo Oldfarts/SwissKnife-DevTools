@@ -1,6 +1,6 @@
 import type { SwissTool, Language } from './types.ts';
 
-export const jwtPlaygroundTool: SwissTool = {
+export const jwtPlaygroundTool: SwissTool[] = [{
   id: 'jwt-attack-playground',
   name: { 
     fi: 'JWT Attack & Test Playground', 
@@ -188,4 +188,4 @@ export const jwtPlaygroundTool: SwissTool = {
       };
     }
   }
-};
+}];

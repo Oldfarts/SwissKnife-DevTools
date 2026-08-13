@@ -1,6 +1,6 @@
 import type { SwissTool, Language } from './types.ts';
 
-export const regexTesterTool: SwissTool = {
+export const regexTesterTool: SwissTool[] = [{
   id: 'regex-tester',
   name: { fi: 'RegEx-testaaja', en: 'RegEx Tester' },
   category: { fi: 'Teksti & Koodi', en: 'Text & Code' },
@@ -41,4 +41,4 @@ export const regexTesterTool: SwissTool = {
       return { success: false, error: (lang === 'fi' ? 'RegEx-virhe: ' : 'RegEx Error: ') + err.message };
     }
   }
-};
+}];

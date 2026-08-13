@@ -33,7 +33,7 @@ function parseToHex(colorInput: string): string | null {
   return null;
 }
 
-export const colorConverterTool: SwissTool = {
+export const colorConverterTool: SwissTool[] = [{
   id: 'color-converter',
   name: { fi: 'Värimuunnin & Valitsin', en: 'Color Converter & Picker' },
   category: { fi: 'Muotoilu', en: 'Design' },
@@ -115,4 +115,4 @@ export const colorConverterTool: SwissTool = {
       };
     }
   }
-};
+}];

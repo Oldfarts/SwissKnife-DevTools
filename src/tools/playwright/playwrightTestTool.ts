@@ -1,6 +1,6 @@
 import type { SwissTool, Language } from '../types.ts';
 
-export const playwrightTestTool: SwissTool = {
+export const playwrightTestTool: SwissTool[] = [{
   id: 'playwright-web-tester',
   name: { 
     fi: 'Playwright Web-testaus & Kaappaus', 
@@ -68,4 +68,4 @@ export const playwrightTestTool: SwissTool = {
       };
     }
   }
-};
+}];

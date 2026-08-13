@@ -1,6 +1,6 @@
 import type { SwissTool, Language } from './types.ts';
 
-export const aiSoapTestGeneratorTool: SwissTool = {
+export const aiSoapTestGeneratorTool: SwissTool[] = [{
   id: 'ai-soap-test-generator',
   name: { 
     fi: 'SOAP WSDL -> Testitapaukset', 
@@ -15,13 +15,44 @@ export const aiSoapTestGeneratorTool: SwissTool = {
     en: 'Analyzes a SOAP WSDL definition and generates a list of test cases and SOAP Envelope examples.' 
   },
   type: 'local',
-  inputs: [
+inputs: [
     {
       key: 'wsdlContent',
       label: { fi: 'WSDL / XML Sisältö', en: 'WSDL / XML Content' },
       type: 'textarea',
       placeholder: { fi: 'Liitä WSDL XML tähän tai anna edellisen vaiheen välittää se...', en: 'Paste WSDL XML here or let the previous step pass it...' },
-      default: `<?xml version="1.0" encoding="utf-8"?>\n<definitions xmlns="http://schemas.xmlsoap.org/wsdl/">\n  <message name="CelsiusToFahrenheitSoapIn">\n    <part name="parameters" element="tns:CelsiusToFahrenheit" />\n  </message>\n</definitions>`
+      default: `<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://example.com/myservice" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="MyService" targetNamespace="http://example.com/myservice">
+  <message name="GetProductDetailsRequest">
+    <part name="itemCode" type="xsd:string"/>
+  </message>
+  <message name="GetProductDetailsResponse">
+    <part name="productResult" type="xsd:string"/>
+  </message>
+  <portType name="MyServicePortType">
+    <operation name="GetProductDetails">
+      <input message="tns:GetProductDetailsRequest"/>
+      <output message="tns:GetProductDetailsResponse"/>
+    </operation>
+  </portType>
+  <binding name="MyServiceBinding" type="tns:MyServicePortType">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="GetProductDetails">
+      <soap:operation soapAction="http://example.com/GetProductDetails"/>
+      <input>
+        <soap:body use="encoded" namespace="http://example.com/myservice" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body use="encoded" namespace="http://example.com/myservice" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="MyServiceService">
+    <port name="MyServicePort" binding="tns:MyServiceBinding">
+      <soap:address location="http://localhost:3001/ws/productservice"/>
+    </port>
+  </service>
+</definitions>`
     },
     {
       key: 'testFramework',
@@ -109,7 +140,7 @@ export const aiSoapTestGeneratorTool: SwissTool = {
       };
     }
   }
-};
+}];
 
 function generateSoapMarkdownReport(testCases: any[], framework: string, lang: string): string {
   let md = lang === 'fi' 

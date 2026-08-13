@@ -1,6 +1,6 @@
 import type { SwissTool, Language } from './types.ts';
 
-export const fetchSwaggerTool: SwissTool = {
+export const fetchSwaggerTool: SwissTool[] = [{
   id: 'fetch-swagger-url',
   name: { 
     fi: 'Hae OpenAPI / Swagger URL:stä', 
@@ -66,4 +66,4 @@ export const fetchSwaggerTool: SwissTool = {
       };
     }
   }
-};
+}];

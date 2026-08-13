@@ -288,6 +288,17 @@ app.post('/api/products', (req, res) => {
 })
 
 // Laajennettu SOAP-reitti Expressissä
+app.get('/ws/myservice', (req, res) => {
+  const wsdlPath = path.join(__dirname, 'public','myservice.wsdl')
+  
+  if (fs.existsSync(wsdlPath)) {
+    res.setHeader('Content-Type', 'text/xml; charset=utf-8')
+    res.sendFile(wsdlPath)
+  } else {
+    res.status(404).send('WSDL-tiedostoa ei löytynyt palvelimelta.')
+  }
+})
+
 app.post('/ws/myservice', express.text({ type: '*/*' }), (req, res) => {
   console.log('📥 Vastaanotettu SOAP-pyyntö:', req.body)
 

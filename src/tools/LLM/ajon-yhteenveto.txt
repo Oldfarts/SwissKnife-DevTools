@@ -1,0 +1,1281 @@
+=========================================
+🤖 ITSEKORJAUTUVA AGENTIN AJORAPORTTI (LLM)
+=========================================
+Ajo suoritettu: 2026-08-13T13:52:32.269Z
+Kokonaiskesto: 592 sekuntia
+
+📊 TESTITULOSTEN YHTEENVETO:
+- Yhteensä: 32 kpl
+- ✅ Läpäisty: 17 kpl
+- ❌ Epäonnistunut / Ei vastannut: 13 kpl
+- ⏭️ Ohitettu: 2 kpl
+
+LOPPUTULOS: AJOPUTKI KESKEYTYI VIRHEISIIN (13 kpl epäonnistui / ei vastannut) ❌
+
+=========================================
+❌ EPÄONNISTUNEET TAI VASTAAMATTOMAT TESTIT:
+=========================================
+❌ Dynamic tool test: REST API / OpenAPI Diff (ID: rest-api-diff)
+   Syy / Viimeisin tila: Epäonnistui / Ei vastannut: Tool not found in UI or did not respond: REST API / OpenAPI Diff
+
+❌ Dynamic tool test: QR Code Analyzer (ID: qr-analyzer)
+   Syy / Viimeisin tila: Epäonnistui / Ei vastannut: UI element reported execution failed or error state
+
+❌ Dynamic tool test: Smart Log Analyzer (ID: log-analyzer)
+   Syy / Viimeisin tila: Epäonnistui / Ei vastannut: UI element reported execution failed or error state
+
+❌ Dynamic tool test: RegEx Tester (ID: regex-tester)
+   Syy / Viimeisin tila: Epäonnistui / Ei vastannut: UI element reported execution failed or error state
+
+❌ Dynamic tool test: SSL/TLS Certificate Analysis (ID: ssl-checker)
+   Syy / Viimeisin tila: Epäonnistui / Ei vastannut: Tool not found in UI or did not respond: SSL/TLS Certificate Analysis
+
+❌ Dynamic tool test: Swagger -> Unit Test Cases (ID: ai-swagger-test-generator)
+   Syy / Viimeisin tila: Epäonnistui / Ei vastannut: Tool not found in UI or did not respond: Swagger -> Unit Test Cases
+
+❌ Dynamic tool test: SOAP WSDL -> Test Cases (ID: ai-soap-test-generator)
+   Syy / Viimeisin tila: Epäonnistui / Ei vastannut: Tool not found in UI or did not respond: SOAP WSDL -> Test Cases
+
+❌ Dynamic tool test: REST OpenAPI -> Unit Test Code (Jest) (ID: rest-unit-test-generator)
+   Syy / Viimeisin tila: Epäonnistui / Ei vastannut: Tool not found in UI or did not respond: REST OpenAPI -> Unit Test Code (Jest)
+
+❌ Dynamic tool test: SOAP WSDL -> Unit Test Code (Jest) (ID: soap-unit-test-generator)
+   Syy / Viimeisin tila: Epäonnistui / Ei vastannut: Tool not found in UI or did not respond: SOAP WSDL -> Unit Test Code (Jest)
+
+❌ Dynamic tool test: REST OpenAPI -> Python Unit Tests (unittest) (ID: rest-python-unit-test-generator)
+   Syy / Viimeisin tila: Epäonnistui / Ei vastannut: Tool not found in UI or did not respond: REST OpenAPI -> Python Unit Tests (unittest)
+
+❌ Dynamic tool test: SOAP WSDL -> Python Unit Tests (unittest) (ID: soap-python-unit-test-generator)
+   Syy / Viimeisin tila: Epäonnistui / Ei vastannut: Tool not found in UI or did not respond: SOAP WSDL -> Python Unit Tests (unittest)
+
+❌ Dynamic tool test: REST: DNS Lookup (ID: rest-dns-lookup)
+   Syy / Viimeisin tila: Epäonnistui / Ei vastannut: Tool not found in UI or did not respond: REST: DNS Lookup
+
+❌ Dynamic tool test: Playwright Web Testing & Snapshot (ID: playwright-web-tester)
+   Syy / Viimeisin tila: Epäonnistui / Ei vastannut: Tool not found in UI or did not respond: Playwright Web Testing & Snapshot
+
+=========================================
+TESTISUUNNITELMA (TIEDOSTO + PLAYWRIGHT):
+=========================================
+- [SKIPPED] REST workflow smoke test
+  Tarkistaa REST-työnkulun perusinstallaation.
+      • Avaa sovellus
+    • Suorita workflow
+    • Tarkista tulos
+    • Ohitettu, koska valittu suoritusmuoto oli dynamic.
+
+- [SKIPPED] SOAP workflow smoke test
+  Tarkistaa SOAP-työnkulun WSDL- ja SOAP-pyynnön käsittelyn.
+      • Avaa sovellus
+    • Syötä SOAP-pyyntö
+    • Tarkista tulos
+    • Ohitettu, koska valittu suoritusmuoto oli dynamic.
+
+- [PASSED] Dynamic tool test: JSON Formatter / Validator
+  Testataan työkalua json-formatter
+      • Kohde: JSON Formatter / Validator
+    • Tyyppi: local
+    • Kategoria: Dev & Data
+    • Hakusanat: json muotoilija / validointi | json muotoilija validointi | jsonmuotoilijavalidointi | json formatter / validator | json formatter validator | jsonformattervalidator | json-formatter | json formatter | jsonformatter
+    • Testiarvot: {}
+    • Testitapaus läpäistiin onnistuneesti.
+
+- [PASSED] Dynamic tool test: XML to JSON Converter
+  Testataan työkalua xml-to-json
+      • Kohde: XML to JSON Converter
+    • Tyyppi: local
+    • Kategoria: Dev & Data
+    • Hakusanat: xml -> json muunnin | xml json muunnin | xmljsonmuunnin | xml to json converter | xmltojsonconverter | xml-to-json | xml to json | xmltojson
+    • Testiarvot: {}
+    • Testitapaus läpäistiin onnistuneesti.
+
+- [PASSED] Dynamic tool test: REST API -tester
+  Testataan työkalua api-tester
+      • Kohde: REST API -tester
+    • Tyyppi: local
+    • Kategoria: Network & API
+    • Hakusanat: rest api-tester | rest api tester | restapitester | rest api -tester | api-tester | api tester | apitester
+    • Testiarvot: {}
+    • Testitapaus läpäistiin onnistuneesti.
+
+- [PASSED] Dynamic tool test: SOAP API -tester
+  Testataan työkalua soap-tester
+      • Kohde: SOAP API -tester
+    • Tyyppi: local
+    • Kategoria: Network & API
+    • Hakusanat: soap api -tester | soap api tester | soapapitester | soap-tester | soap tester | soaptester
+    • Testiarvot: {}
+    • Testitapaus läpäistiin onnistuneesti.
+
+- [FAILED] Dynamic tool test: REST API / OpenAPI Diff
+  Testataan työkalua rest-api-diff
+      • Kohde: REST API / OpenAPI Diff
+    • Tyyppi: local
+    • Kategoria: Developer Tools & AI
+    • Hakusanat: rest api / openapi diff | rest api openapi diff | restapiopenapidiff | rest-api-diff | rest api diff | restapidiff
+    • Testiarvot: {"query":"test-value","payload":"sample"}
+    • Epäonnistui / Ei vastannut: Tool not found in UI or did not respond: REST API / OpenAPI Diff
+
+- [PASSED] Dynamic tool test: JSON Schema Generator
+  Testataan työkalua json-schema-generator
+      • Kohde: JSON Schema Generator
+    • Tyyppi: local
+    • Kategoria: Dev & Data
+    • Hakusanat: json schema generator | jsonschemagenerator | json-schema-generator
+    • Testiarvot: {}
+    • Testitapaus läpäistiin onnistuneesti.
+
+- [PASSED] Dynamic tool test: HTTP Request Replay & Converter
+  Testataan työkalua request-replay
+      • Kohde: HTTP Request Replay & Converter
+    • Tyyppi: local
+    • Kategoria: Network & API
+    • Hakusanat: http request replay & converter | http request replay converter | httprequestreplayconverter | request-replay | request replay | requestreplay
+    • Testiarvot: {}
+    • Testitapaus läpäistiin onnistuneesti.
+
+- [PASSED] Dynamic tool test: JWT Decoder
+  Testataan työkalua jwt-decoder
+      • Kohde: JWT Decoder
+    • Tyyppi: local
+    • Kategoria: Security & Auth
+    • Hakusanat: jwt-dekooderi | jwt dekooderi | jwtdekooderi | jwt decoder | jwtdecoder | jwt-decoder
+    • Testiarvot: {}
+    • Testitapaus läpäistiin onnistuneesti.
+
+- [PASSED] Dynamic tool test: JWT Encoder (HS256)
+  Testataan työkalua jwt-encoder
+      • Kohde: JWT Encoder (HS256)
+    • Tyyppi: local
+    • Kategoria: Security & Auth
+    • Hakusanat: jwt-enkooderi (hs256) | jwt enkooderi hs256 | jwtenkooderihs256 | jwt encoder (hs256) | jwt encoder hs256 | jwtencoderhs256 | jwt-encoder | jwt encoder | jwtencoder
+    • Testiarvot: {}
+    • Testitapaus läpäistiin onnistuneesti.
+
+- [PASSED] Dynamic tool test: JWT Attack & Test Playground
+  Testataan työkalua jwt-attack-playground
+      • Kohde: JWT Attack & Test Playground
+    • Tyyppi: local
+    • Kategoria: Security & Utilities
+    • Hakusanat: jwt attack & test playground | jwt attack test playground | jwtattacktestplayground | jwt-attack-playground | jwt attack playground | jwtattackplayground
+    • Testiarvot: {}
+    • Testitapaus läpäistiin onnistuneesti.
+
+- [PASSED] Dynamic tool test: Hash Generator
+  Testataan työkalua hash-generator
+      • Kohde: Hash Generator
+    • Tyyppi: local
+    • Kategoria: Security & Crypto
+    • Hakusanat: hash-generaattori (sha-256 / sha-512) | hash generaattori sha 256 sha 512 | hashgeneraattorisha256sha512 | hash generator | hashgenerator | hash-generator
+    • Testiarvot: {}
+    • Testitapaus läpäistiin onnistuneesti.
+
+- [PASSED] Dynamic tool test: General Encoders / Decoders
+  Testataan työkalua encoders-decoders
+      • Kohde: General Encoders / Decoders
+    • Tyyppi: local
+    • Kategoria: Dev & Data
+    • Hakusanat: yleiset muunnokset (base64 / url / hex) | yleiset muunnokset base64 url hex | yleisetmuunnoksetbase64urlhex | general encoders / decoders | general encoders decoders | generalencodersdecoders | encoders-decoders | encoders decoders | encodersdecoders
+    • Testiarvot: {}
+    • Testitapaus läpäistiin onnistuneesti.
+
+- [PASSED] Dynamic tool test: File Metadata Inspector
+  Testataan työkalua exif-pdf-apk-analyzer
+      • Kohde: File Metadata Inspector
+    • Tyyppi: local
+    • Kategoria: Files & Forensics
+    • Hakusanat: tiedostorakenteen lukija (pdf / exif / apk) | tiedostorakenteen lukija pdf exif apk | tiedostorakenteenlukijapdfexifapk | file metadata inspector | filemetadatainspector | exif-pdf-apk-analyzer | exif pdf apk analyzer | exifpdfapkanalyzer
+    • Testiarvot: {}
+    • Testitapaus läpäistiin onnistuneesti.
+
+- [FAILED] Dynamic tool test: QR Code Analyzer
+  Testataan työkalua qr-analyzer
+      • Kohde: QR Code Analyzer
+    • Tyyppi: local
+    • Kategoria: Security & Utilities
+    • Hakusanat: qr-koodin analysaattori | qr koodin analysaattori | qrkoodinanalysaattori | qr code analyzer | qrcodeanalyzer | qr-analyzer | qr analyzer | qranalyzer
+    • Testiarvot: {"query":"test-value","payload":"sample"}
+    • Epäonnistui / Ei vastannut: UI element reported execution failed or error state
+
+- [FAILED] Dynamic tool test: Smart Log Analyzer
+  Testataan työkalua log-analyzer
+      • Kohde: Smart Log Analyzer
+    • Tyyppi: local
+    • Kategoria: Security & Utilities
+    • Hakusanat: älykäs log analyzer | lyk s log analyzer | lyksloganalyzer | smart log analyzer | smartloganalyzer | log-analyzer | log analyzer | loganalyzer
+    • Testiarvot: {"query":"test-value","payload":"sample"}
+    • Epäonnistui / Ei vastannut: UI element reported execution failed or error state
+
+- [FAILED] Dynamic tool test: RegEx Tester
+  Testataan työkalua regex-tester
+      • Kohde: RegEx Tester
+    • Tyyppi: local
+    • Kategoria: Text & Code
+    • Hakusanat: regex-testaaja | regex testaaja | regextestaaja | regex tester | regextester | regex-tester
+    • Testiarvot: {"query":"test-value","payload":"sample"}
+    • Epäonnistui / Ei vastannut: UI element reported execution failed or error state
+
+- [PASSED] Dynamic tool test: Color Converter & Picker
+  Testataan työkalua color-converter
+      • Kohde: Color Converter & Picker
+    • Tyyppi: local
+    • Kategoria: Design
+    • Hakusanat: värimuunnin & valitsin | v rimuunnin valitsin | vrimuunninvalitsin | color converter & picker | color converter picker | colorconverterpicker | color-converter | color converter | colorconverter
+    • Testiarvot: {}
+    • Testitapaus läpäistiin onnistuneesti.
+
+- [FAILED] Dynamic tool test: SSL/TLS Certificate Analysis
+  Testataan työkalua ssl-checker
+      • Kohde: SSL/TLS Certificate Analysis
+    • Tyyppi: local
+    • Kategoria: Network
+    • Hakusanat: ssl/tls varmenne-analyysi | ssl tls varmenne analyysi | ssltlsvarmenneanalyysi | ssl/tls certificate analysis | ssl tls certificate analysis | ssltlscertificateanalysis | ssl-checker | ssl checker | sslchecker
+    • Testiarvot: {"query":"test-value","payload":"sample"}
+    • Epäonnistui / Ei vastannut: Tool not found in UI or did not respond: SSL/TLS Certificate Analysis
+
+- [PASSED] Dynamic tool test: DNS Lookup (Cloudflare DoH)
+  Testataan työkalua dns-lookup
+      • Kohde: DNS Lookup (Cloudflare DoH)
+    • Tyyppi: local
+    • Kategoria: Network & API
+    • Hakusanat: dns-haku (cloudflare doh) | dns haku cloudflare doh | dnshakucloudflaredoh | dns lookup (cloudflare doh) | dns lookup cloudflare doh | dnslookupcloudflaredoh | dns-lookup | dns lookup | dnslookup
+    • Testiarvot: {}
+    • Testitapaus läpäistiin onnistuneesti.
+
+- [FAILED] Dynamic tool test: Swagger -> Unit Test Cases
+  Testataan työkalua ai-swagger-test-generator
+      • Kohde: Swagger -> Unit Test Cases
+    • Tyyppi: local
+    • Kategoria: Developer Tools & AI
+    • Hakusanat: swagger -> unit testitapaukset | swagger unit testitapaukset | swaggerunittestitapaukset | swagger -> unit test cases | swagger unit test cases | swaggerunittestcases | ai-swagger-test-generator | ai swagger test generator | aiswaggertestgenerator
+    • Testiarvot: {"query":"test-value","payload":"sample"}
+    • Epäonnistui / Ei vastannut: Tool not found in UI or did not respond: Swagger -> Unit Test Cases
+
+- [PASSED] Dynamic tool test: Fetch OpenAPI / Swagger from URL
+  Testataan työkalua fetch-swagger-url
+      • Kohde: Fetch OpenAPI / Swagger from URL
+    • Tyyppi: local
+    • Kategoria: Network & API
+    • Hakusanat: hae openapi / swagger url:stä | hae openapi swagger url st | haeopenapiswaggerurlst | fetch openapi / swagger from url | fetch openapi swagger from url | fetchopenapiswaggerfromurl | fetch-swagger-url | fetch swagger url | fetchswaggerurl
+    • Testiarvot: {}
+    • Testitapaus läpäistiin onnistuneesti.
+
+- [PASSED] Dynamic tool test: Fetch SOAP WSDL / Methods from URL
+  Testataan työkalua fetch-soap-wsdl
+      • Kohde: Fetch SOAP WSDL / Methods from URL
+    • Tyyppi: local
+    • Kategoria: Network & API
+    • Hakusanat: hae soap wsdl / metodit url:stä | hae soap wsdl metodit url st | haesoapwsdlmetoditurlst | fetch soap wsdl / methods from url | fetch soap wsdl methods from url | fetchsoapwsdlmethodsfromurl | fetch-soap-wsdl | fetch soap wsdl | fetchsoapwsdl
+    • Testiarvot: {}
+    • Testitapaus läpäistiin onnistuneesti.
+
+- [FAILED] Dynamic tool test: SOAP WSDL -> Test Cases
+  Testataan työkalua ai-soap-test-generator
+      • Kohde: SOAP WSDL -> Test Cases
+    • Tyyppi: local
+    • Kategoria: Developer Tools & AI
+    • Hakusanat: soap wsdl -> testitapaukset | soap wsdl testitapaukset | soapwsdltestitapaukset | soap wsdl -> test cases | soap wsdl test cases | soapwsdltestcases | ai-soap-test-generator | ai soap test generator | aisoaptestgenerator
+    • Testiarvot: {"query":"test-value","payload":"sample"}
+    • Epäonnistui / Ei vastannut: Tool not found in UI or did not respond: SOAP WSDL -> Test Cases
+
+- [FAILED] Dynamic tool test: REST OpenAPI -> Unit Test Code (Jest)
+  Testataan työkalua rest-unit-test-generator
+      • Kohde: REST OpenAPI -> Unit Test Code (Jest)
+    • Tyyppi: local
+    • Kategoria: Developer Tools & AI
+    • Hakusanat: rest openapi -> unit-testikoodi (jest) | rest openapi unit testikoodi jest | restopenapiunittestikoodijest | rest openapi -> unit test code (jest) | rest openapi unit test code jest | restopenapiunittestcodejest | rest-unit-test-generator | rest unit test generator | restunittestgenerator
+    • Testiarvot: {"query":"test-value","payload":"sample"}
+    • Epäonnistui / Ei vastannut: Tool not found in UI or did not respond: REST OpenAPI -> Unit Test Code (Jest)
+
+- [FAILED] Dynamic tool test: SOAP WSDL -> Unit Test Code (Jest)
+  Testataan työkalua soap-unit-test-generator
+      • Kohde: SOAP WSDL -> Unit Test Code (Jest)
+    • Tyyppi: local
+    • Kategoria: Developer Tools & AI
+    • Hakusanat: soap wsdl -> unit-testikoodi (jest) | soap wsdl unit testikoodi jest | soapwsdlunittestikoodijest | soap wsdl -> unit test code (jest) | soap wsdl unit test code jest | soapwsdlunittestcodejest | soap-unit-test-generator | soap unit test generator | soapunittestgenerator
+    • Testiarvot: {"query":"test-value","payload":"sample"}
+    • Epäonnistui / Ei vastannut: Tool not found in UI or did not respond: SOAP WSDL -> Unit Test Code (Jest)
+
+- [FAILED] Dynamic tool test: REST OpenAPI -> Python Unit Tests (unittest)
+  Testataan työkalua rest-python-unit-test-generator
+      • Kohde: REST OpenAPI -> Python Unit Tests (unittest)
+    • Tyyppi: local
+    • Kategoria: Developer Tools & AI
+    • Hakusanat: rest openapi -> python unit-testit (unittest) | rest openapi python unit testit unittest | restopenapipythonunittestitunittest | rest openapi -> python unit tests (unittest) | rest openapi python unit tests unittest | restopenapipythonunittestsunittest | rest-python-unit-test-generator | rest python unit test generator | restpythonunittestgenerator
+    • Testiarvot: {"query":"test-value","payload":"sample"}
+    • Epäonnistui / Ei vastannut: Tool not found in UI or did not respond: REST OpenAPI -> Python Unit Tests (unittest)
+
+- [FAILED] Dynamic tool test: SOAP WSDL -> Python Unit Tests (unittest)
+  Testataan työkalua soap-python-unit-test-generator
+      • Kohde: SOAP WSDL -> Python Unit Tests (unittest)
+    • Tyyppi: local
+    • Kategoria: Developer Tools & AI
+    • Hakusanat: soap wsdl -> python unit-testit (unittest) | soap wsdl python unit testit unittest | soapwsdlpythonunittestitunittest | soap wsdl -> python unit tests (unittest) | soap wsdl python unit tests unittest | soapwsdlpythonunittestsunittest | soap-python-unit-test-generator | soap python unit test generator | soappythonunittestgenerator
+    • Testiarvot: {"query":"test-value","payload":"sample"}
+    • Epäonnistui / Ei vastannut: Tool not found in UI or did not respond: SOAP WSDL -> Python Unit Tests (unittest)
+
+- [FAILED] Dynamic tool test: REST: DNS Lookup
+  Testataan työkalua rest-dns-lookup
+      • Kohde: REST: DNS Lookup
+    • Tyyppi: rest-api
+    • Kategoria: Network
+    • Hakusanat: rest: dns-haku | rest dns haku | restdnshaku | rest: dns lookup | rest dns lookup | restdnslookup | rest-dns-lookup
+    • Testiarvot: {"query":"test-value","payload":"sample"}
+    • Epäonnistui / Ei vastannut: Tool not found in UI or did not respond: REST: DNS Lookup
+
+- [PASSED] Dynamic tool test: JSON Pretty Printer
+  Testataan työkalua json-formatter1
+      • Kohde: JSON Pretty Printer
+    • Tyyppi: local
+    • Kategoria: Dev & Data
+    • Hakusanat: json pretty printer | jsonprettyprinter | json-formatter1 | json formatter1 | jsonformatter1
+    • Testiarvot: {}
+    • Testitapaus läpäistiin onnistuneesti.
+
+- [FAILED] Dynamic tool test: Playwright Web Testing & Snapshot
+  Testataan työkalua playwright-web-tester
+      • Kohde: Playwright Web Testing & Snapshot
+    • Tyyppi: local
+    • Kategoria: Developer Tools & AI
+    • Hakusanat: playwright web-testaus & kaappaus | playwright web testaus kaappaus | playwrightwebtestauskaappaus | playwright web testing & snapshot | playwright web testing snapshot | playwrightwebtestingsnapshot | playwright-web-tester | playwright web tester | playwrightwebtester
+    • Testiarvot: {"query":"test-value","payload":"sample"}
+    • Epäonnistui / Ei vastannut: Tool not found in UI or did not respond: Playwright Web Testing & Snapshot
+
+=========================================
+AJO LOKI:
+=========================================
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:40.352Z] Käynnistetään autonominen ja dynaaminen agenttiputki (Tiedosto + Playwright)...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:40.352Z] Käynnistetään autonominen ja dynaaminen agenttiputki (Tiedosto + Playwright)...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:40.353Z] 🧭 Valittu suoritusmuoto: dynamic
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:40.353Z] 🧭 Valittu suoritusmuoto: dynamic
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:40.358Z] 📂 Löydettiin testisuunnitelma tiedostosta: test-plan.json (30 kpl)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:40.358Z] 📂 Löydettiin testisuunnitelma tiedostosta: test-plan.json (30 kpl)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:40.359Z] --- Aloitetaan dynaamiset testitapaukset (30 kpl) ---
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:40.359Z] --- Aloitetaan dynaamiset testitapaukset (30 kpl) ---
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:40.359Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: JSON Formatter / Validator
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:40.359Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: JSON Formatter / Validator
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:40.360Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: JSON Formatter / Validator
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:40.360Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: JSON Formatter / Validator
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:45.305Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:45.305Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:47.076Z] ⚠️ Löytyi 2 osumaa hakusanalla "json formatter / validator". Yritetään tarkentaa...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:47.076Z] ⚠️ Löytyi 2 osumaa hakusanalla "json formatter / validator". Yritetään tarkentaa...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:47.109Z] ✅ Tarkennettu osuma valittu (JSON Formatter / Validator)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:47.109Z] ✅ Tarkennettu osuma valittu (JSON Formatter / Validator)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:48.617Z] 🧰 Valittiin sisäinen työkalu UI:ssa: JSON Formatter / Validator
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:48.617Z] 🧰 Valittiin sisäinen työkalu UI:ssa: JSON Formatter / Validator
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:48.620Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:48.620Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:48.679Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:48.679Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:48.802Z] ✅ Testitapaus läpäisty: Dynamic tool test: JSON Formatter / Validator
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:48.802Z] ✅ Testitapaus läpäisty: Dynamic tool test: JSON Formatter / Validator
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:49.313Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: XML to JSON Converter
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:49.313Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: XML to JSON Converter
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:49.313Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: XML to JSON Converter
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:49.313Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: XML to JSON Converter
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:54.210Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:54.210Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:55.993Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "xml to json converter"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:55.993Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "xml to json converter"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:57.505Z] 🧰 Valittiin sisäinen työkalu UI:ssa: XML to JSON Converter
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:57.505Z] 🧰 Valittiin sisäinen työkalu UI:ssa: XML to JSON Converter
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:57.507Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:57.507Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:57.558Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:57.558Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:57.675Z] ✅ Testitapaus läpäisty: Dynamic tool test: XML to JSON Converter
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:57.675Z] ✅ Testitapaus läpäisty: Dynamic tool test: XML to JSON Converter
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:58.179Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: REST API -tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:58.179Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: REST API -tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:58.179Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST API -tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:42:58.179Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST API -tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:03.088Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:03.088Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:04.882Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "rest api -tester"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:04.882Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "rest api -tester"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:06.401Z] 🧰 Valittiin sisäinen työkalu UI:ssa: REST API -tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:06.401Z] 🧰 Valittiin sisäinen työkalu UI:ssa: REST API -tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:06.404Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:06.404Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:06.472Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:06.472Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:06.600Z] ✅ Testitapaus läpäisty: Dynamic tool test: REST API -tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:06.600Z] ✅ Testitapaus läpäisty: Dynamic tool test: REST API -tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:07.109Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: SOAP API -tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:07.109Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: SOAP API -tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:07.109Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SOAP API -tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:07.109Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SOAP API -tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:11.997Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:11.997Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:13.790Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "soap api -tester"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:13.790Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "soap api -tester"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:15.306Z] 🧰 Valittiin sisäinen työkalu UI:ssa: SOAP API -tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:15.306Z] 🧰 Valittiin sisäinen työkalu UI:ssa: SOAP API -tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:15.309Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:15.309Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:15.386Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:15.386Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:15.494Z] ✅ Testitapaus läpäisty: Dynamic tool test: SOAP API -tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:15.494Z] ✅ Testitapaus läpäisty: Dynamic tool test: SOAP API -tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:15.998Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: REST API / OpenAPI Diff
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:15.998Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: REST API / OpenAPI Diff
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:15.998Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST API / OpenAPI Diff
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:15.998Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST API / OpenAPI Diff
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:20.875Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:20.875Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:23.086Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:23.086Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:23.088Z] 🔍 Kirjoitetaan hakukenttään: "rest api / openapi diff"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:23.088Z] 🔍 Kirjoitetaan hakukenttään: "rest api / openapi diff"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:24.388Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:24.388Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:24.389Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:24.389Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:28.397Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: REST API / OpenAPI Diff...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:28.397Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: REST API / OpenAPI Diff...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:28.397Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:28.397Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:28.397Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST API / OpenAPI Diff
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:28.397Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST API / OpenAPI Diff
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:33.283Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:33.283Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:35.519Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:35.519Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:35.521Z] 🔍 Kirjoitetaan hakukenttään: "rest api / openapi diff"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:35.521Z] 🔍 Kirjoitetaan hakukenttään: "rest api / openapi diff"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:36.852Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:36.852Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:36.852Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:36.852Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:40.856Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: REST API / OpenAPI Diff...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:40.856Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: REST API / OpenAPI Diff...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:40.856Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:40.856Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:40.856Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST API / OpenAPI Diff
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:40.856Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST API / OpenAPI Diff
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:45.731Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:45.731Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:47.924Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:47.924Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:47.926Z] 🔍 Kirjoitetaan hakukenttään: "rest api / openapi diff"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:47.926Z] 🔍 Kirjoitetaan hakukenttään: "rest api / openapi diff"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:49.228Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:49.228Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:49.228Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: REST API / OpenAPI Diff
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:49.228Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: REST API / OpenAPI Diff
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:49.735Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: JSON Schema Generator
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:49.735Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: JSON Schema Generator
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:49.735Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: JSON Schema Generator
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:49.735Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: JSON Schema Generator
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:54.636Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:54.636Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:56.427Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "json schema generator"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:56.427Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "json schema generator"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:57.940Z] 🧰 Valittiin sisäinen työkalu UI:ssa: JSON Schema Generator
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:57.940Z] 🧰 Valittiin sisäinen työkalu UI:ssa: JSON Schema Generator
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:57.943Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:57.943Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:57.997Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:57.997Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:58.114Z] ✅ Testitapaus läpäisty: Dynamic tool test: JSON Schema Generator
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:58.114Z] ✅ Testitapaus läpäisty: Dynamic tool test: JSON Schema Generator
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:58.623Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: HTTP Request Replay & Converter
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:58.623Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: HTTP Request Replay & Converter
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:58.623Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: HTTP Request Replay & Converter
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:43:58.623Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: HTTP Request Replay & Converter
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:03.516Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:03.516Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:05.337Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "http request replay & converter"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:05.337Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "http request replay & converter"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:06.852Z] 🧰 Valittiin sisäinen työkalu UI:ssa: HTTP Request Replay & Converter
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:06.852Z] 🧰 Valittiin sisäinen työkalu UI:ssa: HTTP Request Replay & Converter
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:06.854Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:06.854Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:06.929Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:06.929Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:07.069Z] ✅ Testitapaus läpäisty: Dynamic tool test: HTTP Request Replay & Converter
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:07.069Z] ✅ Testitapaus läpäisty: Dynamic tool test: HTTP Request Replay & Converter
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:07.582Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: JWT Decoder
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:07.582Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: JWT Decoder
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:07.583Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: JWT Decoder
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:07.583Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: JWT Decoder
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:12.450Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:12.450Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:14.705Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "jwt decoder"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:14.705Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "jwt decoder"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:16.215Z] 🧰 Valittiin sisäinen työkalu UI:ssa: JWT Decoder
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:16.215Z] 🧰 Valittiin sisäinen työkalu UI:ssa: JWT Decoder
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:16.217Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:16.217Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:16.282Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:16.282Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:16.398Z] ✅ Testitapaus läpäisty: Dynamic tool test: JWT Decoder
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:16.398Z] ✅ Testitapaus läpäisty: Dynamic tool test: JWT Decoder
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:16.906Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: JWT Encoder (HS256)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:16.906Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: JWT Encoder (HS256)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:16.906Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: JWT Encoder (HS256)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:16.906Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: JWT Encoder (HS256)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:21.784Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:21.784Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:24.041Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "jwt encoder (hs256)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:24.041Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "jwt encoder (hs256)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:25.542Z] 🧰 Valittiin sisäinen työkalu UI:ssa: JWT Encoder (HS256)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:25.542Z] 🧰 Valittiin sisäinen työkalu UI:ssa: JWT Encoder (HS256)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:25.545Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:25.545Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:25.601Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:25.601Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:25.719Z] ✅ Testitapaus läpäisty: Dynamic tool test: JWT Encoder (HS256)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:25.719Z] ✅ Testitapaus läpäisty: Dynamic tool test: JWT Encoder (HS256)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:26.231Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: JWT Attack & Test Playground
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:26.231Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: JWT Attack & Test Playground
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:26.231Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: JWT Attack & Test Playground
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:26.231Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: JWT Attack & Test Playground
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:31.107Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:31.107Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:33.342Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "jwt attack & test playground"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:33.342Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "jwt attack & test playground"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:34.849Z] 🧰 Valittiin sisäinen työkalu UI:ssa: JWT Attack & Test Playground
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:34.849Z] 🧰 Valittiin sisäinen työkalu UI:ssa: JWT Attack & Test Playground
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:34.852Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:34.852Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:34.918Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:34.918Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:35.035Z] ✅ Testitapaus läpäisty: Dynamic tool test: JWT Attack & Test Playground
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:35.035Z] ✅ Testitapaus läpäisty: Dynamic tool test: JWT Attack & Test Playground
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:35.548Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: Hash Generator
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:35.548Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: Hash Generator
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:35.548Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Hash Generator
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:35.548Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Hash Generator
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:40.432Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:40.432Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:42.218Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "hash generator"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:42.218Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "hash generator"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:43.727Z] 🧰 Valittiin sisäinen työkalu UI:ssa: Hash Generator
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:43.727Z] 🧰 Valittiin sisäinen työkalu UI:ssa: Hash Generator
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:43.730Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:43.730Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:43.781Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:43.781Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:43.895Z] ✅ Testitapaus läpäisty: Dynamic tool test: Hash Generator
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:43.895Z] ✅ Testitapaus läpäisty: Dynamic tool test: Hash Generator
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:44.403Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: General Encoders / Decoders
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:44.403Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: General Encoders / Decoders
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:44.403Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: General Encoders / Decoders
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:44.403Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: General Encoders / Decoders
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:49.295Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:49.295Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:51.101Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "general encoders / decoders"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:51.101Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "general encoders / decoders"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:52.616Z] 🧰 Valittiin sisäinen työkalu UI:ssa: General Encoders / Decoders
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:52.616Z] 🧰 Valittiin sisäinen työkalu UI:ssa: General Encoders / Decoders
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:52.618Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:52.618Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:52.682Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:52.682Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:52.796Z] ✅ Testitapaus läpäisty: Dynamic tool test: General Encoders / Decoders
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:52.796Z] ✅ Testitapaus läpäisty: Dynamic tool test: General Encoders / Decoders
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:53.313Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: File Metadata Inspector
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:53.313Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: File Metadata Inspector
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:53.313Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: File Metadata Inspector
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:53.313Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: File Metadata Inspector
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:58.245Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:44:58.245Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:00.504Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "file metadata inspector"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:00.504Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "file metadata inspector"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:02.015Z] 🧰 Valittiin sisäinen työkalu UI:ssa: File Metadata Inspector
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:02.015Z] 🧰 Valittiin sisäinen työkalu UI:ssa: File Metadata Inspector
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:02.018Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:02.018Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:02.085Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:02.085Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:02.197Z] ✅ Testitapaus läpäisty: Dynamic tool test: File Metadata Inspector
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:02.197Z] ✅ Testitapaus läpäisty: Dynamic tool test: File Metadata Inspector
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:02.699Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: QR Code Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:02.699Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: QR Code Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:02.699Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: QR Code Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:02.699Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: QR Code Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:07.585Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:07.585Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:09.824Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "qr code analyzer"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:09.824Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "qr code analyzer"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:11.335Z] 🧰 Valittiin sisäinen työkalu UI:ssa: QR Code Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:11.335Z] 🧰 Valittiin sisäinen työkalu UI:ssa: QR Code Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:11.337Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:11.337Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:11.402Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:11.402Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:11.405Z] ❌ Havaittiin virheelementti tai virheteksti (esim. Execution failed) käyttöliittymässä.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:11.405Z] ❌ Havaittiin virheelementti tai virheteksti (esim. Execution failed) käyttöliittymässä.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:11.519Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:11.519Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:11.519Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:11.519Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:15.519Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: QR Code Analyzer...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:15.519Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: QR Code Analyzer...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:15.519Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:15.519Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:15.519Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: QR Code Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:15.519Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: QR Code Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:20.402Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:20.402Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:22.641Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "qr code analyzer"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:22.641Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "qr code analyzer"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:24.152Z] 🧰 Valittiin sisäinen työkalu UI:ssa: QR Code Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:24.152Z] 🧰 Valittiin sisäinen työkalu UI:ssa: QR Code Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:24.154Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:24.154Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:24.219Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:24.219Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:24.222Z] ❌ Havaittiin virheelementti tai virheteksti (esim. Execution failed) käyttöliittymässä.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:24.222Z] ❌ Havaittiin virheelementti tai virheteksti (esim. Execution failed) käyttöliittymässä.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:24.331Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:24.331Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:24.331Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:24.331Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:28.335Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: QR Code Analyzer...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:28.335Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: QR Code Analyzer...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:28.336Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:28.336Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:28.336Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: QR Code Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:28.336Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: QR Code Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:33.224Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:33.224Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:35.494Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "qr code analyzer"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:35.494Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "qr code analyzer"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:36.997Z] 🧰 Valittiin sisäinen työkalu UI:ssa: QR Code Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:36.997Z] 🧰 Valittiin sisäinen työkalu UI:ssa: QR Code Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:37.000Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:37.000Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:37.072Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:37.072Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:37.075Z] ❌ Havaittiin virheelementti tai virheteksti (esim. Execution failed) käyttöliittymässä.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:37.075Z] ❌ Havaittiin virheelementti tai virheteksti (esim. Execution failed) käyttöliittymässä.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:37.187Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:37.187Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:37.187Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: QR Code Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:37.187Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: QR Code Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:37.702Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: Smart Log Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:37.702Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: Smart Log Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:37.703Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Smart Log Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:37.703Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Smart Log Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:42.586Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:42.586Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:44.847Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "smart log analyzer"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:44.847Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "smart log analyzer"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:46.353Z] 🧰 Valittiin sisäinen työkalu UI:ssa: Smart Log Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:46.353Z] 🧰 Valittiin sisäinen työkalu UI:ssa: Smart Log Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:46.356Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:46.356Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:46.425Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:46.425Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:46.429Z] ❌ Havaittiin virheelementti tai virheteksti (esim. Execution failed) käyttöliittymässä.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:46.429Z] ❌ Havaittiin virheelementti tai virheteksti (esim. Execution failed) käyttöliittymässä.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:46.542Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:46.542Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:46.542Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:46.542Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:50.551Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: Smart Log Analyzer...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:50.551Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: Smart Log Analyzer...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:50.551Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:50.551Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:50.551Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Smart Log Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:50.551Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Smart Log Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:55.436Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:55.436Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:57.694Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "smart log analyzer"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:57.694Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "smart log analyzer"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:59.204Z] 🧰 Valittiin sisäinen työkalu UI:ssa: Smart Log Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:59.204Z] 🧰 Valittiin sisäinen työkalu UI:ssa: Smart Log Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:59.206Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:59.206Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:59.274Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:59.274Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:59.277Z] ❌ Havaittiin virheelementti tai virheteksti (esim. Execution failed) käyttöliittymässä.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:59.277Z] ❌ Havaittiin virheelementti tai virheteksti (esim. Execution failed) käyttöliittymässä.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:59.390Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:59.390Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:59.390Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:45:59.390Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:03.403Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: Smart Log Analyzer...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:03.403Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: Smart Log Analyzer...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:03.403Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:03.403Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:03.403Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Smart Log Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:03.403Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Smart Log Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:08.282Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:08.282Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:10.527Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "smart log analyzer"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:10.527Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "smart log analyzer"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:12.037Z] 🧰 Valittiin sisäinen työkalu UI:ssa: Smart Log Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:12.037Z] 🧰 Valittiin sisäinen työkalu UI:ssa: Smart Log Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:12.040Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:12.040Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:12.107Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:12.107Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:12.110Z] ❌ Havaittiin virheelementti tai virheteksti (esim. Execution failed) käyttöliittymässä.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:12.110Z] ❌ Havaittiin virheelementti tai virheteksti (esim. Execution failed) käyttöliittymässä.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:12.223Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:12.223Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:12.224Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: Smart Log Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:12.224Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: Smart Log Analyzer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:12.738Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: RegEx Tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:12.738Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: RegEx Tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:12.738Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: RegEx Tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:12.738Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: RegEx Tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:17.621Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:17.621Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:19.875Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "regex tester"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:19.875Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "regex tester"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:21.388Z] 🧰 Valittiin sisäinen työkalu UI:ssa: RegEx Tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:21.388Z] 🧰 Valittiin sisäinen työkalu UI:ssa: RegEx Tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:21.391Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:21.391Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:21.456Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:21.456Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:21.459Z] ❌ Havaittiin virheelementti tai virheteksti (esim. Execution failed) käyttöliittymässä.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:21.459Z] ❌ Havaittiin virheelementti tai virheteksti (esim. Execution failed) käyttöliittymässä.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:21.578Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:21.578Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:21.578Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:21.578Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:25.588Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: RegEx Tester...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:25.588Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: RegEx Tester...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:25.588Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:25.588Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:25.588Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: RegEx Tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:25.588Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: RegEx Tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:30.472Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:30.472Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:32.726Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "regex tester"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:32.726Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "regex tester"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:34.238Z] 🧰 Valittiin sisäinen työkalu UI:ssa: RegEx Tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:34.238Z] 🧰 Valittiin sisäinen työkalu UI:ssa: RegEx Tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:34.241Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:34.241Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:34.304Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:34.304Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:34.307Z] ❌ Havaittiin virheelementti tai virheteksti (esim. Execution failed) käyttöliittymässä.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:34.307Z] ❌ Havaittiin virheelementti tai virheteksti (esim. Execution failed) käyttöliittymässä.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:34.414Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:34.414Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:34.414Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:34.414Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:38.421Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: RegEx Tester...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:38.421Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: RegEx Tester...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:38.421Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:38.421Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:38.421Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: RegEx Tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:38.421Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: RegEx Tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:43.306Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:43.306Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:45.560Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "regex tester"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:45.560Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "regex tester"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:47.072Z] 🧰 Valittiin sisäinen työkalu UI:ssa: RegEx Tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:47.072Z] 🧰 Valittiin sisäinen työkalu UI:ssa: RegEx Tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:47.075Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:47.075Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:47.138Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:47.138Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:47.141Z] ❌ Havaittiin virheelementti tai virheteksti (esim. Execution failed) käyttöliittymässä.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:47.141Z] ❌ Havaittiin virheelementti tai virheteksti (esim. Execution failed) käyttöliittymässä.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:47.249Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:47.249Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:47.249Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: RegEx Tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:47.249Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: RegEx Tester
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:47.755Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: Color Converter & Picker
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:47.755Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: Color Converter & Picker
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:47.755Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Color Converter & Picker
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:47.755Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Color Converter & Picker
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:52.622Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:52.622Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:54.863Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "color converter & picker"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:54.863Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "color converter & picker"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:56.373Z] 🧰 Valittiin sisäinen työkalu UI:ssa: Color Converter & Picker
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:56.373Z] 🧰 Valittiin sisäinen työkalu UI:ssa: Color Converter & Picker
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:56.376Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:56.376Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:56.448Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:56.448Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:56.561Z] ✅ Testitapaus läpäisty: Dynamic tool test: Color Converter & Picker
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:56.561Z] ✅ Testitapaus läpäisty: Dynamic tool test: Color Converter & Picker
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:57.073Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: SSL/TLS Certificate Analysis
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:57.073Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: SSL/TLS Certificate Analysis
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:57.073Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SSL/TLS Certificate Analysis
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:46:57.073Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SSL/TLS Certificate Analysis
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:01.956Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:01.956Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:04.142Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:04.142Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:04.145Z] 🔍 Kirjoitetaan hakukenttään: "ssl/tls varmenne-analyysi"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:04.145Z] 🔍 Kirjoitetaan hakukenttään: "ssl/tls varmenne-analyysi"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:05.279Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:05.279Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:05.279Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:05.279Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:09.289Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: SSL/TLS Certificate Analysis...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:09.289Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: SSL/TLS Certificate Analysis...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:09.289Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:09.289Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:09.289Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SSL/TLS Certificate Analysis
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:09.289Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SSL/TLS Certificate Analysis
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:14.173Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:14.173Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:16.361Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:16.361Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:16.363Z] 🔍 Kirjoitetaan hakukenttään: "ssl/tls varmenne-analyysi"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:16.363Z] 🔍 Kirjoitetaan hakukenttään: "ssl/tls varmenne-analyysi"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:17.504Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:17.504Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:17.505Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:17.505Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:21.507Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: SSL/TLS Certificate Analysis...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:21.507Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: SSL/TLS Certificate Analysis...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:21.507Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:21.507Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:21.507Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SSL/TLS Certificate Analysis
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:21.507Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SSL/TLS Certificate Analysis
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:26.390Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:26.390Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:28.579Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:28.579Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:28.581Z] 🔍 Kirjoitetaan hakukenttään: "ssl/tls varmenne-analyysi"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:28.581Z] 🔍 Kirjoitetaan hakukenttään: "ssl/tls varmenne-analyysi"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:29.730Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:29.730Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:29.730Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: SSL/TLS Certificate Analysis
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:29.730Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: SSL/TLS Certificate Analysis
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:30.240Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: DNS Lookup (Cloudflare DoH)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:30.240Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: DNS Lookup (Cloudflare DoH)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:30.241Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: DNS Lookup (Cloudflare DoH)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:30.241Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: DNS Lookup (Cloudflare DoH)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:35.107Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:35.107Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:36.964Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "dns lookup (cloudflare doh)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:36.964Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "dns lookup (cloudflare doh)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:38.474Z] 🧰 Valittiin sisäinen työkalu UI:ssa: DNS Lookup (Cloudflare DoH)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:38.474Z] 🧰 Valittiin sisäinen työkalu UI:ssa: DNS Lookup (Cloudflare DoH)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:38.477Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:38.477Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:38.568Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:38.568Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:38.696Z] ✅ Testitapaus läpäisty: Dynamic tool test: DNS Lookup (Cloudflare DoH)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:38.696Z] ✅ Testitapaus läpäisty: Dynamic tool test: DNS Lookup (Cloudflare DoH)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:39.205Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: Swagger -> Unit Test Cases
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:39.205Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: Swagger -> Unit Test Cases
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:39.205Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Swagger -> Unit Test Cases
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:39.205Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Swagger -> Unit Test Cases
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:44.091Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:44.091Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:46.328Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:46.328Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:46.330Z] 🔍 Kirjoitetaan hakukenttään: "swagger -> unit testitapaukset"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:46.330Z] 🔍 Kirjoitetaan hakukenttään: "swagger -> unit testitapaukset"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:47.473Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:47.473Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:47.473Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:47.473Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:51.475Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: Swagger -> Unit Test Cases...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:51.475Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: Swagger -> Unit Test Cases...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:51.475Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:51.475Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:51.475Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Swagger -> Unit Test Cases
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:51.475Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Swagger -> Unit Test Cases
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:56.357Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:56.357Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:58.562Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:58.562Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:58.563Z] 🔍 Kirjoitetaan hakukenttään: "swagger -> unit testitapaukset"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:58.563Z] 🔍 Kirjoitetaan hakukenttään: "swagger -> unit testitapaukset"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:59.702Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:59.702Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:59.702Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:47:59.702Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:03.707Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: Swagger -> Unit Test Cases...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:03.707Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: Swagger -> Unit Test Cases...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:03.707Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:03.707Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:03.707Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Swagger -> Unit Test Cases
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:03.707Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Swagger -> Unit Test Cases
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:08.592Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:08.592Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:10.794Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:10.794Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:10.795Z] 🔍 Kirjoitetaan hakukenttään: "swagger -> unit testitapaukset"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:10.795Z] 🔍 Kirjoitetaan hakukenttään: "swagger -> unit testitapaukset"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:11.934Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:11.934Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:11.934Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: Swagger -> Unit Test Cases
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:11.934Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: Swagger -> Unit Test Cases
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:12.442Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: Fetch OpenAPI / Swagger from URL
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:12.442Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: Fetch OpenAPI / Swagger from URL
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:12.442Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Fetch OpenAPI / Swagger from URL
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:12.442Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Fetch OpenAPI / Swagger from URL
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:17.326Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:17.326Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:19.120Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "fetch openapi / swagger from url"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:19.120Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "fetch openapi / swagger from url"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:20.626Z] 🧰 Valittiin sisäinen työkalu UI:ssa: Fetch OpenAPI / Swagger from URL
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:20.626Z] 🧰 Valittiin sisäinen työkalu UI:ssa: Fetch OpenAPI / Swagger from URL
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:20.628Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:20.628Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:20.716Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:20.716Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:20.842Z] ✅ Testitapaus läpäisty: Dynamic tool test: Fetch OpenAPI / Swagger from URL
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:20.842Z] ✅ Testitapaus läpäisty: Dynamic tool test: Fetch OpenAPI / Swagger from URL
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:21.356Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: Fetch SOAP WSDL / Methods from URL
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:21.356Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: Fetch SOAP WSDL / Methods from URL
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:21.357Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Fetch SOAP WSDL / Methods from URL
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:21.357Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Fetch SOAP WSDL / Methods from URL
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:26.244Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:26.244Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:28.037Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "fetch soap wsdl / methods from url"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:28.037Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "fetch soap wsdl / methods from url"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:29.542Z] 🧰 Valittiin sisäinen työkalu UI:ssa: Fetch SOAP WSDL / Methods from URL
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:29.542Z] 🧰 Valittiin sisäinen työkalu UI:ssa: Fetch SOAP WSDL / Methods from URL
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:29.545Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:29.545Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:29.616Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:29.616Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:29.734Z] ✅ Testitapaus läpäisty: Dynamic tool test: Fetch SOAP WSDL / Methods from URL
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:29.734Z] ✅ Testitapaus läpäisty: Dynamic tool test: Fetch SOAP WSDL / Methods from URL
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:30.243Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: SOAP WSDL -> Test Cases
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:30.243Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: SOAP WSDL -> Test Cases
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:30.243Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SOAP WSDL -> Test Cases
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:30.243Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SOAP WSDL -> Test Cases
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:35.127Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:35.127Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:37.313Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:37.313Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:37.314Z] 🔍 Kirjoitetaan hakukenttään: "soap wsdl -> testitapaukset"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:37.314Z] 🔍 Kirjoitetaan hakukenttään: "soap wsdl -> testitapaukset"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:38.457Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:38.457Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:38.457Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:38.457Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:42.459Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: SOAP WSDL -> Test Cases...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:42.459Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: SOAP WSDL -> Test Cases...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:42.459Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:42.459Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:42.460Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SOAP WSDL -> Test Cases
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:42.460Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SOAP WSDL -> Test Cases
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:47.327Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:47.327Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:49.514Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:49.514Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:49.515Z] 🔍 Kirjoitetaan hakukenttään: "soap wsdl -> testitapaukset"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:49.515Z] 🔍 Kirjoitetaan hakukenttään: "soap wsdl -> testitapaukset"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:50.649Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:50.649Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:50.649Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:50.649Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:54.660Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: SOAP WSDL -> Test Cases...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:54.660Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: SOAP WSDL -> Test Cases...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:54.660Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:54.660Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:54.660Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SOAP WSDL -> Test Cases
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:54.660Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SOAP WSDL -> Test Cases
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:59.544Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:48:59.544Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:01.764Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:01.764Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:01.765Z] 🔍 Kirjoitetaan hakukenttään: "soap wsdl -> testitapaukset"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:01.765Z] 🔍 Kirjoitetaan hakukenttään: "soap wsdl -> testitapaukset"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:02.907Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:02.907Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:02.907Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: SOAP WSDL -> Test Cases
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:02.907Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: SOAP WSDL -> Test Cases
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:03.412Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: REST OpenAPI -> Unit Test Code (Jest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:03.412Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: REST OpenAPI -> Unit Test Code (Jest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:03.412Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST OpenAPI -> Unit Test Code (Jest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:03.412Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST OpenAPI -> Unit Test Code (Jest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:08.311Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:08.311Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:10.531Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:10.531Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:10.532Z] 🔍 Kirjoitetaan hakukenttään: "rest openapi -> unit-testikoodi (jest)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:10.532Z] 🔍 Kirjoitetaan hakukenttään: "rest openapi -> unit-testikoodi (jest)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:11.838Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:11.838Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:11.838Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:11.838Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:15.844Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: REST OpenAPI -> Unit Test Code (Jest)...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:15.844Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: REST OpenAPI -> Unit Test Code (Jest)...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:15.844Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:15.844Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:15.844Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST OpenAPI -> Unit Test Code (Jest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:15.844Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST OpenAPI -> Unit Test Code (Jest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:20.711Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:20.711Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:22.898Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:22.898Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:22.899Z] 🔍 Kirjoitetaan hakukenttään: "rest openapi -> unit-testikoodi (jest)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:22.899Z] 🔍 Kirjoitetaan hakukenttään: "rest openapi -> unit-testikoodi (jest)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:24.034Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:24.034Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:24.035Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:24.035Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:28.045Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: REST OpenAPI -> Unit Test Code (Jest)...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:28.045Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: REST OpenAPI -> Unit Test Code (Jest)...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:28.045Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:28.045Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:28.045Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST OpenAPI -> Unit Test Code (Jest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:28.045Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST OpenAPI -> Unit Test Code (Jest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:32.912Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:32.912Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:35.149Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:35.149Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:35.151Z] 🔍 Kirjoitetaan hakukenttään: "rest openapi -> unit-testikoodi (jest)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:35.151Z] 🔍 Kirjoitetaan hakukenttään: "rest openapi -> unit-testikoodi (jest)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:36.451Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:36.451Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:36.451Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: REST OpenAPI -> Unit Test Code (Jest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:36.451Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: REST OpenAPI -> Unit Test Code (Jest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:36.962Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: SOAP WSDL -> Unit Test Code (Jest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:36.962Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: SOAP WSDL -> Unit Test Code (Jest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:36.962Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SOAP WSDL -> Unit Test Code (Jest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:36.962Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SOAP WSDL -> Unit Test Code (Jest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:41.811Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:41.811Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:44.016Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:44.016Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:44.017Z] 🔍 Kirjoitetaan hakukenttään: "soap wsdl -> unit-testikoodi (jest)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:44.017Z] 🔍 Kirjoitetaan hakukenttään: "soap wsdl -> unit-testikoodi (jest)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:45.148Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:45.148Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:45.148Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:45.148Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:49.148Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: SOAP WSDL -> Unit Test Code (Jest)...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:49.148Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: SOAP WSDL -> Unit Test Code (Jest)...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:49.149Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:49.149Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:49.149Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SOAP WSDL -> Unit Test Code (Jest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:49.149Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SOAP WSDL -> Unit Test Code (Jest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:54.013Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:54.013Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:56.215Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:56.215Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:56.217Z] 🔍 Kirjoitetaan hakukenttään: "soap wsdl -> unit-testikoodi (jest)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:56.217Z] 🔍 Kirjoitetaan hakukenttään: "soap wsdl -> unit-testikoodi (jest)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:57.351Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:57.351Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:57.352Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:49:57.352Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:01.363Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: SOAP WSDL -> Unit Test Code (Jest)...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:01.363Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: SOAP WSDL -> Unit Test Code (Jest)...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:01.363Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:01.363Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:01.363Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SOAP WSDL -> Unit Test Code (Jest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:01.363Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SOAP WSDL -> Unit Test Code (Jest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:06.230Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:06.230Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:08.467Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:08.467Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:08.468Z] 🔍 Kirjoitetaan hakukenttään: "soap wsdl -> unit-testikoodi (jest)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:08.468Z] 🔍 Kirjoitetaan hakukenttään: "soap wsdl -> unit-testikoodi (jest)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:09.605Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:09.605Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:09.605Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: SOAP WSDL -> Unit Test Code (Jest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:09.605Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: SOAP WSDL -> Unit Test Code (Jest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:10.113Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: REST OpenAPI -> Python Unit Tests (unittest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:10.113Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: REST OpenAPI -> Python Unit Tests (unittest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:10.113Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST OpenAPI -> Python Unit Tests (unittest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:10.113Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST OpenAPI -> Python Unit Tests (unittest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:14.996Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:14.996Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:17.199Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:17.199Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:17.201Z] 🔍 Kirjoitetaan hakukenttään: "rest openapi -> python unit-testit (unittest)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:17.201Z] 🔍 Kirjoitetaan hakukenttään: "rest openapi -> python unit-testit (unittest)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:18.338Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:18.338Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:18.338Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:18.338Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:22.347Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: REST OpenAPI -> Python Unit Tests (unittest)...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:22.347Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: REST OpenAPI -> Python Unit Tests (unittest)...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:22.347Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:22.347Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:22.347Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST OpenAPI -> Python Unit Tests (unittest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:22.347Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST OpenAPI -> Python Unit Tests (unittest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:27.227Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:27.227Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:29.435Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:29.435Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:29.437Z] 🔍 Kirjoitetaan hakukenttään: "rest openapi -> python unit-testit (unittest)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:29.437Z] 🔍 Kirjoitetaan hakukenttään: "rest openapi -> python unit-testit (unittest)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:30.574Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:30.574Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:30.575Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:30.575Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:34.581Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: REST OpenAPI -> Python Unit Tests (unittest)...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:34.581Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: REST OpenAPI -> Python Unit Tests (unittest)...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:34.581Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:34.581Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:34.581Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST OpenAPI -> Python Unit Tests (unittest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:34.581Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST OpenAPI -> Python Unit Tests (unittest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:39.448Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:39.448Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:41.667Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:41.667Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:41.669Z] 🔍 Kirjoitetaan hakukenttään: "rest openapi -> python unit-testit (unittest)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:41.669Z] 🔍 Kirjoitetaan hakukenttään: "rest openapi -> python unit-testit (unittest)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:42.805Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:42.805Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:42.805Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: REST OpenAPI -> Python Unit Tests (unittest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:42.805Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: REST OpenAPI -> Python Unit Tests (unittest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:43.314Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: SOAP WSDL -> Python Unit Tests (unittest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:43.314Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: SOAP WSDL -> Python Unit Tests (unittest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:43.314Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SOAP WSDL -> Python Unit Tests (unittest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:43.314Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SOAP WSDL -> Python Unit Tests (unittest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:48.198Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:48.198Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:50.399Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:50.399Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:50.400Z] 🔍 Kirjoitetaan hakukenttään: "soap wsdl -> python unit-testit (unittest)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:50.400Z] 🔍 Kirjoitetaan hakukenttään: "soap wsdl -> python unit-testit (unittest)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:51.548Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:51.548Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:51.548Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:51.548Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:55.562Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: SOAP WSDL -> Python Unit Tests (unittest)...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:55.562Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: SOAP WSDL -> Python Unit Tests (unittest)...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:55.562Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:55.562Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:55.562Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SOAP WSDL -> Python Unit Tests (unittest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:50:55.562Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SOAP WSDL -> Python Unit Tests (unittest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:00.429Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:00.429Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:02.666Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:02.666Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:02.667Z] 🔍 Kirjoitetaan hakukenttään: "soap wsdl -> python unit-testit (unittest)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:02.667Z] 🔍 Kirjoitetaan hakukenttään: "soap wsdl -> python unit-testit (unittest)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:03.802Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:03.802Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:03.803Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:03.803Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:07.812Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: SOAP WSDL -> Python Unit Tests (unittest)...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:07.812Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: SOAP WSDL -> Python Unit Tests (unittest)...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:07.812Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:07.812Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:07.812Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SOAP WSDL -> Python Unit Tests (unittest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:07.812Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: SOAP WSDL -> Python Unit Tests (unittest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:12.712Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:12.712Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:14.933Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:14.933Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:14.934Z] 🔍 Kirjoitetaan hakukenttään: "soap wsdl -> python unit-testit (unittest)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:14.934Z] 🔍 Kirjoitetaan hakukenttään: "soap wsdl -> python unit-testit (unittest)"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:16.074Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:16.074Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:16.074Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: SOAP WSDL -> Python Unit Tests (unittest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:16.074Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: SOAP WSDL -> Python Unit Tests (unittest)
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:16.579Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: REST: DNS Lookup
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:16.579Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: REST: DNS Lookup
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:16.579Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST: DNS Lookup
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:16.579Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST: DNS Lookup
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:21.479Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:21.479Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:23.664Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:23.664Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:23.665Z] 🔍 Kirjoitetaan hakukenttään: "rest: dns-haku"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:23.665Z] 🔍 Kirjoitetaan hakukenttään: "rest: dns-haku"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:24.806Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:24.806Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:24.806Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:24.806Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:28.812Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: REST: DNS Lookup...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:28.812Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: REST: DNS Lookup...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:28.812Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:28.812Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:28.812Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST: DNS Lookup
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:28.812Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST: DNS Lookup
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:33.712Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:33.712Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:35.916Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:35.916Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:35.918Z] 🔍 Kirjoitetaan hakukenttään: "rest: dns-haku"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:35.918Z] 🔍 Kirjoitetaan hakukenttään: "rest: dns-haku"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:37.059Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:37.059Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:37.059Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:37.059Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:41.063Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: REST: DNS Lookup...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:41.063Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: REST: DNS Lookup...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:41.064Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:41.064Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:41.064Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST: DNS Lookup
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:41.064Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: REST: DNS Lookup
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:45.947Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:45.947Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:48.144Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:48.144Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:48.145Z] 🔍 Kirjoitetaan hakukenttään: "rest: dns-haku"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:48.145Z] 🔍 Kirjoitetaan hakukenttään: "rest: dns-haku"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:49.471Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:49.471Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:49.471Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: REST: DNS Lookup
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:49.471Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: REST: DNS Lookup
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:49.980Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: JSON Pretty Printer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:49.980Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: JSON Pretty Printer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:49.981Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: JSON Pretty Printer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:49.981Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: JSON Pretty Printer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:54.867Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:54.867Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:56.688Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "json pretty printer"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:56.688Z] ✅ Löytyi valikosta yksiselitteisellä osumalla hakusanalla: "json pretty printer"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:58.200Z] 🧰 Valittiin sisäinen työkalu UI:ssa: JSON Pretty Printer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:58.200Z] 🧰 Valittiin sisäinen työkalu UI:ssa: JSON Pretty Printer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:58.202Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:58.202Z] 🔘 Löydettiin suorituspainike. Klikataan sitä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:58.267Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:58.267Z] ⚡ Ajo valmistui ja tulos havaittiin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:58.383Z] ✅ Testitapaus läpäisty: Dynamic tool test: JSON Pretty Printer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:58.383Z] ✅ Testitapaus läpäisty: Dynamic tool test: JSON Pretty Printer
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:58.884Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: Playwright Web Testing & Snapshot
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:58.884Z] 🧪 Suoritetaan dynaaminen testitapaus: Dynamic tool test: Playwright Web Testing & Snapshot
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:58.884Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Playwright Web Testing & Snapshot
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:51:58.884Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Playwright Web Testing & Snapshot
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:03.756Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:03.756Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:06.022Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:06.022Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:06.023Z] 🔍 Kirjoitetaan hakukenttään: "playwright web-testaus & kaappaus"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:06.023Z] 🔍 Kirjoitetaan hakukenttään: "playwright web-testaus & kaappaus"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:07.171Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:07.171Z] ⚠️ Yritys 1/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:07.171Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:07.171Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:11.184Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: Playwright Web Testing & Snapshot...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:11.184Z] 🧠 Yritys 2: Generoidaan dynaamista testidataa testille Dynamic tool test: Playwright Web Testing & Snapshot...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:11.185Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:11.185Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:11.185Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Playwright Web Testing & Snapshot
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:11.185Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Playwright Web Testing & Snapshot
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:16.101Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:16.101Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:18.341Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:18.341Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:18.342Z] 🔍 Kirjoitetaan hakukenttään: "playwright web-testaus & kaappaus"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:18.342Z] 🔍 Kirjoitetaan hakukenttään: "playwright web-testaus & kaappaus"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:19.505Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:19.505Z] ⚠️ Yritys 2/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:19.505Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:19.505Z] 🔄 Odotetaan 4000 ms ennen uutta yritystä...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:23.518Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: Playwright Web Testing & Snapshot...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:23.518Z] 🧠 Yritys 3: Generoidaan dynaamista testidataa testille Dynamic tool test: Playwright Web Testing & Snapshot...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:23.518Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:23.518Z] ✨ Generoitu testidata: {"query":"test-value","payload":"sample"}
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:23.518Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Playwright Web Testing & Snapshot
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:23.518Z] 🚀 Käynnistetään sisäisen työkalun Playwright-testaus: Dynamic tool test: Playwright Web Testing & Snapshot
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:28.402Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:28.402Z] 📂 Etsitään työkalua valikosta / kategorioista osittaistuella...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:30.639Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:30.639Z] ℹ️ Valikosta ei löytynyt sopivaa, kokeillaan hakukenttää...
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:30.640Z] 🔍 Kirjoitetaan hakukenttään: "playwright web-testaus & kaappaus"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:30.640Z] 🔍 Kirjoitetaan hakukenttään: "playwright web-testaus & kaappaus"
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:31.768Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:31.768Z] ⚠️ Yritys 3/3 epäonnistui. Syy: Elementtiä ei löytynyt annetulla kuvauksella, joten siirrytään vaihtoehtoisiin hakutapoihin.
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:31.768Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: Playwright Web Testing & Snapshot
+- [🤖 ITSEKORJAUTUVA AGENTTI 2026-08-13T13:52:31.768Z] ❌ Testitapaus epäonnistui lopullisesti / Ei vastannut: Dynamic tool test: Playwright Web Testing & Snapshot
+=========================================

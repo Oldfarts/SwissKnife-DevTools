@@ -79,27 +79,27 @@ export const apiTools: SwissTool[] = [
     category: { fi: 'Verkko & API', en: 'Network & API' },
     description: { fi: 'Lähetä SOAP XML -kutsuja vanhemmille rajapinnoille.', en: 'Send SOAP XML requests to legacy APIs.' },
     type: 'local',
-    inputs: [
+inputs: [
       {
         key: 'url',
         label: { fi: 'SOAP Endpoint URL', en: 'SOAP Endpoint URL' },
         type: 'text',
-        placeholder: { fi: 'https://httpbin.org/post', en: 'https://httpbin.org/post' },
-        default: 'https://httpbin.org/post'
+        placeholder: { fi: 'http://localhost:3001/ws/productservice', en: 'http://localhost:3001/ws/productservice' },
+        default: 'http://localhost:3001/ws/productservice'
       },
       {
         key: 'action',
         label: { fi: 'SOAPAction Header (valinnainen)', en: 'SOAPAction Header (optional)' },
         type: 'text',
-        placeholder: { fi: 'https://www.w3schools.com/xml/CelsiusToFahrenheit', en: 'https://www.w3schools.com/xml/CelsiusToFahrenheit' },
-        default: 'https://www.w3schools.com/xml/CelsiusToFahrenheit'
+        placeholder: { fi: 'http://example.com/GetProductDetails', en: 'http://example.com/GetProductDetails' },
+        default: ''
       },
       {
         key: 'body',
         label: { fi: 'SOAP Envelope (XML)', en: 'SOAP Envelope (XML)' },
         type: 'textarea',
         placeholder: { fi: '<soap:Envelope>...</soap:Envelope>', en: '<soap:Envelope>...</soap:Envelope>' },
-        default: `<?xml version="1.0" encoding="utf-8"?>\n<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\n  <soap:Body>\n    <CelsiusToFahrenheit xmlns="https://www.w3schools.com/xml/">\n      <Celsius>25</Celsius>\n    </CelsiusToFahrenheit>\n  </soap:Body>\n</soap:Envelope>`
+        default: `<?xml version="1.0" encoding="utf-8"?>\n<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">\n  <soapenv:Header/>\n  <soapenv:Body>\n    <GetProductDetails>\n      <itemCode>SOAP-002</itemCode>\n    </GetProductDetails>\n  </soapenv:Body>\n</soapenv:Envelope>`
       }
     ],
     execute: async (inputs) => {

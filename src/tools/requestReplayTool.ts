@@ -1,6 +1,6 @@
 import type { SwissTool, Language } from './types.ts';
 
-export const requestReplayTool: SwissTool = {
+export const requestReplayTool: SwissTool[] = [{
   id: 'request-replay',
   name: { 
     fi: 'HTTP Request Replay & Converter', 
@@ -170,4 +170,4 @@ export const requestReplayTool: SwissTool = {
       };
     }
   }
-};
+}];

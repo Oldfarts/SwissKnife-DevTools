@@ -1,6 +1,6 @@
 import type { SwissTool, Language } from './types.ts';
 
-export const restUnitTestGeneratorTool: SwissTool = {
+export const restUnitTestGeneratorTool: SwissTool[] = [{
   id: 'rest-unit-test-generator',
   name: { 
     fi: 'REST OpenAPI -> Unit-testikoodi (Jest)', 
@@ -149,4 +149,4 @@ export const restUnitTestGeneratorTool: SwissTool = {
       };
     }
   }
-};
+}];

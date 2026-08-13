@@ -21,7 +21,38 @@ export const soapPythonUnitTestGeneratorTool: SwissTool = {
       label: { fi: 'WSDL / XML Sisältö', en: 'WSDL / XML Content' },
       type: 'textarea',
       placeholder: { fi: 'Liitä WSDL XML tähän...', en: 'Paste WSDL XML here...' },
-      default: ''
+      default: `<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://example.com/myservice" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="MyService" targetNamespace="http://example.com/myservice">
+  <message name="GetProductDetailsRequest">
+    <part name="itemCode" type="xsd:string"/>
+  </message>
+  <message name="GetProductDetailsResponse">
+    <part name="productResult" type="xsd:string"/>
+  </message>
+  <portType name="MyServicePortType">
+    <operation name="GetProductDetails">
+      <input message="tns:GetProductDetailsRequest"/>
+      <output message="tns:GetProductDetailsResponse"/>
+    </operation>
+  </portType>
+  <binding name="MyServiceBinding" type="tns:MyServicePortType">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="GetProductDetails">
+      <soap:operation soapAction="http://example.com/GetProductDetails"/>
+      <input>
+        <soap:body use="encoded" namespace="http://example.com/myservice" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body use="encoded" namespace="http://example.com/myservice" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="MyServiceService">
+    <port name="MyServicePort" binding="tns:MyServiceBinding">
+      <soap:address location="http://localhost:3001/ws/productservice"/>
+    </port>
+  </service>
+</definitions>`
     }
   ],
   execute: async (inputs, lang = 'fi') => {
@@ -66,22 +97,22 @@ export const soapPythonUnitTestGeneratorTool: SwissTool = {
 
       let code = `import unittest\nimport requests\n\n`;
       code += `class TestSoapService(unittest.TestCase):\n\n`;
-      code += `    ENDPOINT_URL = "http://localhost:8080/soap-endpoint"\n\n`;
+      code += `    ENDPOINT_URL = "http://localhost:3001/ws/productservice"\n\n`;
 
       operations.forEach(op => {
         const soapEnvelope = 
 `<?xml version="1.0" encoding="utf-8"?>
-<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-    <soap:Body>
-        <${op} xmlns="http://tempuri.org/">
-            <intA>5</intA>
-            <intB>10</intB>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <${op}>
+            <itemCode>SOAP-002</itemCode>
         </${op}>
-    </soap:Body>
-</soap:Envelope>`;
+    </soapenv:Body>
+</soapenv:Envelope>`;
 
         code += `    def test_${op.toLowerCase()}(self):\n`;
-        code += `        ""\"Testaa SOAP-operaatio ${op}""\"\n`;
+        code += `        """Testaa SOAP-operaatio ${op}"""\n`;
         code += `        soap_envelope = """${soapEnvelope}"""\n\n`;
         code += `        headers = {'Content-Type': 'text/xml; charset=utf-8'}\n`;
         code += `        response = requests.post(self.ENDPOINT_URL, data=soap_envelope, headers=headers)\n\n`;

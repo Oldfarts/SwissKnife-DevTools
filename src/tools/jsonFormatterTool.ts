@@ -1,4 +1,4 @@
-export const jsonFormatterTool: SwissTool = {
+export const jsonFormatterTool: SwissTool[] = [{
   id: 'json-formatter1',
   name: { fi: 'JSON Pretty Printer', en: 'JSON Pretty Printer' },
   category: { fi: 'Kehitys & Data', en: 'Dev & Data' },
@@ -31,4 +31,4 @@ export const jsonFormatterTool: SwissTool = {
       };
     }
   }
-};
+}];

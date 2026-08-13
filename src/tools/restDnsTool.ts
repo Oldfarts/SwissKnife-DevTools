@@ -1,6 +1,6 @@
 import type { SwissTool, Language } from './types.ts';
 
-export const restDnsTool: SwissTool = {
+export const restDnsTool: SwissTool[] = [{
   id: 'rest-dns-lookup',
   name: { fi: 'REST: DNS-haku', en: 'REST: DNS Lookup' },
   category: { fi: 'Verkko', en: 'Network' },
@@ -14,4 +14,4 @@ export const restDnsTool: SwissTool = {
     { key: 'name', label: { fi: 'Verkkotunnus (Domain)', en: 'Domain Name' }, type: 'text', placeholder: 'example.com' },
     { key: 'type', label: { fi: 'Tietuetyyppi', en: 'Record Type' }, type: 'select', options: ['A', 'AAAA', 'MX', 'TXT'], default: 'A' }
   ]
-};
+}];

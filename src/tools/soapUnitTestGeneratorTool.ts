@@ -1,6 +1,6 @@
 import type { SwissTool, Language } from './types.ts';
 
-export const soapUnitTestGeneratorTool: SwissTool = {
+export const soapUnitTestGeneratorTool: SwissTool[] = [{
   id: 'soap-unit-test-generator',
   name: { 
     fi: 'SOAP WSDL -> Unit-testikoodi (Jest)', 
@@ -21,7 +21,38 @@ export const soapUnitTestGeneratorTool: SwissTool = {
       label: { fi: 'WSDL / XML Sisältö tai URL', en: 'WSDL / XML Content or URL' },
       type: 'textarea',
       placeholder: { fi: 'Liitä WSDL XML tai URL osoite...', en: 'Paste WSDL XML or URL...' },
-      default: ''
+      default: `<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://example.com/myservice" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="MyService" targetNamespace="http://example.com/myservice">
+  <message name="GetProductDetailsRequest">
+    <part name="itemCode" type="xsd:string"/>
+  </message>
+  <message name="GetProductDetailsResponse">
+    <part name="productResult" type="xsd:string"/>
+  </message>
+  <portType name="MyServicePortType">
+    <operation name="GetProductDetails">
+      <input message="tns:GetProductDetailsRequest"/>
+      <output message="tns:GetProductDetailsResponse"/>
+    </operation>
+  </portType>
+  <binding name="MyServiceBinding" type="tns:MyServicePortType">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="GetProductDetails">
+      <soap:operation soapAction="http://example.com/GetProductDetails"/>
+      <input>
+        <soap:body use="encoded" namespace="http://example.com/myservice" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body use="encoded" namespace="http://example.com/myservice" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="MyServiceService">
+    <port name="MyServicePort" binding="tns:MyServiceBinding">
+      <soap:address location="http://localhost:3001/ws/productservice"/>
+    </port>
+  </service>
+</definitions>`
     }
   ],
   execute: async (inputs, lang = 'fi') => {
@@ -151,7 +182,6 @@ export const soapUnitTestGeneratorTool: SwissTool = {
           innerXml = `            <!-- Add test parameters here -->\n`;
         }
 
-        // Muotoillaan SOAP Envelope siististi sisennettynä XML-rakenteena
         const soapEnvelopeFormatted = 
           `<?xml version="1.0" encoding="utf-8"?>\n` +
           `      <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\n` +
@@ -165,8 +195,8 @@ export const soapUnitTestGeneratorTool: SwissTool = {
         code += `  describe('${op}', () => {\n`;
         code += `    it('should return 200 OK with valid SOAP Envelope and test data', async () => {\n`;
         code += `      const soapEnvelope = \`${soapEnvelopeFormatted}\`;\n\n`;
-        code += `      const response = await request(soapEndpointUrl)\n`;
-        code += `        .post('/')\n`;
+        code += `      const response = await request('http://localhost:3001')\n`;
+        code += `        .post('/ws/productservice')\n`;
         code += `        .set('Content-Type', 'text/xml; charset=utf-8')\n`;
         code += `        .send(soapEnvelope);\n\n`;
         code += `      expect(response.status).toBe(200);\n`;
@@ -193,4 +223,4 @@ export const soapUnitTestGeneratorTool: SwissTool = {
       };
     }
   }
-};
+}];

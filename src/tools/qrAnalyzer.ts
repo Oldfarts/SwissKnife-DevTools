@@ -1,7 +1,7 @@
 import jsQR from 'jsqr';
 import type { SwissTool, Language } from './types.ts';
 
-export const qrAnalyzerTool: SwissTool = {
+export const qrAnalyzerTool: SwissTool[] = [{
   id: 'qr-analyzer',
   name: {
     fi: 'QR-koodin analysaattori',
@@ -138,4 +138,4 @@ export const qrAnalyzerTool: SwissTool = {
       };
     }
   }
-};
+}];

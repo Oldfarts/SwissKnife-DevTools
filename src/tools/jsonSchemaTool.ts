@@ -1,6 +1,6 @@
 import type { SwissTool, Language } from './types.ts';
 
-export const jsonSchemaTool: SwissTool = {
+export const jsonSchemaTool: SwissTool[] = [{
   id: 'json-schema-generator',
   category: { fi: 'Kehitys & Data', en: 'Dev & Data' },
   name: { fi: 'JSON Schema Generator', en: 'JSON Schema Generator' },
@@ -126,4 +126,4 @@ export const jsonSchemaTool: SwissTool = {
       };
     }
   }
-};
+}];

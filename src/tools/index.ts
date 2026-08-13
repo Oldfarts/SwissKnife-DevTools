@@ -218,28 +218,28 @@ export const ALL_TOOLS: SwissTool[] = [
   ...xmlTools, // kehitys & data
   ...apiTools, // kehitys & data
   apiDiffTool, // kehitys & data
-  jsonSchemaTool, // kehitys & data
-  requestReplayTool, // Verkko & API
+  ...jsonSchemaTool, // kehitys & data
+  ...requestReplayTool, // Verkko & API
   ...jwtTools, // Tietoturva & Auth
-  jwtPlaygroundTool,
+  ...jwtPlaygroundTool,
   ...hashTools, // Tietoturva & Kryptografia
   ...encoderTools, // Kehitys & data
   ...fileTools, // kehitys & data
-  qrAnalyzerTool, // Tietoturva & Utilitetit
-  logAnalyzerTool, // Tietoturva & Utilitetit
-  regexTesterTool, // Teksti & koodi
-  colorConverterTool, // Muotoilu
+  ...qrAnalyzerTool, // Tietoturva & Utilitetit
+  ...logAnalyzerTool, // Tietoturva & Utilitetit
+  ...regexTesterTool, // Teksti & koodi
+  ...colorConverterTool, // Muotoilu
   ...sslTools, // Verkko
   ...dnsTools,
-  aiTestGeneratorTool, // AI & Testaus
-  fetchSwaggerTool, // Verkko & API
-  fetchSoapTool, // Verkko & API
-  aiSoapTestGeneratorTool, // AI & Testaus
-  restUnitTestGeneratorTool, // AI & Testaus
-  soapUnitTestGeneratorTool, // AI & Testaus
-  restPythonUnitTestGeneratorTool, // AI & Testaus
+  ...aiTestGeneratorTool, // AI & Testaus
+  ...fetchSwaggerTool, // Verkko & API
+  ...fetchSoapTool, // Verkko & API
+  ...aiSoapTestGeneratorTool, // AI & Testaus
+  ...restUnitTestGeneratorTool, // AI & Testaus
+  ...soapUnitTestGeneratorTool, // AI & Testaus
+  ...restPythonUnitTestGeneratorTool, // AI & Testaus
   soapPythonUnitTestGeneratorTool, // AI & Testaus
-  restDnsTool, // Verkko & DNS
-  jsonFormatterTool, // Kehitys & data
-  playwrightTestTool, // Verkko & Testaus
+  ...restDnsTool, // Verkko & DNS
+  ...jsonFormatterTool, // Kehitys & data
+  ...playwrightTestTool, // Verkko & Testaus
 ];

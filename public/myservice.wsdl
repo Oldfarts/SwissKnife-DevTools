@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="MyService"
+             targetNamespace="http://example.com/myservice"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:tns="http://example.com/myservice"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+
+    <!-- Määritellään viestit (mitä dataa lähetetään ja vastaanotetaan) -->
+    <message name="GetProductDetailsRequest">
+        <part name="itemCode" type="xsd:string"/>
+    </message>
+    
+    <message name="GetProductDetailsResponse">
+        <part name="productResult" type="xsd:string"/>
+    </message>
+
+    <!-- Määritellään porttityyppi (mitä operaatioita palvelu tarjoaa) -->
+    <portType name="MyServicePortType">
+        <operation name="GetProductDetails">
+            <input message="tns:GetProductDetailsRequest"/>
+            <output message="tns:GetProductDetailsResponse"/>
+        </operation>
+    </portType>
+
+    <!-- Määritellään bindaus (miten protokolla, eli SOAP, toteutetaan käytännössä) -->
+    <binding name="MyServiceBinding" type="tns:MyServicePortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="GetProductDetails">
+            <soap:operation soapAction="http://example.com/GetProductDetails"/>
+            <input>
+                <soap:body use="encoded" namespace="http://example.com/myservice" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="http://example.com/myservice" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+    </binding>
+
+    <!-- Määritellään palvelu ja sen osoite (missä palvelu sijaitsee) -->
+    <service name="MyServiceService">
+        <port name="MyServicePort" binding="tns:MyServiceBinding">
+            <soap:address location="http://localhost:3001/ws/productservice"/>
+        </port>
+    </service>
+
+</definitions>

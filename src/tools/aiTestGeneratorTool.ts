@@ -1,6 +1,6 @@
 import type { SwissTool, Language } from './types.ts';
 
-export const aiTestGeneratorTool: SwissTool = {
+export const aiTestGeneratorTool: SwissTool[] = [{
   id: 'ai-swagger-test-generator',
   name: { 
     fi: 'Swagger -> Unit Testitapaukset', 
@@ -160,7 +160,7 @@ export const aiTestGeneratorTool: SwissTool = {
       };
     }
   }
-};
+}];
 
 // Apufunktio siistin Markdown-raportin tulostamiseen UI:hin
 function generateMarkdownReport(testCases: any[], framework: string, lang: string): string {
