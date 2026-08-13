@@ -186,6 +186,7 @@ ja sitten
 Käynnistä malli komennolla:
 
 Bash
+
 ollama run qwen
 
 ja sitten
@@ -218,6 +219,7 @@ npn run dev
 Siirry agenttikansioon tai aja komento projektin juuresta:
 
 Bash
+
 npx tsx src/tools/LLM/securityAgent.ts --mode dynamic
 
 3. Tulokset ja niiden tulkinta
