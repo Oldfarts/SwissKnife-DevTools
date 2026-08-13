@@ -193,6 +193,7 @@ ja sitten
 Asenna Ollaman Node.js-kirjasto:
 
 Bash
+
 npm install ollama
 
 TypeScript & tsx (skriptien suorittamiseen suoraan ilman erillistä käännösvaihetta):
@@ -200,6 +201,7 @@ TypeScript & tsx (skriptien suorittamiseen suoraan ilman erillistä käännösva
 TypeScript & tsx (skriptien suorittamiseen suoraan ilman erillistä käännösvaihetta):
 
 Bash
+
 npm install -D tsx typescript
 Playwright-riippuvuudet ja selaimet asennettuna (katso yleiset asennusohjeet yltä).
 
@@ -211,6 +213,7 @@ Agenttien ja dynaamisten testien ajo tapahtuu suoraan komentoriviltä.
 Varmista, että kehityspalvelin tai tarvittavat taustapalvelut ovat päällä (esim. Express-serveri portissa 3001):
 
 Bash
+
 npn run dev
 Siirry agenttikansioon tai aja komento projektin juuresta:
 
