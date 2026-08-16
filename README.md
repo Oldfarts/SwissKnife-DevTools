@@ -183,54 +183,55 @@ Tässä osiossa kuvataan, miten tekoälypohjaisia (LLM) agentteja ja työkaluja 
 
 ja sitten 
 
-Käynnistä malli komennolla:
+* **Käynnistä malli komennolla:**
 
-Bash
+  ```bash
+  ollama run qwen
 
-ollama run qwen
+* **Asenna Ollaman Node.js-kirjasto:**
 
-ja sitten
+  ```bash
+  npm install ollama
 
-Asenna Ollaman Node.js-kirjasto:
+* **TypeScript & tsx (skriptien suorittamiseen suoraan ilman erillistä käännösvaihetta):**
 
-Bash
-
-npm install ollama
-
-TypeScript & tsx (skriptien suorittamiseen suoraan ilman erillistä käännösvaihetta):
-
-Bash
-
-npm install -D tsx typescript
+  ```bash
+  npm install -D tsx typescript
 
 Playwright-riippuvuudet ja selaimet asennettuna (katso yleiset asennusohjeet yltä).
 
 Paikallinen taustapalvelin (server.js) käynnistettynä tarvittaessa testidataa varten.
 
-2. Käynnistys
-Agenttien ja dynaamisten testien ajo tapahtuu suoraan komentoriviltä.
+### 2. käynnistys
+
+* **TypeScript & tsx (skriptien suorittamiseen suoraan ilman erillistä käännösvaihetta)**
 
 Varmista, että kehityspalvelin tai tarvittavat taustapalvelut ovat päällä (esim. Express-serveri portissa 3001):
 
-Bash
+* **TypeScript & tsx:**
 
-npn run dev
+  ```bash
+  npm install -D tsx typescript
 
-Siirry agenttikansioon tai aja komento projektin juuresta:
+* **Siirry agenttikansioon tai aja komento projektin juuresta:**
 
-Bash
+  ```bash
+  npm tsx src/tools/LLM/securityAgent.ts --mode dynamic
 
-npx tsx src/tools/LLM/securityAgent.ts --mode dynamic
+### 3. Tulokset ja niiden tulkinta
 
-3. Tulokset ja niiden tulkinta
-Konsolitulosteet: Agentti tulostaa suorituksen aikana reaaliaikaisesti lokia siitä, mitä sivuja tai rajapintoja testataan, mitä arvoja syötetään ja mitä vasteita palvelimelta saadaan.
+* **Konsolitulosteet:**
+
+Agentti tulostaa suorituksen aikana reaaliaikaisesti lokia siitä, mitä sivuja tai rajapintoja testataan, mitä arvoja syötetään ja mitä vasteita palvelimelta saadaan.
 
 Onnistumiset ja virheet: Raportti näyttää selkeästi, jos jokin testitapauksista laukaisee virheen (esim. 404, 500 tai turvallisuuspuute).
 
 Raporttitiedostot: Mahdolliset testitulokset ja agentin generoimat tarkistuslistat tallentuvat automaattisesti projektin raporttihakemistoihin (esim. Playwrightin HTML-raportit tai ZAP:n tuottamat output-tiedostot).
 
-4. Muuta yleistä tietoa
-Lokaali testidata: Järjestelmä käyttää oletuksena SQLite-tietokantaan automaattisesti alustettua testidataa (kuten soap_items-taulun tuotteita SOAP-001, SOAP-002 jne.), joten agentit ja testit voivat ajaa turvallisesti ilman ulkoisia riippuvuuksia tai tuotantoympäristön tietoja[cite: 3].
+### 4. Muuta yleistä tietoa
 
-Laajennettavuus: Agenttitiedostoja (securityAgent.ts jne.) on helppo muokata ja opettaa tunnistamaan uusia skenaarioita, lisäämällä uusia tarkistussääntöjä tai ketjuttamalla niitä olemassa oleviin työnkulkuihin (Workflows).
+* **Lokaali testidata:**
+Järjestelmä käyttää oletuksena SQLite-tietokantaan automaattisesti alustettua testidataa (kuten soap_items-taulun tuotteita SOAP-001, SOAP-002 jne.), joten agentit ja testit voivat ajaa turvallisesti ilman ulkoisia riippuvuuksia tai tuotantoympäristön tietoja[cite: 3].
 
+* **Laajennettavuus:**
+Agenttitiedostoja (securityAgent.ts jne.) on helppo muokata ja opettaa tunnistamaan uusia skenaarioita, lisäämällä uusia tarkistussääntöjä tai ketjuttamalla niitä olemassa oleviin työnkulkuihin (Workflows).
