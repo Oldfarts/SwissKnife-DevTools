@@ -208,10 +208,10 @@ Paikallinen taustapalvelin (server.js) käynnistettynä tarvittaessa testidataa 
 
 Varmista, että kehityspalvelin tai tarvittavat taustapalvelut ovat päällä (esim. Express-serveri portissa 3001):
 
-* **TypeScript & tsx:**
+* **backend käynnistys:**
 
   ```bash
-  npm install -D tsx typescript
+  npm run dev
 
 * **Siirry agenttikansioon tai aja komento projektin juuresta:**
 
